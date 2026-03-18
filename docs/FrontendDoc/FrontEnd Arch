@@ -1,0 +1,269 @@
+
+# Complete Frontend Folder Architecture (Reconciled)
+
+This is the official frontend folder architecture after reconciliation.
+
+It resolves the earlier conflict by clearly separating:
+- module UI/domain implementation
+- feature entitlement runtime
+- view framework
+- shell/layout
+- services
+
+---
+
+# 1. Guiding Rule
+
+Use this ownership split:
+
+- `features/` = UI/domain implementation
+- `feature-system/` = capability entitlement and runtime resolution
+- `views/` = reusable view primitives and layouts
+- `services/` = backend/Supabase access layer
+
+`feature-system/` is the source of truth for runtime feature availability.
+
+---
+
+# 2. Official Folder Tree
+
+```text
+src/
+├── app/
+│   ├── (auth)/
+│   │   ├── login/
+│   │   ├── signup/
+│   │   └── reset-password/
+│   │
+│   ├── (workspace)/
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   ├── dashboard/
+│   │   ├── crm-opportunities/
+│   │   ├── mandates/
+│   │   ├── research/
+│   │   ├── results/
+│   │   ├── companies/
+│   │   ├── contacts/
+│   │   ├── integrations/
+│   │   ├── billing/
+│   │   └── settings/
+│   │
+│   ├── api/
+│   ├── globals.css
+│   └── layout.tsx
+│
+├── components/
+│   ├── ui/
+│   ├── shell/
+│   ├── charts/
+│   ├── feedback/
+│   └── navigation/
+│
+├── design-system/
+│   ├── tokens/
+│   ├── themes/
+│   └── guidelines/
+│
+├── feature-system/
+│   ├── catalog/
+│   │   ├── module-keys.ts
+│   │   ├── feature-keys.ts
+│   │   └── feature-groups.ts
+│   ├── resolver/
+│   │   ├── resolve-feature-state.ts
+│   │   ├── resolve-module-state.ts
+│   │   └── resolve-provider-state.ts
+│   ├── permissions/
+│   │   ├── role-matrix.ts
+│   │   ├── module-rules.ts
+│   │   └── feature-rules.ts
+│   └── runtime/
+│       ├── use-feature-state.ts
+│       ├── use-module-state.ts
+│       └── use-provider-state.ts
+│
+├── features/
+│   ├── auth/
+│   ├── organizations/
+│   ├── crm-opportunities/
+│   ├── mandates/
+│   ├── research/
+│   ├── results/
+│   ├── companies/
+│   ├── contacts/
+│   ├── integrations/
+│   ├── billing/
+│   └── settings/
+│
+├── views/
+│   ├── framework/
+│   ├── inline/
+│   ├── detail/
+│   └── form/
+│
+├── entities/
+│   ├── organizations/
+│   ├── crm-opportunities/
+│   ├── mandates/
+│   ├── research/
+│   ├── results/
+│   ├── companies/
+│   ├── contacts/
+│   ├── integrations/
+│   └── billing/
+│
+├── services/
+│   ├── supabase/
+│   ├── organizations/
+│   ├── crm-opportunities/
+│   ├── mandates/
+│   ├── research/
+│   ├── results/
+│   ├── companies/
+│   ├── contacts/
+│   ├── integrations/
+│   └── billing/
+│
+├── providers/
+│   ├── auth-provider.tsx
+│   ├── organization-provider.tsx
+│   ├── module-provider.tsx
+│   ├── theme-provider.tsx
+│   └── query-provider.tsx
+│
+├── hooks/
+│   ├── auth/
+│   ├── organization/
+│   ├── permissions/
+│   ├── queries/
+│   └── ui/
+│
+├── store/
+│   ├── app-shell.store.ts
+│   ├── organization.store.ts
+│   ├── module.store.ts
+│   └── ui.store.ts
+│
+├── lib/
+│   ├── api/
+│   ├── auth/
+│   ├── db/
+│   ├── formatting/
+│   ├── validation/
+│   ├── utils/
+│   └── constants/
+│
+├── types/
+│   ├── database.ts
+│   ├── app.ts
+│   ├── views.ts
+│   └── permissions.ts
+│
+└── tests/
+    ├── unit/
+    ├── integration/
+    └── e2e/
+```
+
+---
+
+# 3. Canonical Route Structure
+
+Use these route groups:
+
+```text
+/dashboard
+/crm-opportunities
+/mandates
+/mandates/[id]
+/research
+/research/[id]
+/results
+/results/[id]
+/companies
+/companies/[id]
+/contacts
+/contacts/[id]
+/integrations
+/billing
+/settings
+```
+
+## Mapping note
+- route `/results` maps to workflow table `research_results`
+- database naming and route naming are allowed to differ
+
+---
+
+# 4. Feature Folder Responsibility
+
+Each folder under `features/` owns domain UI implementation.
+
+Example:
+- forms
+- domain-specific components
+- domain-specific views
+- domain hooks
+- schemas
+- domain services
+
+## Example
+`features/results/`
+- results-inline-table.tsx
+- result-detail-view.tsx
+- result-actions.tsx
+- result.schemas.ts
+
+---
+
+# 5. feature-system Responsibility
+
+This folder owns runtime feature/module gating.
+
+It decides:
+- which modules are visible
+- which features are enabled
+- which actions are disabled and why
+- which provider-backed capabilities are available
+
+The rest of the app must consume this layer, not duplicate entitlement logic.
+
+---
+
+# 6. Results Naming Rule
+
+The official UI/domain name is `results`, not `research-results`.
+
+Use:
+- route = `results`
+- feature folder = `features/results`
+- entity folder = `entities/results`
+- service folder = `services/results`
+
+Database table remains:
+- `research_results`
+
+---
+
+# 7. AI-Friendly Implementation Rule
+
+To make future implementation easy:
+- one feature folder per module
+- one feature-system layer for entitlement logic
+- one service layer per domain
+- one shared view system
+- one global organization context
+
+This prevents duplicated logic and keeps the app extensible.
+
+---
+
+# 8. Final Rule
+
+If a developer is unsure where code belongs:
+
+- If it decides **whether a capability is available**, it belongs in `feature-system/`
+- If it renders **how a module looks or behaves**, it belongs in `features/`
+- If it defines **reusable layouts for inline/detail/form**, it belongs in `views/`
+- If it talks to Supabase/backend, it belongs in `services/`
