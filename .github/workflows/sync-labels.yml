@@ -1,0 +1,77 @@
+name: Sync labels
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/labels.json"
+      - ".github/workflows/sync-labels.yml"
+
+jobs:
+  sync-labels:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create or update labels
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          python <<'PY'
+          import json
+          import os
+          import subprocess
+          import urllib.parse
+
+          repo = os.environ["GH_REPO"]
+
+          with open(".github/labels.json", "r", encoding="utf-8") as f:
+              desired = json.load(f)
+
+          existing_raw = subprocess.run(
+              ["gh", "api", f"repos/{repo}/labels?per_page=100"],
+              check=True,
+              capture_output=True,
+              text=True,
+          ).stdout
+
+          existing = {item["name"]: item for item in json.loads(existing_raw)}
+
+          for label in desired:
+              name = label["name"]
+              color = label["color"]
+              description = label["description"]
+              encoded = urllib.parse.quote(name, safe="")
+
+              if name in existing:
+                  subprocess.run(
+                      [
+                          "gh", "api",
+                          "-X", "PATCH",
+                          f"repos/{repo}/labels/{encoded}",
+                          "-f", f"new_name={name}",
+                          "-f", f"color={color}",
+                          "-f", f"description={description}",
+                      ],
+                      check=True,
+                  )
+                  print(f"updated: {name}")
+              else:
+                  subprocess.run(
+                      [
+                          "gh", "api",
+                          "-X", "POST",
+                          f"repos/{repo}/labels",
+                          "-f", f"name={name}",
+                          "-f", f"color={color}",
+                          "-f", f"description={description}",
+                      ],
+                      check=True,
+                  )
+                  print(f"created: {name}")
+          PY
