@@ -1,0 +1,48 @@
+name: PR intake
+
+on:
+  pull_request_target:
+    types: [opened, reopened, ready_for_review]
+
+jobs:
+  intake:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Add default PR labels
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.pull_request.number }}
+          DRAFT: ${{ github.event.pull_request.draft }}
+        run: |
+          if [ "$DRAFT" = "true" ]; then
+            gh pr edit "$NUMBER" \
+              --add-label "status/draft,review/needs-architecture-check,review/needs-doc-check"
+          else
+            gh pr edit "$NUMBER" \
+              --add-label "status/pending-review,review/needs-architecture-check,review/needs-doc-check"
+          fi
+
+      - name: Add review comment
+        if: github.event.action == 'opened'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.pull_request.number }}
+          BODY: |
+            PR intake complete.
+
+            Review this PR against:
+            - correct layer ownership
+            - module vs feature boundary
+            - canonical source-of-truth tables
+            - service vs feature-system split
+            - workflow chain integrity
+            - docs impact
+
+            A PR that works but increases structural debt should not be merged.
+        run: |
+          gh issue comment "$NUMBER" --body "$BODY"
