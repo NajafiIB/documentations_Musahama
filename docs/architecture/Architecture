@@ -1,0 +1,392 @@
+
+# Architecture Reconciliation
+
+This document resolves the structural conflicts between the previous architecture, UI, frontend, onboarding, and feature entitlement documents.
+
+It establishes one official vocabulary for:
+
+- module keys
+- route names
+- feature keys
+- role groups
+- source-of-truth rules
+- frontend ownership boundaries
+
+This document is the reconciliation baseline. All newer docs should align to it.
+
+---
+
+# 1. Canonical Module Model
+
+Use **modules** only for major navigation and page sections.
+
+## Canonical module keys
+
+```text
+dashboard
+crm_opportunities
+mandates
+research
+results
+companies
+contacts
+integrations
+billing
+settings
+```
+
+These are the only official top-level application modules.
+
+## Important reclassification
+
+The following are **not modules** anymore:
+
+- discovery
+- shortlist
+- dossiers
+- CRM sync
+- analytics
+
+They should be modeled as one of:
+
+- features
+- embedded views
+- actions
+- secondary tabs
+- widgets
+- exports
+
+### Examples
+- `shortlist` -> results feature / subview
+- `dossiers` -> results detail section + export feature
+- `CRM sync` -> feature under CRM / results
+- `analytics` -> dashboard widgets or future add-on module only if promoted later
+- `discovery` -> internal workflow stage inside research/results, not a separate top-level module
+
+---
+
+# 2. Canonical Route Map
+
+Use this route map consistently.
+
+| Module Key | Route |
+|------------|-------|
+| dashboard | /dashboard |
+| crm_opportunities | /crm-opportunities |
+| mandates | /mandates |
+| research | /research |
+| results | /results |
+| companies | /companies |
+| contacts | /contacts |
+| integrations | /integrations |
+| billing | /billing |
+| settings | /settings |
+
+## Notes
+- `research_results` remains the database table name
+- `results` is the module key and route key
+- keep database naming and route naming separate
+
+---
+
+# 3. Canonical Concept Model
+
+There are four separate concepts.
+
+## 3.1 Modules
+Large page/navigation sections.
+
+Use for:
+- sidebar items
+- main routes
+- page-level availability
+
+## 3.2 Features
+Actions, capabilities, widgets, exports, enhancements.
+
+Use for:
+- buttons
+- quick actions
+- embedded widgets
+- premium capabilities
+- provider-backed actions
+
+## 3.3 Providers
+External integrations only.
+
+Examples:
+- OpenAI
+- Lusha
+- CRM
+- search providers
+
+Providers are dependencies, not product concepts.
+
+## 3.4 Entitlements
+Runtime permission/availability model.
+
+A feature is available only if:
+- module is enabled
+- role is allowed
+- feature entitlement is enabled
+- dependencies are satisfied
+- provider requirement is satisfied
+- credits/quota are sufficient if needed
+
+---
+
+# 4. Capability-First Feature Key Rule
+
+Feature keys must be **capability-first**, not vendor-first.
+
+## Correct pattern
+```text
+research.start
+research.generate_strategies
+research.background_processing
+results.export.csv
+results.export.dossier
+results.shortlist
+contacts.enrich_person
+companies.find_similar
+crm.sync.import
+crm.sync.export
+billing.manage_subscription
+```
+
+## Incorrect pattern
+```text
+contacts.enrich_lusha
+research.ai_generate_strategies_openai
+```
+
+## Exception
+Provider names are allowed only in:
+- provider catalogs
+- provider requirements
+- provider management screens
+- integration configuration
+
+But not in product capability keys.
+
+---
+
+# 5. Source of Truth Rule
+
+This rule must be repeated in every implementation document.
+
+## Canonical entities
+Use as source of truth:
+- companies
+- company_domains
+- contacts
+- contact_emails
+- contact_phones
+
+## Canonical analysis
+Use as source of truth:
+- evidence
+- psych_profiles
+- lmc_fits
+- dossiers
+
+## Workflow tables
+Use for process orchestration:
+- crm_opportunities
+- mandates
+- mandate_files
+- research
+- strategies
+- research_results
+- research_constraints
+
+## Transitional fields
+The following `research_results` fields are transitional only:
+- company_profile
+- psych_profile
+- lmc_fit
+- dossier
+- evidence
+
+They are temporary compatibility fields and must not be used as the final UI source of truth.
+
+---
+
+# 6. Role Matrix
+
+Use this role model consistently.
+
+## Platform Operator Roles
+These can manage platform-level configuration.
+
+```text
+owner
+billing_admin
+developer
+```
+
+They can manage:
+- integrations
+- provider/API configuration
+- platform features
+- billing
+- subscription
+- module configuration
+
+## Workflow Roles
+These can operate the business workflow.
+
+```text
+owner
+admin
+manager
+analyst
+member
+developer
+billing_admin
+```
+
+### Notes
+- `billing_admin` may access workflow pages if desired, but is not a workflow operator by default
+- `admin` is a business admin, not a technical platform operator
+- `developer` is allowed in both sets
+
+## Page access baseline
+
+| Area | Allowed Roles |
+|------|---------------|
+| Dashboard | all organization members |
+| CRM Opportunities | workflow roles |
+| Mandates | workflow roles |
+| Research | workflow roles |
+| Results | workflow roles |
+| Companies | workflow roles |
+| Contacts | workflow roles |
+| Integrations | platform operator roles |
+| Billing | platform operator roles |
+| Settings | owner, admin, developer, billing_admin as needed |
+
+---
+
+# 7. Frontend Ownership Boundary
+
+This is the rule that resolves the conflict between `features/` and the entitlement runtime.
+
+## features/
+Use for:
+- UI/domain implementation
+- forms
+- module-specific components
+- view composition
+- services per domain
+
+## feature-system/
+Use for:
+- entitlement logic
+- runtime feature resolution
+- role/capability gating
+- module-to-feature resolution
+- feature-state hooks
+
+## Rule
+`feature-system/` is the source of truth for capability availability.  
+`features/` consumes that truth to render UI.
+
+This avoids duplicated access logic.
+
+---
+
+# 8. Canonical Frontend Structure Addendum
+
+The official frontend structure must include:
+
+```text
+src/
+  feature-system/
+    catalog/
+    resolver/
+    permissions/
+    runtime/
+```
+
+This folder is mandatory in the reconciled architecture.
+
+---
+
+# 9. UI Interpretation Rules
+
+## Modules
+Modules control:
+- sidebar visibility
+- route visibility
+- page-level access
+
+## Features
+Features control:
+- actions
+- exports
+- embedded widgets
+- premium enhancements
+- provider-backed actions
+
+## Hidden workflow stages
+Concepts like:
+- discovery
+- shortlist
+- dossier generation
+should appear as:
+- internal workflow state
+- embedded view
+- action
+- secondary tab
+
+not as top-level modules by default
+
+---
+
+# 10. Practical Naming Rules
+
+## Database
+Keep database table names as they are:
+- crm_opportunities
+- research_results
+
+## Routes
+Use kebab-case:
+- /crm-opportunities
+- /results
+
+## Module keys
+Use snake_case:
+- crm_opportunities
+- results
+
+## Feature keys
+Use dot-separated capability names:
+- results.export.dossier
+- contacts.enrich_person
+
+---
+
+# 11. Reconciled File Intent
+
+The replacement docs should now follow this structure:
+
+- `architect-reconciled.md` -> platform architecture using canonical module list
+- `ui-design-brief-reconciled.md` -> UI system using canonical modules/routes
+- `frontend-folder-architecture-reconciled.md` -> includes `feature-system/`
+- `feature-entitlement-architecture-reconciled.md` -> capability-first feature keys
+- `developer-onboarding-reconciled.md` -> aligned vocabulary and role rules
+
+---
+
+# 12. Final Rule
+
+When in doubt:
+
+- modules = navigation
+- features = capabilities
+- providers = dependencies
+- entitlements = runtime truth
+- research_results = workflow output
+- canonical entity + analysis tables = real source of truth
