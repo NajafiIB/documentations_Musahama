@@ -1,0 +1,50 @@
+[
+  { "name": "change-request", "color": "D93F0B", "description": "Structured bug or change request" },
+  { "name": "feature-request", "color": "1D76DB", "description": "Requested feature or new capability" },
+  { "name": "architecture-review", "color": "5319E7", "description": "Architecture review needed" },
+
+  { "name": "type/bug", "color": "B60205", "description": "Broken behavior or defect" },
+  { "name": "type/refactor", "color": "C2E0C6", "description": "Structural refactor without product change" },
+  { "name": "type/docs", "color": "0E8A16", "description": "Documentation-only change" },
+
+  { "name": "status/draft", "color": "BFD4F2", "description": "Draft and not ready for implementation" },
+  { "name": "status/pending-review", "color": "FBCA04", "description": "Waiting for review and decision" },
+  { "name": "status/approved", "color": "0E8A16", "description": "Approved for implementation" },
+  { "name": "status/in-progress", "color": "0052CC", "description": "Currently being implemented" },
+  { "name": "status/blocked", "color": "B60205", "description": "Blocked by dependency, decision, or error" },
+  { "name": "status/done", "color": "1A7F37", "description": "Completed and verified" },
+  { "name": "status/rejected", "color": "111111", "description": "Rejected or intentionally not proceeding" },
+
+  { "name": "review/needs-architecture-check", "color": "5319E7", "description": "Needs architecture-layer review" },
+  { "name": "review/needs-doc-check", "color": "0366D6", "description": "Docs impact must be verified" },
+  { "name": "review/ready-to-implement", "color": "0E8A16", "description": "Review complete and ready to code" },
+
+  { "name": "priority/p0", "color": "B60205", "description": "Critical and blocking" },
+  { "name": "priority/p1", "color": "D93F0B", "description": "High priority" },
+  { "name": "priority/p2", "color": "FBCA04", "description": "Normal priority" },
+  { "name": "priority/p3", "color": "CCCCCC", "description": "Low priority" },
+
+  { "name": "layer/auth", "color": "0052CC", "description": "Auth, onboarding, invitations, session flow" },
+  { "name": "layer/authorization", "color": "1D76DB", "description": "Role model, route/module access, RLS/runtime boundary" },
+  { "name": "layer/database", "color": "5319E7", "description": "Schema, RLS, source-of-truth, indexes, ownership" },
+  { "name": "layer/feature-system", "color": "6F42C1", "description": "Runtime module/feature/provider state" },
+  { "name": "layer/services", "color": "0E8A16", "description": "Reads, writes, DTOs, secure server-side assembly" },
+  { "name": "layer/frontend", "color": "0E8A16", "description": "Shell, routes, views, page composition" },
+  { "name": "layer/workflow", "color": "BFD4F2", "description": "CRM to mandate to research to results flow" },
+
+  { "name": "module/dashboard", "color": "D4C5F9", "description": "Dashboard module" },
+  { "name": "module/crm-opportunities", "color": "D4C5F9", "description": "CRM Opportunities module" },
+  { "name": "module/mandates", "color": "D4C5F9", "description": "Mandates module" },
+  { "name": "module/research", "color": "D4C5F9", "description": "Research module" },
+  { "name": "module/results", "color": "D4C5F9", "description": "Results module" },
+  { "name": "module/companies", "color": "D4C5F9", "description": "Companies module" },
+  { "name": "module/contacts", "color": "D4C5F9", "description": "Contacts module" },
+  { "name": "module/integrations", "color": "D4C5F9", "description": "Integrations module" },
+  { "name": "module/billing", "color": "D4C5F9", "description": "Billing module" },
+  { "name": "module/settings", "color": "D4C5F9", "description": "Settings module" },
+
+  { "name": "risk/security", "color": "B60205", "description": "Security or access-control risk" },
+  { "name": "risk/data-integrity", "color": "D93F0B", "description": "Data corruption or wrong source-of-truth risk" },
+  { "name": "risk/architecture-drift", "color": "5319E7", "description": "Fix may violate documented architecture" },
+  { "name": "risk/workflow-break", "color": "FBCA04", "description": "Fix may break CRM → mandate → research → results flow" }
+]
