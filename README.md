@@ -160,3 +160,328 @@ docs/
   frontend/
   workflows/
   dev-guides/
+Recommended supporting folders:
+
+change-requests/
+implementation-guides/
+reviews/
+specs/
+tasks/
+
+Recommended meanings:
+
+docs/ = canonical human-readable architecture and implementation rules
+
+change-requests/ = tracked problem statements and requested changes
+
+implementation-guides/ = file-level execution plans for coding agents
+
+reviews/ = architecture reviews and verification notes
+
+specs/ = optional machine-readable structured definitions
+
+tasks/ = optional atomic task breakdowns
+
+8. Folder meanings
+docs/auth/
+
+Identity, onboarding, invitations, session routing, password recovery.
+
+docs/authorization/
+
+Role model, module access rules, feature access, route guarding, RLS/runtime boundaries.
+
+docs/database/
+
+Schema model, table meanings, constraints, indexes, RLS expectations, source-of-truth rules.
+
+docs/feature-system/
+
+Module catalog, feature catalog, provider model, entitlement resolution, runtime contracts.
+
+docs/services/
+
+Service boundaries, Supabase client rules, query/mutation patterns, DTO rules, sensitive-data rules.
+
+docs/frontend/
+
+App Router structure, workspace shell, navigation rendering, view framework, page contracts, design system.
+
+docs/workflows/
+
+CRM opportunity → mandate → research → results → canonical promotion flow.
+
+docs/dev-guides/
+
+Onboarding, coding standards, testing rules, AI-agent rules, change-request process, PR review rules, implementation order.
+
+9. Source-of-truth rules
+Final source of truth for companies
+
+companies
+
+company_domains
+
+Final source of truth for contacts
+
+contacts
+
+contact_emails
+
+contact_phones
+
+Final source of truth for analysis
+
+evidence
+
+psych_profiles
+
+lmc_fits
+
+dossiers
+
+Workflow tables
+
+Use these for orchestration and process state:
+
+crm_opportunities
+
+mandates
+
+mandate_files
+
+research
+
+strategies
+
+research_results
+
+research_constraints
+
+Do not build final UI around legacy JSON blobs in research_results.
+
+10. Role of Codex
+
+Codex should be used as:
+
+architecture-aware implementation agent
+
+structured reviewer
+
+file-level planner
+
+bounded code modifier
+
+repo-aware documentation consumer
+
+Codex must follow this repo before making implementation decisions.
+
+Codex should not invent architecture that contradicts this repo.
+
+11. Role of AI Studio
+
+AI Studio should be used as:
+
+execution-focused coding agent
+
+bounded implementer
+
+change applier
+
+task-oriented generator
+
+AI Studio should not be treated as the source of truth for:
+
+architecture
+
+module model
+
+workflow model
+
+role model
+
+data source-of-truth decisions
+
+AI Studio should implement against the requirements defined here.
+
+12. Required development workflow
+
+Use this process for every non-trivial change.
+
+Step 1 — Create or identify the change request
+
+Describe:
+
+the problem
+
+expected behavior
+
+affected module/workflow/layer
+
+constraints
+
+acceptance criteria
+
+Step 2 — Check this repository
+
+Identify which docs apply.
+
+Step 3 — Produce an implementation guide
+
+That guide should define:
+
+files to read
+
+files allowed to change
+
+files that must not change
+
+architecture boundaries
+
+acceptance criteria
+
+Step 4 — Implement in the code repo
+
+Use Codex, AI Studio, or a human developer to implement the change.
+
+Step 5 — Review against this repository
+
+Verify:
+
+correct layer ownership
+
+correct source-of-truth usage
+
+correct module/feature behavior
+
+correct org scoping
+
+correct workflow alignment
+
+Step 6 — Update this repo if the architecture changed
+
+If structure, rules, contracts, or flow changed, update docs in the same change cycle.
+
+13. Required status model
+
+Recommended statuses for change requests and work tracking:
+
+Change request status
+
+draft
+
+pending-review
+
+approved
+
+in-progress
+
+blocked
+
+done
+
+rejected
+
+Documentation status
+
+draft
+
+approved
+
+superseded
+
+archived
+
+Review status
+
+pending
+
+passed
+
+failed
+
+needs-rework
+
+14. Non-negotiable rules
+
+Do not:
+
+invent new top-level modules casually
+
+turn shortlist or dossiers into top-level navigation
+
+hardcode sidebar tabs as architecture truth
+
+scatter direct Supabase queries across page components
+
+use provider names as product concepts
+
+use UI-only hiding as real authorization
+
+build final company/contact pages from result blobs
+
+build final analysis pages from transitional research_results blobs
+
+patch bugs in the wrong layer just because it is faster
+
+15. Definition of done
+
+A change is done only when:
+
+the behavior works
+
+the correct layer owns the change
+
+organization scoping is correct
+
+module/feature boundaries are respected
+
+source-of-truth reads are correct
+
+docs are updated if needed
+
+the workflow chain still makes sense
+
+the codebase is cleaner, not messier
+
+A patch that works but increases structural debt is not done.
+
+16. Recommended root files
+
+This repository should keep these root files current:
+
+README.md
+
+AGENTS.md
+
+Optional later:
+
+CONTRIBUTING.md
+
+.github/PULL_REQUEST_TEMPLATE.md
+
+.github/ISSUE_TEMPLATE/*
+
+17. How to use this repo in practice
+If you are a human developer
+
+Read the relevant docs before changing implementation.
+
+If you are Codex
+
+Read AGENTS.md, then follow the required read order, then implement only through the correct boundary.
+
+If you are AI Studio
+
+Treat this repo as the architecture contract. Do not improvise around it.
+
+If you are reviewing code
+
+Review the implementation against the rules in this repo, not only against whether the screen appears to work.
+
+18. Final rule
+
+This repository exists to prevent development drift.
+
+If implementation and documentation diverge, resolve the divergence explicitly.
+Do not let both versions continue in parallel.
