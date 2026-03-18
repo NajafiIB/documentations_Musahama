@@ -1,0 +1,39 @@
+name: Status label guard
+
+on:
+  issues:
+    types: [labeled]
+  pull_request_target:
+    types: [labeled]
+
+jobs:
+  normalize-status:
+    if: startsWith(github.event.label.name, 'status/')
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Keep only one status label
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const added = context.payload.label.name;
+            const { owner, repo } = context.repo;
+            const issue_number = context.issue.number;
+
+            const current = await github.paginate(
+              github.rest.issues.listLabelsOnIssue,
+              { owner, repo, issue_number, per_page: 100 }
+            );
+
+            const labelsToKeep = current
+              .map(label => label.name)
+              .filter(name => !name.startsWith("status/") || name === added);
+
+            await github.rest.issues.setLabels({
+              owner,
+              repo,
+              issue_number,
+              labels: labelsToKeep,
+            });
