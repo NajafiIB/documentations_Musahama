@@ -1,0 +1,307 @@
+# Developer Onboarding
+
+Owner: Platform Architect
+Last Updated: 2026-03-18
+Version: 1.0
+Status: Approved
+
+---
+
+## 1. Purpose
+
+This document is the first required read for any developer or AI coding agent working on the Musahama platform.
+
+It explains:
+- what the platform is
+- how the system is structured
+- what the official vocabulary is
+- what the most common implementation mistakes are
+- what must be read before making changes
+
+---
+
+## 2. What This Platform Is
+
+This is an AI-assisted research and discovery platform for organizations.
+
+The business workflow is:
+
+CRM Opportunity
+→ Mandate
+→ Research Run
+→ Strategy Generation
+→ Results
+→ Evidence / Analysis
+→ Fit Scoring
+→ Dossier / Output
+→ CRM Sync / Export
+
+The platform is:
+- organization-centric
+- multi-tenant
+- module-driven
+- feature-gated
+- source-of-truth disciplined
+
+---
+
+## 3. The Six-Layer Model
+
+### 3.1 Tenancy Layer
+- organizations
+- organization_members
+- profiles
+
+### 3.2 Platform Layer
+- plans
+- plan_modules
+- organization_subscriptions
+- modules
+- organization_modules
+- integration_providers
+- organization_integrations
+- organization_credit_ledger
+
+### 3.3 Feature Layer
+- features
+- feature_dependencies
+- feature_provider_requirements
+- organization_feature_entitlements
+- plan_features
+
+### 3.4 Workflow Layer
+- crm_opportunities
+- mandates
+- mandate_files
+- research
+- strategies
+- research_results
+- research_constraints
+
+### 3.5 Canonical Entity Layer
+- companies
+- company_domains
+- contacts
+- contact_emails
+- contact_phones
+
+### 3.6 Analysis Layer
+- evidence
+- psych_profiles
+- lmc_fits
+- dossiers
+
+---
+
+## 4. Official Product Vocabulary
+
+### Modules
+Modules are top-level navigation and route areas.
+
+Official module keys:
+- dashboard
+- crm_opportunities
+- mandates
+- research
+- results
+- companies
+- contacts
+- integrations
+- billing
+- settings
+
+### Features
+Features are capabilities inside modules.
+
+Examples:
+- research.start
+- research.generate_strategies
+- results.export.dossier
+- results.shortlist
+- contacts.enrich_person
+- crm.sync.import
+
+### Providers
+Providers are external dependencies only.
+
+Examples:
+- OpenAI
+- Lusha
+- CRM connector
+- search provider
+
+### Entitlements
+Entitlements are runtime truth about what an organization is allowed to use.
+
+---
+
+## 5. Critical Mental Model
+
+- modules = navigation
+- features = capabilities
+- providers = dependencies
+- entitlements = runtime truth
+- workflow tables = orchestration state
+- canonical entity tables = final entity source of truth
+- analysis tables = final analysis source of truth
+
+This distinction must not be blurred.
+
+---
+
+## 6. Source-of-Truth Rule
+
+Use these as final source of truth for entities:
+- companies
+- company_domains
+- contacts
+- contact_emails
+- contact_phones
+
+Use these as final source of truth for analysis:
+- evidence
+- psych_profiles
+- lmc_fits
+- dossiers
+
+Use these for process state and orchestration:
+- crm_opportunities
+- mandates
+- research
+- strategies
+- research_results
+- research_constraints
+
+Do not build final UI around legacy JSON blobs in `research_results`.
+
+---
+
+## 7. Security Rule
+
+Security is enforced in three layers:
+
+1. RLS
+2. feature resolver / runtime capability layer
+3. UI visibility
+
+The UI is never the real security boundary.
+
+---
+
+## 8. Frontend Ownership Rule
+
+Use this ownership boundary:
+
+- `services/` = data fetching, mutations, DTO shaping
+- `feature-system/` = runtime capability truth
+- `features/` = module/domain UI
+- `views/` = reusable inline/detail/form patterns
+- `app/` = layouts and route entry
+- `components/` = shared generic UI
+
+If you are deciding whether a capability is available, it belongs in `feature-system/`.
+
+If you are reading or mutating domain data, it belongs in `services/`.
+
+---
+
+## 9. Role Model
+
+### Platform operator roles
+- owner
+- billing_admin
+- developer
+
+These manage:
+- integrations
+- provider/API setup
+- billing
+- module/platform configuration
+
+### Workflow roles
+- owner
+- admin
+- manager
+- analyst
+- member
+- developer
+- billing_admin (optional broader visibility)
+
+These operate:
+- crm opportunities
+- mandates
+- research
+- results
+- companies
+- contacts
+
+---
+
+## 10. First Things Every Developer Must Learn
+
+1. `organization_id` is the owner of business data
+2. modules are not features
+3. providers are not product concepts
+4. `results` is the module name, `research_results` is the workflow table
+5. canonical entity/analysis tables are the final source of truth
+6. RLS is mandatory
+7. `feature-system/` owns capability availability
+8. services must be used instead of scattered page-level queries
+
+---
+
+## 11. Most Common Mistakes
+
+Do not:
+- create new top-level modules casually
+- turn shortlist or dossiers into top-level navigation
+- hardcode sidebar tabs
+- hardcode role checks throughout components
+- build final pages from legacy result blobs
+- put Supabase queries directly in page components
+- use provider names as feature names
+- let local UI state become the source of truth for workflow state
+
+---
+
+## 12. What To Read Before Changing Anything
+
+Read these folders first:
+
+- docs/auth/
+- docs/authorization/
+- docs/database/
+- docs/feature-system/
+- docs/services/
+- docs/frontend/
+- docs/workflows/
+
+Then read:
+- docs/dev-guides/*
+
+---
+
+## 13. First Week Checklist
+
+A new developer or AI agent should be able to answer:
+
+- What is the current organization context?
+- Which modules are top-level modules?
+- Which layer owns capability truth?
+- Which tables are final source of truth for companies and contacts?
+- Which tables are final source of truth for evidence and fit analysis?
+- What is the workflow from CRM to results?
+- Which roles can access billing and integrations?
+- Why are `research_results` JSON blobs not the final UI source?
+
+---
+
+## 14. Final Rule
+
+Before making any change, ask:
+
+- Is this a module or a feature?
+- Is this organization-scoped?
+- Is this reading canonical source-of-truth data?
+- Does this belong in services or feature-system?
+- Is access enforced beyond the UI?
