@@ -72,7 +72,9 @@ feature-system/
     use-module-state.ts
     use-feature-state.ts
     use-provider-state.ts
-4. What Developers Must Do
+---
+
+##4. What Developers Must Do
 
 centralize role rules
 
@@ -88,7 +90,7 @@ keep service queries out of presentational components
 
 keep authorization logic out of page-level hacks
 
-5. What Developers Must Not Do
+##5. What Developers Must Not Do
 
 Do not:
 
@@ -104,7 +106,7 @@ build separate permission logic in multiple hooks/stores
 
 bypass RLS assumptions
 
-6. Minimum Resolver Inputs
+##6. Minimum Resolver Inputs
 
 Module resolver must consider:
 
@@ -136,7 +138,7 @@ credits/quota
 
 provider/system health
 
-7. Testing Requirements
+##7. Testing Requirements
 
 Authorization tests must cover:
 
@@ -154,7 +156,7 @@ membership inactive/suspended cases
 
 billing_admin optional visibility cases
 
-8. Final Rule
+##8. Final Rule
 
 If code decides whether a capability is available, it belongs in feature-system/.
 If code renders how a module looks, it belongs in features/.
