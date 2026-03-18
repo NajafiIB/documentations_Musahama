@@ -181,8 +181,9 @@ reviews/ = architecture reviews and verification notes
 specs/ = optional machine-readable structured definitions
 
 tasks/ = optional atomic task breakdowns
+```
 
-8. Folder meanings
+# 8. Folder meanings
 docs/auth/
 
 Identity, onboarding, invitations, session routing, password recovery.
@@ -215,7 +216,7 @@ docs/dev-guides/
 
 Onboarding, coding standards, testing rules, AI-agent rules, change-request process, PR review rules, implementation order.
 
-9. Source-of-truth rules
+# 9. Source-of-truth rules
 Final source of truth for companies
 
 companies
