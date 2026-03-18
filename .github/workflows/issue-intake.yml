@@ -1,0 +1,40 @@
+name: Issue intake
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  intake:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Add default intake labels
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.issue.number }}
+        run: |
+          gh issue edit "$NUMBER" \
+            --add-label "status/pending-review,review/needs-architecture-check"
+
+      - name: Add intake comment
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.issue.number }}
+          BODY: |
+            Intake complete.
+
+            This issue is now in `status/pending-review`.
+
+            Before implementation, verify:
+            - the owning layer
+            - the correct source-of-truth tables
+            - whether the fix belongs in auth, authorization, database, feature-system, services, frontend, or workflow
+            - whether docs must be updated
+
+            Do not patch this in the wrong layer just because it is faster.
+        run: |
+          gh issue comment "$NUMBER" --body "$BODY"
