@@ -1,0 +1,18 @@
+blank_issues_enabled: false
+
+contact_links:
+  - name: 📘 Read Platform Documentation First
+    url: https://github.com/NajafiIB/documentations_Musahama/tree/main/docs
+    about: Review the official architecture, workflow, and implementation rules before creating an issue.
+
+  - name: 🧠 Architecture / Codex Guidance
+    url: https://chat.openai.com/
+    about: Use ChatGPT/Codex with the repository to analyze architecture, generate implementation plans, and review changes before coding.
+
+  - name: 📋 Change Request Process Guide
+    url: https://github.com/NajafiIB/documentations_Musahama/tree/main/docs/dev-guides/change-request-process.md
+    about: Learn how to properly define a bug or structural change before implementation.
+
+  - name: 🔍 Review & Debug Before Filing
+    url: https://github.com/NajafiIB/documentations_Musahama/tree/main/docs/dev-guides/ai-agent-operating-rules.md
+    about: Follow the AI agent and review rules to diagnose issues before creating a new request.
