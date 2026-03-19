@@ -1,0 +1,46 @@
+schema_version: "1.0"
+last_updated: "2026-03-19"
+owner: "Platform Architect"
+status: "approved"
+
+route_groups:
+  public:
+    routes:
+      - path: /login
+      - path: /register
+      - path: /forgot-password
+      - path: /invite/[token]
+      - path: /auth/callback
+  protected_workspace:
+    routes:
+      - path: /dashboard
+        module_key: dashboard
+      - path: /crm-opportunities
+        module_key: crm_opportunities
+      - path: /mandates
+        module_key: mandates
+      - path: /research
+        module_key: research
+      - path: /results
+        module_key: results
+      - path: /companies
+        module_key: companies
+      - path: /contacts
+        module_key: contacts
+      - path: /integrations
+        module_key: integrations
+      - path: /billing
+        module_key: billing
+      - path: /settings
+        module_key: settings
+
+rules:
+  - protected routes require session resolution
+  - protected routes require current organization resolution
+  - sidebar visibility is not sufficient for security
+
+references:
+  docs:
+    - docs/frontend/app-router-structure.md
+    - docs/authorization/route-guarding.md
+    - docs/auth/routes.md
