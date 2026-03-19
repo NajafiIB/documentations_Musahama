@@ -1,0 +1,228 @@
+schema_version: "1.0"
+last_updated: "2026-03-18"
+owner: "Platform Architect"
+status: "approved"
+
+metadata:
+  purpose: "Canonical machine-readable provider capability model"
+  notes:
+    - "Providers are external dependencies, not product structure"
+    - "Features are capability-first and provider-agnostic"
+    - "Provider requirements resolve underneath the feature layer"
+
+provider_model:
+  rules:
+    - "provider names do not appear in feature keys"
+    - "provider names do not define modules"
+    - "UI labels should remain capability-first"
+    - "provider readiness is one input into feature availability"
+    - "sensitive provider config is server-only"
+
+capability_keys:
+  - key: "strategy_generation"
+    category: "ai_generation"
+    used_by_features:
+      - "research.generate_strategies"
+
+  - key: "fit_analysis"
+    category: "ai_generation"
+    used_by_features:
+      - "results.generate_fit"
+
+  - key: "dossier_generation"
+    category: "ai_generation"
+    used_by_features:
+      - "results.generate_dossier"
+
+  - key: "person_enrichment"
+    category: "enrichment"
+    used_by_features:
+      - "contacts.enrich_person"
+
+  - key: "crm_import"
+    category: "crm_sync"
+    used_by_features:
+      - "crm.sync.import"
+
+  - key: "crm_export"
+    category: "crm_sync"
+    used_by_features:
+      - "crm.sync.export"
+
+  - key: "external_company_search"
+    category: "search"
+    used_by_features:
+      - "companies.search_external_source"
+
+providers:
+  - provider_key: "openai"
+    label: "OpenAI"
+    category: "ai"
+    auth_type: "api_key"
+    capabilities:
+      - "strategy_generation"
+      - "fit_analysis"
+      - "dossier_generation"
+    runtime_requirements:
+      - "connected_integration"
+      - "api_key_present"
+      - "provider_healthy"
+    safe_client_state_fields:
+      - "provider_key"
+      - "label"
+      - "connected"
+      - "enabled"
+      - "supported_capabilities"
+      - "last_error_summary"
+    server_only_fields:
+      - "secret_ref"
+      - "raw_credentials"
+      - "private_provider_config"
+
+  - provider_key: "lusha"
+    label: "Lusha"
+    category: "enrichment"
+    auth_type: "api_key"
+    capabilities:
+      - "person_enrichment"
+    runtime_requirements:
+      - "connected_integration"
+      - "api_key_present"
+      - "provider_healthy"
+    safe_client_state_fields:
+      - "provider_key"
+      - "label"
+      - "connected"
+      - "enabled"
+      - "supported_capabilities"
+      - "last_error_summary"
+    server_only_fields:
+      - "secret_ref"
+      - "raw_credentials"
+      - "private_provider_config"
+
+  - provider_key: "crm_connector"
+    label: "CRM Connector"
+    category: "crm"
+    auth_type: "oauth_or_api"
+    capabilities:
+      - "crm_import"
+      - "crm_export"
+    runtime_requirements:
+      - "connected_integration"
+      - "provider_healthy"
+      - "required_scope_or_auth_present"
+    safe_client_state_fields:
+      - "provider_key"
+      - "label"
+      - "connected"
+      - "enabled"
+      - "supported_capabilities"
+      - "last_sync_at"
+      - "last_error_summary"
+    server_only_fields:
+      - "secret_ref"
+      - "raw_credentials"
+      - "private_provider_config"
+
+  - provider_key: "search_provider"
+    label: "Search Provider"
+    category: "search"
+    auth_type: "api_key"
+    capabilities:
+      - "external_company_search"
+    runtime_requirements:
+      - "connected_integration"
+      - "api_key_present"
+      - "provider_healthy"
+    safe_client_state_fields:
+      - "provider_key"
+      - "label"
+      - "connected"
+      - "enabled"
+      - "supported_capabilities"
+      - "last_error_summary"
+    server_only_fields:
+      - "secret_ref"
+      - "raw_credentials"
+      - "private_provider_config"
+
+feature_to_capability_map:
+  research.generate_strategies:
+    required_capabilities:
+      - "strategy_generation"
+
+  results.generate_fit:
+    required_capabilities:
+      - "fit_analysis"
+
+  results.generate_dossier:
+    required_capabilities:
+      - "dossier_generation"
+
+  contacts.enrich_person:
+    required_capabilities:
+      - "person_enrichment"
+
+  crm.sync.import:
+    required_capabilities:
+      - "crm_import"
+
+  crm.sync.export:
+    required_capabilities:
+      - "crm_export"
+
+  companies.search_external_source:
+    required_capabilities:
+      - "external_company_search"
+
+provider_state_contract:
+  reason_values:
+    - "ok"
+    - "missing_integration"
+    - "integration_disconnected"
+    - "missing_capability"
+    - "missing_api_key"
+    - "provider_unavailable"
+    - "system_disabled"
+
+  recommended_output_shape:
+    provider_key: "string"
+    capability_key: "string"
+    connected: "boolean"
+    enabled: "boolean"
+    reason: "ProviderStateReason"
+
+feature_resolution_integration:
+  required_conditions:
+    - "feature_has_required_capabilities"
+    - "provider_connected"
+    - "provider_supports_capability"
+    - "provider_credentials_present"
+    - "provider_healthy"
+
+safe_ui_labels:
+  examples:
+    - "Enrich Contact"
+    - "Generate Strategy"
+    - "Export Dossier"
+    - "Sync CRM"
+
+forbidden_ui_labels:
+  examples:
+    - "Lusha Action"
+    - "OpenAI Strategy Button"
+    - "CRM Vendor Export Button"
+
+anti_patterns:
+  - "using provider names as feature keys"
+  - "using provider names as module names"
+  - "returning secret_ref to client-readable responses"
+  - "building UI directly from raw integration config"
+
+references:
+  docs:
+    - "docs/feature-system/provider-model.md"
+    - "docs/feature-system/feature-catalog.md"
+    - "docs/feature-system/entitlement-resolution.md"
+    - "docs/services/server-only-and-sensitive-data.md"
