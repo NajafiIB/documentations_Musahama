@@ -1,0 +1,57 @@
+schema_version: "1.0"
+last_updated: "2026-03-19"
+owner: "Platform Architect"
+status: "approved"
+
+roles:
+  - key: owner
+    groups: [platform_operator_roles, workflow_roles]
+  - key: admin
+    groups: [workflow_roles]
+  - key: manager
+    groups: [workflow_roles]
+  - key: analyst
+    groups: [workflow_roles]
+  - key: member
+    groups: [workflow_roles]
+  - key: billing_admin
+    groups: [platform_operator_roles]
+  - key: developer
+    groups: [platform_operator_roles, workflow_roles]
+
+role_groups:
+  platform_operator_roles:
+    roles: [owner, billing_admin, developer]
+  workflow_roles:
+    roles: [owner, admin, manager, analyst, member, developer]
+    optional_roles: [billing_admin]
+
+interpretation_rules:
+  - rule: admin_is_not_platform_operator_by_default
+    value: true
+  - rule: billing_admin_is_not_workflow_operator_by_default
+    value: true
+  - rule: developer_spans_workflow_and_platform
+    value: true
+  - rule: owner_spans_workflow_and_platform
+    value: true
+  - rule: settings_access_is_section_based
+    value: true
+
+module_access_baseline:
+  dashboard: [owner, admin, manager, analyst, member, billing_admin, developer]
+  crm_opportunities: [owner, admin, manager, analyst, member, developer]
+  mandates: [owner, admin, manager, analyst, member, developer]
+  research: [owner, admin, manager, analyst, member, developer]
+  results: [owner, admin, manager, analyst, member, developer]
+  companies: [owner, admin, manager, analyst, member, developer]
+  contacts: [owner, admin, manager, analyst, member, developer]
+  integrations: [owner, billing_admin, developer]
+  billing: [owner, billing_admin, developer]
+  settings: section_based
+
+references:
+  docs:
+    - docs/authorization/role-model.md
+    - docs/authorization/access-matrix.md
+    - docs/feature-system/permissions-and-rules.md

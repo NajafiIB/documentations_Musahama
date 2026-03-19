@@ -1,0 +1,70 @@
+schema_version: "1.0"
+last_updated: "2026-03-19"
+owner: "Platform Architect"
+status: "approved"
+
+canonical_modules:
+  - key: dashboard
+    route: /dashboard
+    category: workspace
+  - key: crm_opportunities
+    route: /crm-opportunities
+    category: workflow
+  - key: mandates
+    route: /mandates
+    category: workflow
+  - key: research
+    route: /research
+    category: workflow
+  - key: results
+    route: /results
+    category: workflow
+  - key: companies
+    route: /companies
+    category: canonical_archive
+  - key: contacts
+    route: /contacts
+    category: canonical_archive
+  - key: integrations
+    route: /integrations
+    category: platform
+  - key: billing
+    route: /billing
+    category: platform
+  - key: settings
+    route: /settings
+    category: platform
+
+not_modules:
+  - key: discovery
+  - key: shortlist
+  - key: dossiers
+  - key: crm_sync
+  - key: analytics
+
+module_visibility_rule:
+  required_conditions:
+    - authenticated_user
+    - current_organization_resolved
+    - active_membership
+    - organization_active
+    - module_exists_in_catalog
+    - module_enabled_for_organization
+    - role_allowed_for_module
+
+runtime_contract:
+  module_state_reason_values:
+    - ok
+    - not_authenticated
+    - no_active_org
+    - not_member
+    - inactive_membership
+    - missing_role
+    - missing_module
+    - module_disabled
+
+references:
+  docs:
+    - docs/authorization/module-access-rules.md
+    - docs/feature-system/module-catalog.md
+    - docs/frontend/navigation-rendering.md

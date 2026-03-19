@@ -1,0 +1,68 @@
+schema_version: "1.0"
+last_updated: "2026-03-19"
+owner: "Platform Architect"
+status: "approved"
+
+feature_state_reason_values:
+  - ok
+  - missing_module
+  - missing_role
+  - missing_entitlement
+  - missing_dependency
+  - missing_provider
+  - missing_api_key
+  - insufficient_quota
+  - provider_unavailable
+  - system_disabled
+
+features:
+  - key: research.start
+    module_key: research
+    category: core
+  - key: research.generate_strategies
+    module_key: research
+    category: provider_backed
+  - key: results.generate_fit
+    module_key: results
+    category: provider_backed
+  - key: results.generate_dossier
+    module_key: results
+    category: provider_backed
+  - key: results.shortlist
+    module_key: results
+    category: core
+  - key: results.export.csv
+    module_key: results
+    category: addon
+  - key: results.export.dossier
+    module_key: results
+    category: addon
+  - key: contacts.enrich_person
+    module_key: contacts
+    category: provider_backed
+  - key: crm.sync.import
+    module_key: crm_opportunities
+    category: provider_backed
+  - key: crm.sync.export
+    module_key: crm_opportunities
+    category: provider_backed
+  - key: billing.manage_subscription
+    module_key: billing
+    category: core
+
+resolution_rule:
+  required_conditions:
+    - module_enabled
+    - role_allowed
+    - feature_entitlement_enabled
+    - dependencies_satisfied
+    - provider_requirement_satisfied
+    - quota_sufficient
+    - provider_and_system_healthy
+
+references:
+  docs:
+    - docs/feature-system/feature-catalog.md
+    - docs/feature-system/provider-model.md
+    - docs/feature-system/entitlement-resolution.md
+    - docs/authorization/feature-entitlements.md

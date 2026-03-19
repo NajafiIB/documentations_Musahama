@@ -1,0 +1,36 @@
+schema_version: "1.0"
+last_updated: "2026-03-19"
+owner: "Platform Architect"
+status: "approved"
+
+domains:
+  tenancy:
+    final_source_tables: [profiles, organizations, organization_members, organization_invitations]
+  module_runtime:
+    final_source_tables: [modules, organization_modules]
+  feature_runtime:
+    final_source_tables: [features, feature_dependencies, feature_provider_requirements, organization_feature_entitlements, plan_features]
+  billing_runtime:
+    final_source_tables: [plans, plan_modules, organization_subscriptions, organization_credit_ledger]
+  integrations_runtime:
+    final_source_tables: [integration_providers, organization_integrations]
+  workflow_state:
+    final_source_tables: [crm_opportunities, mandates, mandate_files, research, strategies, research_results, research_constraints]
+  companies:
+    final_source_tables: [companies, company_domains]
+  contacts:
+    final_source_tables: [contacts, contact_emails, contact_phones]
+  analysis:
+    final_source_tables: [evidence, psych_profiles, lmc_fits, dossiers]
+
+transitional_fields:
+  table: research_results
+  fields: [company_profile, psych_profile, lmc_fit, dossier, evidence]
+  policy:
+    status: transitional_only
+
+references:
+  docs:
+    - docs/database/source-of-truth-rules.md
+    - docs/workflows/canonical-promotion.md
+    - docs/services/query-patterns.md
