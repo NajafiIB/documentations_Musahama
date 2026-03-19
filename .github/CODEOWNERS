@@ -1,0 +1,12 @@
+# Repository governance
+/.github/CODEOWNERS @NajafiIB
+/.github/ @NajafiIB
+/README.md @NajafiIB
+/AGENTS.md @NajafiIB
+/docs/ @NajafiIB
+/specs/ @NajafiIB
+/scripts/ @NajafiIB
+/change-requests/ @NajafiIB
+/implementation-guides/ @NajafiIB
+/reviews/ @NajafiIB
+/tasks/ @NajafiIB
