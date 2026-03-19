@@ -1,0 +1,84 @@
+schema_version: "1.0"
+last_updated: "2026-03-18"
+owner: "Platform Architect"
+status: "approved"
+
+metadata:
+  purpose: "Canonical machine-readable provider capability model"
+  notes:
+    - "Providers are external dependencies, not product structure"
+    - "Features are capability-first and provider-agnostic"
+    - "Provider requirements resolve underneath the feature layer"
+
+provider_model:
+  rules:
+    - "provider names do not appear in feature keys"
+    - "provider names do not define modules"
+    - "UI labels should remain capability-first"
+    - "provider readiness is one input into feature availability"
+    - "sensitive provider config is server-only"
+
+capability_keys:
+  - key: strategy_generation
+    used_by_features: [research.generate_strategies]
+
+  - key: fit_analysis
+    used_by_features: [results.generate_fit]
+
+  - key: dossier_generation
+    used_by_features: [results.generate_dossier]
+
+  - key: person_enrichment
+    used_by_features: [contacts.enrich_person]
+
+  - key: crm_import
+    used_by_features: [crm.sync.import]
+
+  - key: crm_export
+    used_by_features: [crm.sync.export]
+
+providers:
+  - provider_key: openai
+    category: ai
+    capabilities:
+      - strategy_generation
+      - fit_analysis
+      - dossier_generation
+
+  - provider_key: lusha
+    category: enrichment
+    capabilities:
+      - person_enrichment
+
+  - provider_key: crm_connector
+    category: crm
+    capabilities:
+      - crm_import
+      - crm_export
+
+feature_to_capability_map:
+  research.generate_strategies:
+    required_capabilities: [strategy_generation]
+
+  results.generate_fit:
+    required_capabilities: [fit_analysis]
+
+  results.generate_dossier:
+    required_capabilities: [dossier_generation]
+
+  contacts.enrich_person:
+    required_capabilities: [person_enrichment]
+
+  crm.sync.import:
+    required_capabilities: [crm_import]
+
+  crm.sync.export:
+    required_capabilities: [crm_export]
+
+provider_state_contract:
+  reason_values:
+    - ok
+    - missing_integration
+    - missing_capability
+    - missing_api_key
+    - provider_unavailable
