@@ -1,0 +1,70 @@
+schema_version: "1.0"
+last_updated: "2026-03-19"
+owner: "Platform Architect"
+status: "approved"
+
+canonical_modules:
+  - dashboard
+  - crm_opportunities
+  - mandates
+  - research
+  - results
+  - companies
+  - contacts
+  - integrations
+  - billing
+  - settings
+
+forbidden_non_modules:
+  - discovery
+  - shortlist
+  - dossiers
+  - crm_sync
+  - analytics
+
+forbidden_provider_tokens_in_feature_keys:
+  - openai
+  - lusha
+  - crm_connector
+  - search_provider
+
+routes:
+  allowed_public_top_level_segments:
+    - login
+    - register
+    - forgot-password
+    - invite
+    - auth
+  allowed_protected_top_level_segments:
+    - dashboard
+    - crm-opportunities
+    - mandates
+    - research
+    - results
+    - companies
+    - contacts
+    - integrations
+    - billing
+    - settings
+  allowed_special_top_level_segments:
+    - ""
+    - onboarding
+    - select-organization
+    - access-denied
+
+change_request_policy:
+  paths_requiring_cr:
+    - specs/
+    - docs/auth/
+    - docs/authorization/
+    - docs/database/
+    - docs/feature-system/
+    - docs/services/
+    - docs/frontend/
+    - docs/workflows/
+    - README.md
+    - AGENTS.md
+    - .github/CODEOWNERS
+    - .github/policy-config.yaml
+  change_request_globs:
+    - change-requests/CR-*.md
