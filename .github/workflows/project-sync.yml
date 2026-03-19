@@ -1,0 +1,435 @@
+name: Project sync
+
+on:
+  issues:
+    types: [opened, edited, labeled, unlabeled, reopened, closed]
+  pull_request_target:
+    types: [opened, edited, labeled, unlabeled, reopened, ready_for_review, converted_to_draft, closed]
+
+jobs:
+  sync-project:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Sync issue/PR into GitHub Project
+        uses: actions/github-script@v7
+        env:
+          PROJECT_OWNER: ${{ vars.PROJECT_OWNER }}
+          PROJECT_NUMBER: ${{ vars.PROJECT_NUMBER }}
+        with:
+          github-token: ${{ secrets.PROJECTS_PAT }}
+          script: |
+            const projectOwner = process.env.PROJECT_OWNER;
+            const projectNumber = Number(process.env.PROJECT_NUMBER);
+
+            if (!projectOwner || !projectNumber) {
+              core.setFailed("Missing PROJECT_OWNER or PROJECT_NUMBER repository variables.");
+              return;
+            }
+
+            const isPR = Boolean(context.payload.pull_request);
+            const content = isPR ? context.payload.pull_request : context.payload.issue;
+
+            if (!content?.node_id || !content?.number) {
+              core.setFailed("This event does not include an issue or pull request payload.");
+              return;
+            }
+
+            const repoOwner = context.repo.owner;
+            const repoName = context.repo.repo;
+            const issueNumber = content.number;
+            const contentId = content.node_id;
+            const action = context.payload.action;
+            const today = new Date().toISOString().slice(0, 10);
+
+            const labelResponse = await github.rest.issues.listLabelsOnIssue({
+              owner: repoOwner,
+              repo: repoName,
+              issue_number: issueNumber,
+              per_page: 100,
+            });
+
+            const labels = labelResponse.data.map(label => label.name);
+
+            const projectQuery = `
+              fragment ProjectFields on ProjectV2 {
+                id
+                statusField: field(name: "Status") {
+                  __typename
+                  ... on ProjectV2SingleSelectField {
+                    id
+                    name
+                    options {
+                      id
+                      name
+                    }
+                  }
+                }
+                typeField: field(name: "Type") {
+                  __typename
+                  ... on ProjectV2SingleSelectField {
+                    id
+                    name
+                    options {
+                      id
+                      name
+                    }
+                  }
+                }
+                layerField: field(name: "Layer") {
+                  __typename
+                  ... on ProjectV2SingleSelectField {
+                    id
+                    name
+                    options {
+                      id
+                      name
+                    }
+                  }
+                }
+                moduleField: field(name: "Module") {
+                  __typename
+                  ... on ProjectV2SingleSelectField {
+                    id
+                    name
+                    options {
+                      id
+                      name
+                    }
+                  }
+                }
+                reviewField: field(name: "Review") {
+                  __typename
+                  ... on ProjectV2SingleSelectField {
+                    id
+                    name
+                    options {
+                      id
+                      name
+                    }
+                  }
+                }
+                docsImpactField: field(name: "Docs Impact") {
+                  __typename
+                  ... on ProjectV2SingleSelectField {
+                    id
+                    name
+                    options {
+                      id
+                      name
+                    }
+                  }
+                }
+                approvedOnField: field(name: "Approved On") {
+                  __typename
+                  ... on ProjectV2Field {
+                    id
+                    name
+                    dataType
+                  }
+                }
+                startedOnField: field(name: "Started On") {
+                  __typename
+                  ... on ProjectV2Field {
+                    id
+                    name
+                    dataType
+                  }
+                }
+                doneOnField: field(name: "Done On") {
+                  __typename
+                  ... on ProjectV2Field {
+                    id
+                    name
+                    dataType
+                  }
+                }
+              }
+
+              query($owner: String!, $number: Int!) {
+                user(login: $owner) {
+                  projectV2(number: $number) {
+                    ...ProjectFields
+                  }
+                }
+                organization(login: $owner) {
+                  projectV2(number: $number) {
+                    ...ProjectFields
+                  }
+                }
+              }
+            `;
+
+            const projectData = await github.graphql(projectQuery, {
+              owner: projectOwner,
+              number: projectNumber,
+            });
+
+            const project =
+              projectData.user?.projectV2 ??
+              projectData.organization?.projectV2;
+
+            if (!project?.id) {
+              core.setFailed(
+                `Project not found. Check PROJECT_OWNER=${projectOwner} and PROJECT_NUMBER=${projectNumber}.`
+              );
+              return;
+            }
+
+            async function findProjectItem(projectId, wantedContentId) {
+              let cursor = null;
+
+              while (true) {
+                const data = await github.graphql(
+                  `
+                  query($projectId: ID!, $cursor: String) {
+                    node(id: $projectId) {
+                      ... on ProjectV2 {
+                        items(first: 100, after: $cursor) {
+                          pageInfo {
+                            hasNextPage
+                            endCursor
+                          }
+                          nodes {
+                            id
+                            content {
+                              __typename
+                              ... on Issue {
+                                id
+                                number
+                              }
+                              ... on PullRequest {
+                                id
+                                number
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                  `,
+                  {
+                    projectId,
+                    cursor,
+                  }
+                );
+
+                const items = data.node.items.nodes;
+                const match = items.find(
+                  item => item.content && item.content.id === wantedContentId
+                );
+
+                if (match) return match.id;
+
+                if (!data.node.items.pageInfo.hasNextPage) return null;
+                cursor = data.node.items.pageInfo.endCursor;
+              }
+            }
+
+            let itemId = await findProjectItem(project.id, contentId);
+
+            if (!itemId) {
+              const added = await github.graphql(
+                `
+                mutation($projectId: ID!, $contentId: ID!) {
+                  addProjectV2ItemById(
+                    input: {
+                      projectId: $projectId
+                      contentId: $contentId
+                    }
+                  ) {
+                    item {
+                      id
+                    }
+                  }
+                }
+                `,
+                {
+                  projectId: project.id,
+                  contentId,
+                }
+              );
+
+              itemId = added.addProjectV2ItemById.item.id;
+              core.info(`Added item ${issueNumber} to project.`);
+            } else {
+              core.info(`Item ${issueNumber} already exists in project.`);
+            }
+
+            function firstMappedLabel(mapping) {
+              for (const [label, value] of Object.entries(mapping)) {
+                if (labels.includes(label)) return value;
+              }
+              return null;
+            }
+
+            const explicitStatus = firstMappedLabel({
+              "status/draft": "Intake",
+              "status/pending-review": "Pending Review",
+              "status/approved": "Approved",
+              "status/in-progress": "In Progress",
+              "status/blocked": "Blocked",
+              "status/done": "Done",
+              "status/rejected": "Rejected",
+            });
+
+            let status = null;
+            const isClosed = isPR
+              ? context.payload.pull_request.state === "closed"
+              : context.payload.issue.state === "closed";
+
+            if (isClosed) {
+              status = labels.includes("status/rejected") ? "Rejected" : "Done";
+            } else if (explicitStatus) {
+              status = explicitStatus;
+            } else if (isPR) {
+              if (action === "converted_to_draft" || context.payload.pull_request.draft) {
+                status = "In Progress";
+              } else {
+                status = "In Review";
+              }
+            } else {
+              status = "Pending Review";
+            }
+
+            const typeValue = isPR
+              ? "PR"
+              : firstMappedLabel({
+                  "change-request": "Change Request",
+                  "feature-request": "Feature Request",
+                  "architecture-review": "Architecture Review",
+                  "type/docs": "Docs",
+                });
+
+            const layerValue = firstMappedLabel({
+              "layer/auth": "auth",
+              "layer/authorization": "authorization",
+              "layer/database": "database",
+              "layer/feature-system": "feature-system",
+              "layer/services": "services",
+              "layer/frontend": "frontend",
+              "layer/workflow": "workflow",
+            });
+
+            const moduleValue = firstMappedLabel({
+              "module/dashboard": "dashboard",
+              "module/crm-opportunities": "crm-opportunities",
+              "module/mandates": "mandates",
+              "module/research": "research",
+              "module/results": "results",
+              "module/companies": "companies",
+              "module/contacts": "contacts",
+              "module/integrations": "integrations",
+              "module/billing": "billing",
+              "module/settings": "settings",
+            });
+
+            const reviewValue = firstMappedLabel({
+              "review/needs-architecture-check": "Needs Architecture Check",
+              "review/needs-doc-check": "Needs Doc Check",
+              "review/ready-to-implement": "Ready to Implement",
+            });
+
+            const docsImpactValue = labels.includes("review/needs-doc-check")
+              ? "Yes"
+              : null;
+
+            async function updateSingleSelect(field, optionName) {
+              if (!field?.id || !optionName) return;
+
+              const option = field.options?.find(opt => opt.name === optionName);
+              if (!option) {
+                core.warning(`Option "${optionName}" not found on field "${field.name}".`);
+                return;
+              }
+
+              await github.graphql(
+                `
+                mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
+                  updateProjectV2ItemFieldValue(
+                    input: {
+                      projectId: $projectId
+                      itemId: $itemId
+                      fieldId: $fieldId
+                      value: {
+                        singleSelectOptionId: $optionId
+                      }
+                    }
+                  ) {
+                    projectV2Item {
+                      id
+                    }
+                  }
+                }
+                `,
+                {
+                  projectId: project.id,
+                  itemId,
+                  fieldId: field.id,
+                  optionId: option.id,
+                }
+              );
+            }
+
+            async function updateDate(field, isoDate) {
+              if (!field?.id || !isoDate) return;
+
+              await github.graphql(
+                `
+                mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $date: Date!) {
+                  updateProjectV2ItemFieldValue(
+                    input: {
+                      projectId: $projectId
+                      itemId: $itemId
+                      fieldId: $fieldId
+                      value: {
+                        date: $date
+                      }
+                    }
+                  ) {
+                    projectV2Item {
+                      id
+                    }
+                  }
+                }
+                `,
+                {
+                  projectId: project.id,
+                  itemId,
+                  fieldId: field.id,
+                  date: isoDate,
+                }
+              );
+            }
+
+            await updateSingleSelect(project.statusField, status);
+            await updateSingleSelect(project.typeField, typeValue);
+            await updateSingleSelect(project.layerField, layerValue);
+            await updateSingleSelect(project.moduleField, moduleValue);
+            await updateSingleSelect(project.reviewField, reviewValue);
+            await updateSingleSelect(project.docsImpactField, docsImpactValue);
+
+            if (context.payload.label?.name === "status/approved") {
+              await updateDate(project.approvedOnField, today);
+            }
+
+            if (
+              context.payload.label?.name === "status/in-progress" ||
+              (isPR &&
+                (action === "opened" || action === "reopened" || action === "converted_to_draft") &&
+                context.payload.pull_request.draft)
+            ) {
+              await updateDate(project.startedOnField, today);
+            }
+
+            if (
+              context.payload.label?.name === "status/done" ||
+              action === "closed"
+            ) {
+              await updateDate(project.doneOnField, today);
+            }
+
+            core.info(`Synced item #${issueNumber} into project "${projectOwner}#${projectNumber}".`);
