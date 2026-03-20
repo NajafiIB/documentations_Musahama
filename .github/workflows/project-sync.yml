@@ -154,11 +154,6 @@ jobs:
                     ...ProjectFields
                   }
                 }
-                organization(login: $owner) {
-                  projectV2(number: $number) {
-                    ...ProjectFields
-                  }
-                }
               }
             `;
 
@@ -167,9 +162,7 @@ jobs:
               number: projectNumber,
             });
 
-            const project =
-              projectData.user?.projectV2 ??
-              projectData.organization?.projectV2;
+            const project = projectData.user?.projectV2;
 
             if (!project?.id) {
               core.setFailed(
