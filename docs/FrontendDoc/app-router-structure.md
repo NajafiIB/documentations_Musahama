@@ -110,7 +110,10 @@ src/app/
     integrations/
     billing/
     settings/
-6. Layout Responsibilities
+
+```
+
+## 6. Layout Responsibilities
 root layout
 
 Owns:
@@ -157,7 +160,7 @@ composing page content
 
 not direct capability truth
 
-7. Protected Route Rule
+## 7. Protected Route Rule
 
 No protected workspace route should render before:
 
@@ -167,7 +170,7 @@ current organization is resolved
 
 active membership is known
 
-8. Special States
+## 8. Special States
 
 The frontend must support dedicated handling for:
 
