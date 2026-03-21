@@ -1,17 +1,17 @@
 # CR-2026-001
 
 Title: Workspace bootstrap boundary alignment (implementation repo)  
-Status: draft  
+Status: in_review  
 Priority: P1  
 Type: refactor  
 Owner: Platform Architect  
 Requested By: Codex review intake  
-Last Updated: 2026-03-20
+Last Updated: 2026-03-21
 
 Related GitHub Issue: TBD  
 Related Implementation Guide: implementation-guides/IMP-2026-001-workspace-bootstrap-boundary-alignment.md  
-Related Tasks: tasks/TASK-2026-001-01-workspace-bootstrap-contract.md  
-Related Review: reviews/REV-2026-03-20-implementation-musahoma-intake.md  
+Related Tasks: tasks/TASK-2026-001-01-workspace-bootstrap-contract.md; tasks/TASK-2026-001-02-verify-and-harden-bootstrap-implementation.md  
+Related Review: reviews/REV-2026-03-20-implementation-musahoma-intake.md; reviews/REV-2026-03-21-aistudio-workspace-bootstrap-validation.md  
 Target Repo: NajafiIB/Implementation_Musahama
 
 ## Summary
@@ -57,4 +57,4 @@ Roles: all authenticated roles
 - If bootstrap contract is underspecified, later tasks can reintroduce drift.
 
 ## Final Decision
-- approved
+- in_review (pending evidence from implementation repo and hardening follow-up task)

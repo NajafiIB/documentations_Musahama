@@ -1,16 +1,16 @@
 # IMP-2026-001
 
 Title: Implement workspace bootstrap contract and boundary alignment  
-Status: draft  
+Status: in_review  
 Parent Change Request: CR-2026-001  
 Owner: Platform Architect  
 Prepared For: AI Studio  
 Target Repo: NajafiIB/Implementation_Musahama  
 Target Branch: main (or feature branch from main)  
-Last Updated: 2026-03-20
+Last Updated: 2026-03-21
 
-Related Review: reviews/REV-2026-03-20-implementation-musahoma-intake.md  
-Related Tasks: tasks/TASK-2026-001-01-workspace-bootstrap-contract.md  
+Related Review: reviews/REV-2026-03-20-implementation-musahoma-intake.md; reviews/REV-2026-03-21-aistudio-workspace-bootstrap-validation.md  
+Related Tasks: tasks/TASK-2026-001-01-workspace-bootstrap-contract.md; tasks/TASK-2026-001-02-verify-and-harden-bootstrap-implementation.md  
 Related PRs: TBD
 
 ## Goal
@@ -70,6 +70,15 @@ In implementation repo only:
 - No hardcoded duplicate permission logic remains in shell/page layer.
 - Redirect behavior remains deterministic and safe.
 - No source-of-truth drift introduced.
+
+
+## Evidence Gate (Required Before Marking Done)
+AI Studio must provide:
+- implementation repo commit SHA(s)
+- full changed file list
+- diff proof for each acceptance criterion
+- build/typecheck/test command outputs
+- explicit note on edge runtime safety for middleware imports
 
 ## Required Output From Coding Agent
 1. files changed
