@@ -1,6 +1,7 @@
 # TASK-2026-001-02
 
 Title: Verify and harden workspace bootstrap implementation after AI Studio pass  
+Status: blocked  
 Status: in_progress  
 Status: queued  
 Parent Change Request: CR-2026-001  
@@ -57,3 +58,7 @@ The task is complete only when:
 5. risks
 6. docs mismatch (if any)
 7. PR URL and branch name
+
+
+## Blocker
+Implementation changes are not yet visible in GitHub repository history/PRs. Evidence cannot be independently reviewed until AI Studio exports changes and provides PR URL + commit SHA(s).

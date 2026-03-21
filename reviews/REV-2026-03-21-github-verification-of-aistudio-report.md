@@ -33,3 +33,12 @@ Submit a real implementation PR with:
 3. diff proving each acceptance criterion,
 4. build/typecheck/test output,
 5. note on edge-runtime safety and typed icon strategy.
+
+
+## Update — Second AI Studio Report (Export Pending)
+AI Studio states the code exists only in its isolated workspace and requires manual "Export to GitHub" to make the diff reviewable.
+
+Assessment:
+- This explains why GitHub `main` still shows pre-change files.
+- However, acceptance cannot be granted until exported commits and PR evidence are visible in GitHub.
+- The `.next/routes-manifest.json` ENOENT incident appears operational/transient and is not acceptance proof for architecture completion.
