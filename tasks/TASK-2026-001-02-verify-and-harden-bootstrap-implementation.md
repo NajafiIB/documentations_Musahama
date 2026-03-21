@@ -2,6 +2,7 @@
 
 Title: Verify and harden workspace bootstrap implementation after AI Studio pass  
 Status: in_progress  
+Status: queued  
 Parent Change Request: CR-2026-001  
 Parent Implementation Guide: IMP-2026-001  
 Owner: Platform Architect  

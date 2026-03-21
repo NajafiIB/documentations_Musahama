@@ -300,6 +300,6 @@ Feature system handles the rest.
 
 ## 16. References
 
-- docs/03-authorization/role-model.md
-- docs/05-feature-system/entitlement-resolution.md
-- docs/04-database/schema.md
+- docs/authorization/role-model.md
+- docs/feature-system/entitlement-resolution.md
+- docs/database/schema-overview.md
