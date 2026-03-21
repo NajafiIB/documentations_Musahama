@@ -11,6 +11,8 @@ Last Updated: 2026-03-21
 
 Related Review: reviews/REV-2026-03-20-implementation-musahoma-intake.md; reviews/REV-2026-03-21-aistudio-workspace-bootstrap-validation.md; reviews/REV-2026-03-21-github-verification-of-aistudio-report.md  
 Related Tasks: tasks/TASK-2026-001-01-workspace-bootstrap-contract.md; tasks/TASK-2026-001-02-verify-and-harden-bootstrap-implementation.md; tasks/TASK-2026-001-03-export-and-submit-pr-evidence.md  
+Related Review: reviews/REV-2026-03-20-implementation-musahoma-intake.md; reviews/REV-2026-03-21-aistudio-workspace-bootstrap-validation.md  
+Related Tasks: tasks/TASK-2026-001-01-workspace-bootstrap-contract.md; tasks/TASK-2026-001-02-verify-and-harden-bootstrap-implementation.md  
 Related PRs: TBD
 
 ## Goal

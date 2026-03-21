@@ -2,6 +2,7 @@
 
 Title: Implement workspace bootstrap contract and remove hardcoded module access duplication  
 Status: in_review  
+
 Parent Change Request: CR-2026-001  
 Parent Implementation Guide: IMP-2026-001  
 Owner: Platform Architect  
