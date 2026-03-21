@@ -1,6 +1,7 @@
 # TASK-2026-001-02
 
 Title: Verify and harden workspace bootstrap implementation after AI Studio pass  
+Status: in_progress  
 Status: queued  
 Parent Change Request: CR-2026-001  
 Parent Implementation Guide: IMP-2026-001  
@@ -46,6 +47,7 @@ The task is complete only when:
 4. `@ts-ignore` is removed from dynamic icon rendering by using a typed icon map.
 5. Middleware imports remain edge-safe and documented.
 6. Any client fallback logic is documented as non-authoritative and non-duplicative.
+7. PR URL + branch name are provided and accessible for review.
 
 ## Output Required From Implementer
 1. changed files + commit SHA(s)
@@ -54,3 +56,4 @@ The task is complete only when:
 4. blockers
 5. risks
 6. docs mismatch (if any)
+7. PR URL and branch name
