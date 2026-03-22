@@ -42,6 +42,7 @@ Task is complete only when:
 2. route contract holds (`/login`, `/onboarding`, `/dashboard` based on state),
 3. redirect logic is server-authoritative,
 4. PR includes route verification evidence and command outputs.
+5. multi-org fallback selection is deterministic when current-org cookie is absent.
 
 ## Output Required From Implementer
 1. changed files + commit SHA(s)
@@ -50,3 +51,4 @@ Task is complete only when:
 4. blockers
 5. risks
 6. PR URL + branch name
+7. deterministic multi-org fallback verification note

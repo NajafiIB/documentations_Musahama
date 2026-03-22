@@ -18,6 +18,7 @@ Submit merge-grade evidence for TASK-2026-001-01 and harden the remaining identi
 ## Read First
 - `reviews/REV-2026-03-21-aistudio-workspace-bootstrap-validation.md`
 - `reviews/REV-2026-03-22-followup-evidence-assessment.md`
+- `reviews/REV-2026-03-22-deterministic-multi-org-fallback-note.md`
 - `tasks/TASK-2026-001-01-workspace-bootstrap-contract.md`
 - `implementation-guides/IMP-2026-001-workspace-bootstrap-boundary-alignment.md`
 - `docs/feature-system/implementation-rules.md`
@@ -48,6 +49,7 @@ The task is complete only when:
 5. Middleware imports remain edge-safe and documented.
 6. Any client fallback logic is documented as non-authoritative and non-duplicative.
 7. PR URL + branch name are provided and accessible for review.
+8. Deterministic active-membership ordering is proven in diff for multi-org fallback path.
 
 ## Output Required From Implementer
 1. changed files + commit SHA(s)
@@ -57,6 +59,7 @@ The task is complete only when:
 5. risks
 6. docs mismatch (if any)
 7. PR URL and branch name
+8. proof snippet for deterministic membership ordering
 
 
 ## Blocker

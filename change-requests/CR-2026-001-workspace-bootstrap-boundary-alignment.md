@@ -11,7 +11,7 @@ Last Updated: 2026-03-22
 Related GitHub Issue: TBD  
 Related Implementation Guide: implementation-guides/IMP-2026-001-workspace-bootstrap-boundary-alignment.md  
 Related Tasks: tasks/TASK-2026-001-01-workspace-bootstrap-contract.md; tasks/TASK-2026-001-02-verify-and-harden-bootstrap-implementation.md; tasks/TASK-2026-001-03-export-and-submit-pr-evidence.md  
-Related Review: reviews/REV-2026-03-20-implementation-musahoma-intake.md; reviews/REV-2026-03-21-aistudio-workspace-bootstrap-validation.md; reviews/REV-2026-03-21-github-verification-of-aistudio-report.md; reviews/REV-2026-03-22-followup-evidence-assessment.md  
+Related Review: reviews/REV-2026-03-20-implementation-musahoma-intake.md; reviews/REV-2026-03-21-aistudio-workspace-bootstrap-validation.md; reviews/REV-2026-03-21-github-verification-of-aistudio-report.md; reviews/REV-2026-03-22-followup-evidence-assessment.md; reviews/REV-2026-03-22-deterministic-multi-org-fallback-note.md  
 Target Repo: NajafiIB/Implementation_Musahama
 
 ## Summary
@@ -44,6 +44,7 @@ Roles: all authenticated roles
 - Do not move capability decisions into page components.
 - Do not add direct DB queries to pages/components.
 - Keep RLS/security assumptions intact.
+- Ensure deterministic active-membership ordering for multi-org fallback selection.
 
 ## Acceptance Criteria
 1. Workspace bootstrap data contract is defined and used consistently.
@@ -51,6 +52,7 @@ Roles: all authenticated roles
 3. Route guard behavior references canonical module/access contract rather than duplicated hardcoded lists.
 4. Research page remains module UI only; no architecture logic duplicated there.
 5. Docs and implementation guidance remain aligned.
+6. Multi-org fallback org selection is deterministic (stable ordering + documented rule).
 
 ## Risks
 - Refactor may temporarily affect redirect behavior.
