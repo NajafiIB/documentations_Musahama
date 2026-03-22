@@ -1,7 +1,7 @@
 # TASK-2026-003-01
 
 Title: Implement route-availability gating for sidebar and direct workspace routing  
-Status: queued  
+Status: in_progress  
 Parent Change Request: CR-2026-003  
 Parent Implementation Guide: IMP-2026-003  
 Owner: Platform Architect  
@@ -17,6 +17,7 @@ Remove 404 navigation by exposing only implemented module routes and guarding di
 
 ## Read First
 - `reviews/REV-2026-03-22-404-navigation-intake.md`
+- `reviews/REV-2026-03-22-route-availability-result-review.md`
 - `change-requests/CR-2026-003-route-availability-404-hardening.md`
 - `implementation-guides/IMP-2026-003-route-availability-404-hardening.md`
 - `docs/frontend/frontend-foundation.md`
