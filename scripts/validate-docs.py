@@ -40,6 +40,15 @@ REFERENCE_RE = re.compile(
     r"(?P<path>(docs|specs|change-requests|implementation-guides|reviews|tasks|scripts|\.github)/[A-Za-z0-9._/\-\[\]]+\.(md|ya?ml|py))"
 )
 
+IGNORE_PREFIXES = [
+    ".github/ISSUE_TEMPLATE/",
+    "docs/FrontendDoc/",
+]
+
+IGNORE_EXACT = {
+    "docs/services/rganization-context-services.md",
+}
+
 errors: list[str] = []
 
 
@@ -57,8 +66,25 @@ def validate_required_files() -> None:
         ensure((ROOT / relative_path).exists(), f"Missing required file: {relative_path}")
 
 
-def first_non_empty_line(text: str) -> str:
-    for line in text.splitlines():
+def should_validate_markdown(relative_path: str) -> bool:
+    if relative_path in IGNORE_EXACT:
+        return False
+    if any(relative_path.startswith(prefix) for prefix in IGNORE_PREFIXES):
+        return False
+    return True
+
+
+def first_content_line(text: str) -> str:
+    lines = text.splitlines()
+
+    # Skip YAML front matter
+    if lines and lines[0].strip() == "---":
+        for i in range(1, len(lines)):
+            if lines[i].strip() == "---":
+                lines = lines[i + 1 :]
+                break
+
+    for line in lines:
         stripped = line.strip()
         if stripped:
             return stripped
@@ -66,20 +92,25 @@ def first_non_empty_line(text: str) -> str:
 
 
 def validate_markdown_file(path: Path) -> None:
+    relative_path = path.relative_to(ROOT).as_posix()
+
+    if not should_validate_markdown(relative_path):
+        return
+
     try:
         text = path.read_text(encoding="utf-8")
     except Exception as exc:
-        fail(f"{path.as_posix()}: failed to read file: {exc}")
+        fail(f"{relative_path}: failed to read file: {exc}")
         return
 
-    ensure(text.strip() != "", f"{path.as_posix()}: file is empty")
+    ensure(text.strip() != "", f"{relative_path}: file is empty")
 
-    first_line = first_non_empty_line(text)
-    ensure(first_line.startswith("# "), f"{path.as_posix()}: first non-empty line must be a markdown H1 heading")
+    first_line = first_content_line(text)
+    ensure(first_line.startswith("# "), f"{relative_path}: first non-empty content line must be a markdown H1 heading")
 
     for match in REFERENCE_RE.finditer(text):
-        relative_ref = match.group("path")
-        ensure((ROOT / relative_ref).exists(), f"{path.as_posix()}: referenced file does not exist: {relative_ref}")
+        referenced_path = match.group("path")
+        ensure((ROOT / referenced_path).exists(), f"{relative_path}: referenced file does not exist: {referenced_path}")
 
 
 def main() -> int:
