@@ -2,6 +2,7 @@
 
 Title: Fix sign-in post-login routing to canonical org bootstrap behavior  
 Status: in_review  
+Status: draft  
 Priority: P1  
 Type: bug  
 Owner: Platform Architect  
@@ -12,6 +13,12 @@ Related GitHub Issue: https://github.com/NajafiIB/documentations_Musahama/issues
 Related Implementation Guide: implementation-guides/IMP-2026-002-signin-routing-canonical-bootstrap.md  
 Related Tasks: tasks/TASK-2026-002-01-fix-post-login-routing.md; tasks/TASK-2026-002-02-harden-forgot-reset-password-flow.md; tasks/TASK-2026-002-03-signup-existing-user-message.md  
 Related Review: reviews/REV-2026-03-21-issue-11-signin-routing-intake.md; reviews/REV-2026-03-23-forgot-password-flow-audit.md; reviews/REV-2026-03-23-forgot-password-closure-recheck.md; reviews/REV-2026-03-23-signup-existing-user-message-audit.md  
+Last Updated: 2026-03-21
+
+Related GitHub Issue: https://github.com/NajafiIB/documentations_Musahama/issues/11  
+Related Implementation Guide: implementation-guides/IMP-2026-002-signin-routing-canonical-bootstrap.md  
+Related Tasks: tasks/TASK-2026-002-01-fix-post-login-routing.md  
+Related Review: reviews/REV-2026-03-21-issue-11-signin-routing-intake.md  
 Target Repo: NajafiIB/Implementation_Musahama
 
 ## Summary

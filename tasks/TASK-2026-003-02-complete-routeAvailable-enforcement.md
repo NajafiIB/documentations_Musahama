@@ -20,7 +20,6 @@ Finish 404 hardening by introducing explicit `routeAvailable` metadata in module
 - `reviews/REV-2026-03-22-task-003-02-compliance-check.md`
 - `reviews/REV-2026-03-22-live-code-gap-audit.md`
 - `reviews/REV-2026-03-23-live-verification-check.md`
-- `reviews/REV-2026-03-23-latest-implementation-recheck.md`
 - `reviews/REV-2026-03-23-closure-evidence-recheck.md`
 - `tasks/TASK-2026-003-01-route-availability-gating.md`
 - `implementation-guides/IMP-2026-003-route-availability-404-hardening.md`
@@ -56,4 +55,4 @@ Task is complete only when:
 
 
 ## Blocker
-Current implementation evidence still misses routeAvailable enforcement in sidebar and lacks fully auditable PR/compare URL links.
+Current implementation evidence still misses routeAvailable enforcement in sidebar and middleware direct-hit guard behavior, and lacks auditable PR/compare URL links.

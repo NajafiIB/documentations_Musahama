@@ -18,7 +18,6 @@ Ensure forgot/reset password flow is deterministic and user-safe across link val
 ## Read First
 - `reviews/REV-2026-03-23-forgot-password-flow-audit.md`
 - `reviews/REV-2026-03-23-forgot-password-closure-recheck.md`
-- `reviews/REV-2026-03-23-latest-implementation-recheck.md`
 - `change-requests/CR-2026-002-signin-routing-canonical-bootstrap.md`
 - `implementation-guides/IMP-2026-002-signin-routing-canonical-bootstrap.md`
 - `docs/auth/routes.md`
@@ -53,4 +52,4 @@ Task is complete only when:
 
 
 ## Blocker
-Live code still needs explicit recovery-session validation UX before password update, plus auditable PR evidence.
+Live code still misses explicit `/reset-password` public-path declaration and explicit recovery-session validation UX before password update.
