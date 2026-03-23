@@ -1,11 +1,18 @@
 # CR-2026-002
 
 Title: Fix sign-in post-login routing to canonical org bootstrap behavior  
+Status: in_review  
 Status: draft  
 Priority: P1  
 Type: bug  
 Owner: Platform Architect  
 Requested By: Issue #11 intake  
+Last Updated: 2026-03-23
+
+Related GitHub Issue: https://github.com/NajafiIB/documentations_Musahama/issues/11  
+Related Implementation Guide: implementation-guides/IMP-2026-002-signin-routing-canonical-bootstrap.md  
+Related Tasks: tasks/TASK-2026-002-01-fix-post-login-routing.md; tasks/TASK-2026-002-02-harden-forgot-reset-password-flow.md; tasks/TASK-2026-002-03-signup-existing-user-message.md  
+Related Review: reviews/REV-2026-03-21-issue-11-signin-routing-intake.md; reviews/REV-2026-03-23-forgot-password-flow-audit.md; reviews/REV-2026-03-23-forgot-password-closure-recheck.md; reviews/REV-2026-03-23-signup-existing-user-message-audit.md  
 Last Updated: 2026-03-21
 
 Related GitHub Issue: https://github.com/NajafiIB/documentations_Musahama/issues/11  
@@ -48,6 +55,8 @@ Routing decision must consume canonical auth + org context services, not mock UI
 2. Redirect outcomes strictly follow session/org context contract.
 3. Middleware and/or server layout enforce deterministic behavior.
 4. Evidence includes diff, test/build outputs, and route verification steps.
+5. Forgot/reset password recovery path is deterministic and user-safe.
+6. Signup existing-user messaging is accurate and non-misleading.
 
 ## Risks
 - Regression risk around multi-organization selection path.

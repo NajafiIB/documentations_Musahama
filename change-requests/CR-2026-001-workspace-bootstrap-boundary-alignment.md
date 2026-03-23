@@ -44,6 +44,7 @@ Roles: all authenticated roles
 - Do not move capability decisions into page components.
 - Do not add direct DB queries to pages/components.
 - Keep RLS/security assumptions intact.
+- Ensure deterministic active-membership ordering for multi-org fallback selection.
 
 ## Acceptance Criteria
 1. Workspace bootstrap data contract is defined and used consistently.
@@ -51,6 +52,7 @@ Roles: all authenticated roles
 3. Route guard behavior references canonical module/access contract rather than duplicated hardcoded lists.
 4. Research page remains module UI only; no architecture logic duplicated there.
 5. Docs and implementation guidance remain aligned.
+6. Multi-org fallback org selection is deterministic (stable ordering + documented rule).
 
 ## Risks
 - Refactor may temporarily affect redirect behavior.
