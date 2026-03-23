@@ -7,9 +7,9 @@ Owner: Platform Architect
 Prepared For: AI Studio  
 Target Repo: NajafiIB/Implementation_Musahama  
 Target Branch: main (or feature branch from main)  
-Last Updated: 2026-03-22
+Last Updated: 2026-03-21
 
-Related Review: reviews/REV-2026-03-20-implementation-musahoma-intake.md; reviews/REV-2026-03-21-aistudio-workspace-bootstrap-validation.md; reviews/REV-2026-03-21-github-verification-of-aistudio-report.md; reviews/REV-2026-03-22-followup-evidence-assessment.md; reviews/REV-2026-03-22-deterministic-multi-org-fallback-note.md  
+Related Review: reviews/REV-2026-03-20-implementation-musahoma-intake.md; reviews/REV-2026-03-21-aistudio-workspace-bootstrap-validation.md; reviews/REV-2026-03-21-github-verification-of-aistudio-report.md  
 Related Tasks: tasks/TASK-2026-001-01-workspace-bootstrap-contract.md; tasks/TASK-2026-001-02-verify-and-harden-bootstrap-implementation.md; tasks/TASK-2026-001-03-export-and-submit-pr-evidence.md  
 Related PRs: TBD
 
@@ -54,7 +54,6 @@ In implementation repo only:
 
 ## Target Design
 - One server-side bootstrap DTO with: user/session, org, membership state, role, enabled module keys, enabled feature keys/entitlements.
-- Multi-org fallback selection must use deterministic active-membership ordering (stable query ordering + explicit selection rule).
 - Shell and route handling consume this DTO-derived resolver output.
 - No duplicated hardcoded module visibility maps.
 
@@ -71,7 +70,6 @@ In implementation repo only:
 - No hardcoded duplicate permission logic remains in shell/page layer.
 - Redirect behavior remains deterministic and safe.
 - No source-of-truth drift introduced.
-- Multi-org fallback org selection is deterministic across requests when current-org cookie is absent.
 
 
 ## Evidence Gate (Required Before Marking Done)

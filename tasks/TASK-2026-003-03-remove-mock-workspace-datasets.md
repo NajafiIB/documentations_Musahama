@@ -1,7 +1,7 @@
 # TASK-2026-003-03
 
 Title: Remove remaining mock datasets from workspace pages and replace with service-backed empty states  
-Status: in_progress  
+Status: queued  
 Parent Change Request: CR-2026-003  
 Parent Implementation Guide: IMP-2026-003  
 Owner: Platform Architect  
@@ -17,7 +17,6 @@ Eliminate hardcoded mock arrays from dashboard/research/companies workspace page
 
 ## Read First
 - `reviews/REV-2026-03-22-live-code-gap-audit.md`
-- `reviews/REV-2026-03-23-live-verification-check.md`
 - `implementation-guides/IMP-2026-003-route-availability-404-hardening.md`
 - `docs/services/implementation-rules.md`
 - `docs/frontend/frontend-foundation.md`
