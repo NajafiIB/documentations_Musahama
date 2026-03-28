@@ -1,8 +1,8 @@
 # Frontend Foundation
 
 Owner: Platform Architect
-Last Updated: 2026-03-18
-Version: 1.0
+Last Updated: 2026-03-28
+Version: 1.1
 Status: Approved
 
 ---
@@ -69,7 +69,6 @@ The shell must not disappear or change shape page by page.
 
 The only official top-level modules are:
 - dashboard
-- crm_opportunities
 - mandates
 - research
 - results
@@ -86,7 +85,11 @@ The following are not top-level modules:
 - shortlist
 - dossiers
 - CRM sync
+- CRM opportunities import
 - analytics
+
+CRM opportunity loading and linking must appear as a mandate-level action, drawer, or button.
+It must not appear as a dedicated top-level tab.
 
 These must appear as:
 - embedded views

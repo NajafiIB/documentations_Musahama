@@ -1,8 +1,8 @@
 # Source of Truth Rules
 
 Owner: Platform Architect
-Last Updated: 2026-03-18
-Version: 1.0
+Last Updated: 2026-03-28
+Version: 1.1
 Status: Approved
 
 ---
@@ -41,8 +41,8 @@ Do not treat legacy JSON fields in `research_results` as the final analysis mode
 
 ### Workflow state
 Use:
-- crm_opportunities
 - mandates
+- mandate_crm_links
 - mandate_files
 - research
 - strategies
@@ -50,6 +50,14 @@ Use:
 - research_constraints
 
 Use these for execution state and process tracking.
+
+### External CRM opportunity data
+Do not persist external CRM opportunities as canonical internal records.
+
+If an opportunity title, description, or mapped values are imported from an external CRM, those values become part of the mandate workflow state.
+They do not create a separate internal `crm_opportunities` source-of-truth table.
+
+Use `mandate_crm_links` only to store the relationship between an internal mandate and the external CRM entity identifier/provider reference.
 
 ---
 
@@ -61,6 +69,7 @@ If the developer is building:
 - a final dossier/fit/evidence view -> read analysis tables
 - a process dashboard -> read workflow tables
 - a capability/access decision -> read modules/features/entitlements/integrations through services and feature-system
+- a mandate CRM-link action -> read the mandate and its `mandate_crm_links` record, not a cached internal CRM opportunity object
 
 ---
 
@@ -72,3 +81,5 @@ No final page should depend primarily on:
 - research_results.lmc_fit
 - research_results.dossier
 - research_results.evidence
+
+Do not introduce a separate internal `crm_opportunities` workflow table as a substitute for external CRM linking.

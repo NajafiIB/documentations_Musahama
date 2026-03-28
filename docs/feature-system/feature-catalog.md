@@ -1,14 +1,8 @@
-
----
-
-## `docs/feature-system/feature-catalog.md`
-
-```md
 # Feature Catalog
 
 Owner: Platform Architect
-Last Updated: 2026-03-18
-Version: 1.0
+Last Updated: 2026-03-28
+Version: 1.1
 Status: Approved
 
 ---
@@ -29,14 +23,12 @@ Feature keys must be capability-first.
 ### Correct examples
 - research.start
 - research.generate_strategies
-- research.background_processing
 - results.export.csv
 - results.export.dossier
-- results.shortlist
 - contacts.enrich_person
 - companies.find_similar
-- crm.sync.import
-- crm.sync.export
+- mandates.link_crm_entity
+- mandates.import_crm_fields
 - billing.manage_subscription
 
 ### Incorrect examples
@@ -44,6 +36,7 @@ Feature keys must be capability-first.
 - research.generate_strategies_openai
 - openai.strategy_button
 - lusha.enrich_contact
+- salesforce.opportunity_tab
 
 Provider names belong only in:
 - provider catalogs
@@ -79,7 +72,7 @@ Capabilities that require external providers.
 
 Examples:
 - contacts.enrich_person
-- crm.sync.import
+- mandates.import_crm_fields
 - companies.search_external_source
 
 ---
@@ -93,7 +86,8 @@ Examples:
 - results.export.dossier -> results
 - results.shortlist -> results
 - contacts.enrich_person -> contacts
-- crm.sync.import -> crm_opportunities
+- mandates.link_crm_entity -> mandates
+- mandates.import_crm_fields -> mandates
 - billing.manage_subscription -> billing
 
 A feature may depend on another module being enabled, but its primary home must still be explicit.
@@ -137,6 +131,11 @@ Examples:
 
 ## 7. Baseline Example Catalog
 
+### mandates
+- mandates.link_crm_entity
+- mandates.import_crm_fields
+- mandates.view_crm_source_values
+
 ### research
 - research.start
 - research.generate_strategies
@@ -160,10 +159,6 @@ Examples:
 - contacts.enrich_person
 - contacts.export.contact
 
-### crm_opportunities
-- crm.sync.import
-- crm.sync.export
-
 ### billing
 - billing.manage_subscription
 - billing.view_credit_usage
@@ -174,3 +169,6 @@ Examples:
 
 Do not create product structure from provider names.
 The user should see capability-driven actions, not vendor-driven actions.
+
+CRM opportunity loading is a capability inside Mandates.
+It is not a standalone top-level module.
