@@ -101,7 +101,6 @@ Keep these distinctions clean.
 These are the only official top-level modules:
 
 - dashboard
-- crm_opportunities
 - mandates
 - research
 - results
@@ -117,6 +116,7 @@ These are **not** top-level modules:
 - shortlist
 - dossiers
 - CRM sync
+- CRM opportunities import
 - analytics
 
 Those belong as:
@@ -210,7 +210,7 @@ App Router structure, workspace shell, navigation rendering, view framework, pag
 
 docs/workflows/
 
-CRM opportunity → mandate → research → results → canonical promotion flow.
+External CRM opportunity link/import → mandate → research → results → canonical promotion flow.
 
 docs/dev-guides/
 
@@ -245,9 +245,9 @@ Workflow tables
 
 Use these for orchestration and process state:
 
-crm_opportunities
-
 mandates
+
+mandate_crm_links
 
 mandate_files
 
