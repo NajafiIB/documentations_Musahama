@@ -1,115 +1,74 @@
 # Services Foundation
 
-Owner: Platform Architect
-Last Updated: 2026-03-18
-Version: 1.0
-Status: Approved
+## Purpose
 
----
+The `src/services/` layer is the backend-facing application layer for Musahama.
 
-## 1. Purpose
+It exists so pages and UI components do not scatter direct Supabase access across the codebase.
 
-Define the official responsibility of the `services/` layer in the Musahama platform.
+## Core Rule
 
-This document is the source of truth for:
-- what belongs in services
-- what must not belong in services
-- how services interact with feature-system, pages, and views
-- how data should be fetched and mutated
-- where server-only logic belongs
-
----
-
-## 2. Core Rule
-
-Pages must not scatter direct Supabase queries.
+If code assembles or mutates domain data, it belongs in `src/services/` or a clearly platform-scoped server helper.
 
 Use:
-- `services/` for data access and mutations
-- `feature-system/` for capability/runtime access truth
-- `features/` for UI/domain rendering
-- `views/` for reusable layout/view primitives
 
----
+- `src/services/` for data access and mutations
+- `src/platform/` for shared platform orchestration
+- `src/platform/modules/` for module registry and summaries
+- `src/modules/` for module manifests and module-owned UI composition
 
-## 3. Services Layer Responsibility
+## What Services Own
 
-`services/` owns:
-- data fetching
-- mutations
-- query composition
-- write helpers
-- typed data contracts
-- server-side data assembly
-- normalized DTO shaping
-- audit field application
-- secure backend/Supabase access boundaries
+Services own:
 
----
+- Supabase queries and writes
+- DTO shaping
+- server-only data assembly
+- normalized read models
+- mutation helpers
+- shared domain helpers
 
-## 4. Services Layer Does Not Own
+## What Services Do Not Own
 
-`services/` does not own:
-- sidebar/module visibility decisions
-- feature enablement truth
-- page layout composition
-- ad hoc UI button visibility rules
-- provider-first product structure
-- final database security enforcement
+Services do not own:
+
+- sidebar rendering
+- active-nav decisions
+- entitlement presentation rules
+- page composition
+- final database enforcement
 
 Those belong to:
-- `feature-system/`
-- `features/`
-- `views/`
+
+- module registry and shell code
+- UI components
+- feature-system or platform orchestration
 - RLS
 
----
+## Current Service Domains
 
-## 5. Relationship to Other Layers
+Major current domains include:
 
-### feature-system/
-Owns:
-- module visibility
-- feature availability
-- provider requirement resolution
-- capability reason codes
+- `auth`
+- `billing`
+- `companies`
+- `contacts`
+- `integrations`
+- `notifications`
+- `organizations`
+- `research`
+- `results`
+- `supabase`
 
-### features/
-Owns:
-- domain UI
-- forms
-- components
-- visual behavior
+Cross-module orchestration that is not tied to one domain increasingly lives under:
 
-### pages/routes
-Own:
-- route params
-- layout composition
-- choosing what view to render
+- `src/platform/`
 
-### services/
-Own:
-- all meaningful backend/Supabase reads and writes
-- shaping domain-safe return objects
-- secure server-side data assembly
+## Developer Rule
 
----
+When adding new functionality:
 
-## 6. Non-Negotiable Rules
-
-1. No ad hoc Supabase queries inside page components
-2. No direct page-level writes to organization-owned tables
-3. No raw secret exposure in client-readable service responses
-4. No capability/entitlement truth hardcoded in services as a UI substitute
-5. No final UI built around transitional blobs in `research_results`
-6. No mutation path that depends on forms remembering ownership fields manually
-
----
-
-## 7. Final Mental Model
-
-- if code fetches or mutates domain data -> `services/`
-- if code decides whether a capability is available -> `feature-system/`
-- if code renders how a module looks -> `features/`
-- if code renders reusable layouts -> `views/`
-- if code protects rows -> RLS
+1. place raw reads and writes in a service or platform server helper
+2. shape a stable return object for UI consumers
+3. keep page components focused on composition, not data plumbing
+4. avoid `as any` query shortcuts when the contract can be typed cleanly

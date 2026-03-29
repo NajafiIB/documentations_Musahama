@@ -1,85 +1,65 @@
 # Source of Truth Rules
 
-Owner: Platform Architect
-Last Updated: 2026-03-28
-Version: 1.1
-Status: Approved
+## Core Rule
 
----
+Not every workflow table is the final source of truth for final UI or downstream reuse.
 
-## 1. Purpose
+The current platform distinguishes between:
 
-Stop developers from reading the wrong table or building pages on transitional fields.
+- shared durable entities
+- module-scoped runtime state
+- bridge workflow state
+- transitional or generated artifacts
 
----
+## Shared Durable Sources
 
-## 2. Final Sources of Truth
+Use these as final long-lived read models where appropriate:
 
-### Companies
+- `companies`
+- `contacts`
+- `contact_emails`
+- `contact_phones`
+- `evidence`
+- `psych_profiles`
+- `lmc_fits`
+- `dossiers`
+
+## Runtime Sources
+
+Use the shared runtime plane for cross-module execution state:
+
+- `module_cases`
+- `module_runs`
+- `module_run_steps`
+- `module_artifacts`
+- `module_action_requests`
+- `module_action_executions`
+
+## Origination Bridge Rule
+
+The origination flow still uses:
+
+- `mandates`
+- `mandate_crm_links`
+- `research`
+- `strategies`
+- `research_results`
+- `research_run_logs`
+
+Those remain operationally important, but they should not automatically be treated as the final source of truth for all downstream UI.
+
+## External CRM Link Rule
+
+External CRM opportunity data should remain an external-link concern, not a new internal canonical entity layer.
+
 Use:
-- companies
-- company_domains
 
-Do not treat result JSON blobs as the final company record.
+- `mandate_crm_links`
 
-### Contacts
-Use:
-- contacts
-- contact_emails
-- contact_phones
+for linkage to external CRM objects where applicable.
 
-Do not treat workflow result blobs as the final contact record.
+## Transitional Fields
 
-### Analysis
-Use:
-- evidence
-- psych_profiles
-- lmc_fits
-- dossiers
+Generated or transitional payload fields should be treated carefully.
 
-Do not treat legacy JSON fields in `research_results` as the final analysis model.
-
-### Workflow state
-Use:
-- mandates
-- mandate_crm_links
-- mandate_files
-- research
-- strategies
-- research_results
-- research_constraints
-
-Use these for execution state and process tracking.
-
-### External CRM opportunity data
-Do not persist external CRM opportunities as canonical internal records.
-
-If an opportunity title, description, or mapped values are imported from an external CRM, those values become part of the mandate workflow state.
-They do not create a separate internal `crm_opportunities` source-of-truth table.
-
-Use `mandate_crm_links` only to store the relationship between an internal mandate and the external CRM entity identifier/provider reference.
-
----
-
-## 3. Practical Rule
-
-If the developer is building:
-- a final company view -> read canonical company tables
-- a final contact view -> read canonical contact tables
-- a final dossier/fit/evidence view -> read analysis tables
-- a process dashboard -> read workflow tables
-- a capability/access decision -> read modules/features/entitlements/integrations through services and feature-system
-- a mandate CRM-link action -> read the mandate and its `mandate_crm_links` record, not a cached internal CRM opportunity object
-
----
-
-## 4. Hard Rule
-
-No final page should depend primarily on:
-- research_results.company_profile
-- research_results.psych_profile
-- research_results.lmc_fit
-- research_results.dossier
-- research_results.evidence
-
-Do not introduce a separate internal `crm_opportunities` workflow table as a substitute for external CRM linking.
+That includes older result-linked generated content and newly added result-level operational enrichments until they are promoted into shared durable records or formal artifacts.

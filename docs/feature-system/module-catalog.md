@@ -1,209 +1,110 @@
 # Module Catalog
 
-Owner: Platform Architect
-Last Updated: 2026-03-18
-Version: 1.0
-Status: Approved
+## Purpose
 
----
+This document describes the current canonical module catalog for Musahama.
 
-## 1. Purpose
+It must match the implementation registry in:
 
-Define the official top-level module catalog.
+- `src/platform/modules/registry.ts`
+- `src/platform/modules/utility-manifests.ts`
+- `src/modules/*/manifest.ts`
 
-Modules are the only valid top-level navigation and page areas.
+## Official Navigable Modules
 
----
+### Platform
 
-## 2. Canonical Module Keys
+- `dashboard` -> `/dashboard`
+- `approvals` -> `/approvals`
+- `activity` -> `/activity`
 
-The only official top-level modules are:
+### Solutions
 
-- dashboard
-- crm_opportunities
-- mandates
-- research
-- results
-- companies
-- contacts
-- integrations
-- billing
-- settings
+- `origination_match` -> `/origination-match`
+- `partner_match` -> `/partner-match`
+- `negotiator` -> `/negotiator`
+- `compliance_guardian` -> `/compliance-guardian`
+- `funding_orchestrator` -> `/funding-orchestrator`
 
-These keys must be used consistently in:
-- module catalog
-- module resolver
-- organization_modules
-- role rules
-- sidebar rendering
-- route/module mapping
-- seed data
-- tests
+### Shared Data
 
----
+- `companies` -> `/companies`
+- `contacts` -> `/contacts`
+- `integrations` -> `/integrations`
+- `data_packs` -> `/data-packs`
 
-## 3. Route Mapping
+### Admin
 
-Use this mapping consistently:
+- `billing` -> `/billing`
+- `settings` -> `/settings`
 
-- dashboard -> /dashboard
-- crm_opportunities -> /crm-opportunities
-- mandates -> /mandates
-- research -> /research
-- results -> /results
-- companies -> /companies
-- contacts -> /contacts
-- integrations -> /integrations
-- billing -> /billing
-- settings -> /settings
+## Hidden Legacy Compatibility Modules
 
-Database names do not need to match route names exactly.
+These remain in the catalog for compatibility and gating, but not primary navigation:
 
-Example:
-- module key = results
-- route = /results
-- workflow table = research_results
+- `crm_opportunities` -> `/crm-opportunities`
+- `mandates` -> `/mandates`
+- `research` -> `/research`
+- `results` -> `/results`
 
----
+`crm_opportunities` is currently a hidden legacy catalog entry rather than an active workspace route.
 
-## 4. What Is Not a Module
+## Legacy Alias Rule
 
-The following are not top-level modules:
+`Origination Match` owns these legacy aliases:
+
+- `/mandates`
+- `/research`
+- `/results`
+
+That means the user is still considered inside the `Origination Match` solution area when browsing those routes.
+
+## Default Enablement
+
+Currently default-enabled for organizations:
+
+- `dashboard`
+- `approvals`
+- `activity`
+- `origination_match`
+- `companies`
+- `contacts`
+- `integrations`
+- `data_packs`
+- `billing`
+- `settings`
+
+Currently not default-enabled:
+
+- `partner_match`
+- `negotiator`
+- `compliance_guardian`
+- `funding_orchestrator`
+
+## What Is Not a Module
+
+These are not top-level modules:
 
 - discovery
 - shortlist
 - dossiers
-- CRM sync
-- analytics
+- one-pagers
+- CRM sync as a product area
+- dataset releases
 
-These must be modeled as one of:
+Those should remain:
+
 - features
-- embedded views
+- artifacts
+- subviews
 - actions
-- export actions
-- secondary tabs
-- widgets
-- internal workflow states
+- outputs
 
-### Examples
-- shortlist -> results feature or results subview
-- dossiers -> results detail section + export feature
-- CRM sync -> CRM/results feature
-- analytics -> dashboard widget or future add-on only if promoted later
-- discovery -> internal workflow stage under research/results
+## Rule
 
----
+Any change to the module list must be updated in:
 
-## 5. Module Purpose Baseline
-
-### dashboard
-Workspace landing area and summary surface.
-
-### crm_opportunities
-Opportunity archive and CRM-origin workflow entry.
-
-### mandates
-Mandate archive and mandate detail.
-
-### research
-Research archive and research detail.
-
-### results
-Research results archive and result detail inspector.
-
-### companies
-Canonical company archive and detail.
-
-### contacts
-Canonical contact archive and detail.
-
-### integrations
-Provider configuration and connection health.
-
-### billing
-Subscription, credits, and billing controls.
-
-### settings
-Organization and personal settings surfaces.
-
----
-
-## 6. Module Visibility Rule
-
-A module is visible only if all are true:
-
-1. user is authenticated
-2. current organization is resolved
-3. membership is active
-4. organization is active
-5. module exists in catalog
-6. module is enabled for the organization
-7. role is allowed for the module
-
----
-
-## 7. Baseline Visibility by Role Group
-
-### visible to workflow roles
-- dashboard
-- crm_opportunities
-- mandates
-- research
-- results
-- companies
-- contacts
-
-### visible to platform operator roles
-- integrations
-- billing
-
-### settings
-Subsection-based access.
-Do not treat settings as a single flat permission.
-
----
-
-## 8. Suggested Module Catalog Shape
-
-A catalog entry should contain at least:
-
-- key
-- route
-- label
-- icon
-- category
-- isCore
-- defaultEnabled
-- allowedRoles
-- requiredEntitlementKey (optional)
-
----
-
-## 9. Required Runtime Contract
-
-The module resolver should return something like:
-
-```ts
-type ModuleStateReason =
-  | "ok"
-  | "not_authenticated"
-  | "no_active_org"
-  | "not_member"
-  | "inactive_membership"
-  | "missing_role"
-  | "missing_module"
-  | "module_disabled"
-
-type ModuleState = {
-  key: string
-  visible: boolean
-  enabled: boolean
-  reason: ModuleStateReason
-}
----
-
-##10. Hard Rule
-
-Sidebar rendering must always come from resolved module state.
-Never from a hardcoded tab list
-
+- docs
+- specs
+- the shared module registry
+- the workspace shell

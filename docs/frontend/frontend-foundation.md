@@ -1,210 +1,132 @@
 # Frontend Foundation
 
-Owner: Platform Architect
-Last Updated: 2026-03-28
-Version: 1.1
-Status: Approved
+## Purpose
 
----
+This document defines the current frontend architecture of the Musahama platform.
 
-## 1. Purpose
+It is centered on the live unified workspace model, not the older workflow-first navigation.
 
-Define the official frontend architecture for the Musahama platform.
+## Core Rules
 
-This document is the source of truth for:
-- frontend structure
-- shell behavior
-- route model
-- UI ownership boundaries
-- page composition rules
-- view framework expectations
+The frontend is built around:
 
----
-
-## 2. Core Rule
-
-The frontend is a stable workspace system, not a collection of unrelated pages.
-
-The frontend must be built around:
-- one permanent shell
-- one canonical module list
-- one reusable view framework
-- one runtime capability layer
+- one permanent workspace shell
+- one canonical module registry
+- one grouped navigation model
+- one shared UI primitive system
 - one disciplined service boundary
 
----
+## Current Workspace Areas
 
-## 3. Approved Frontend Stack
+The official top-level areas are:
 
-Use:
-- Next.js App Router
-- shadcn/ui
-- Tailwind CSS
-- TanStack Table
-- React Hook Form
-- Zod
-- Recharts
-- Lucide Icons
-- Zustand or React Context
+- `dashboard`
+- `approvals`
+- `activity`
+- `origination_match`
+- `partner_match`
+- `negotiator`
+- `compliance_guardian`
+- `funding_orchestrator`
+- `companies`
+- `contacts`
+- `integrations`
+- `data_packs`
+- `billing`
+- `settings`
 
-shadcn/ui is the design system base.
-A custom internal view framework sits on top.
+Legacy visible routes still exist for compatibility:
 
----
+- `/mandates`
+- `/research`
+- `/results`
 
-## 4. Permanent Shell Rule
+The older `crm_opportunities` concept remains in the legacy catalog, but it is not currently an active workspace route.
 
-The workspace shell is always present once the user is inside the protected app.
+## Ownership Boundaries
 
-The shell contains:
-- Header
-- Sidebar
-- Footer
+### `app/`
 
-The shell must not disappear or change shape page by page.
-
----
-
-## 5. Canonical Navigation Model
-
-The only official top-level modules are:
-- dashboard
-- mandates
-- research
-- results
-- companies
-- contacts
-- integrations
-- billing
-- settings
-
-These are the only valid top-level sidebar areas.
-
-The following are not top-level modules:
-- discovery
-- shortlist
-- dossiers
-- CRM sync
-- CRM opportunities import
-- analytics
-
-CRM opportunity loading and linking must appear as a mandate-level action, drawer, or button.
-It must not appear as a dedicated top-level tab.
-
-These must appear as:
-- embedded views
-- actions
-- result detail sections
-- exports
-- widgets
-- secondary tabs
-
----
-
-## 6. Ownership Boundary
-
-### app/
 Owns:
+
 - route groups
 - layouts
+- page entrypoints
 - route params
-- page composition entry points
 
-### components/
-Owns:
-- shared generic UI
-- shell primitives
-- navigation primitives
-- chart wrappers
-- feedback components
+### `src/components/`
 
-### design-system/
 Owns:
-- tokens
-- themes
-- guidelines
 
-### feature-system/
-Owns:
-- runtime capability truth
-- module visibility
-- feature availability
-- provider requirement resolution
+- shared UI primitives
+- shell components
+- table/list primitives
+- cross-module presentation pieces
 
-### features/
-Owns:
-- domain/module UI
-- module-specific forms
-- domain-specific views
-- module-specific components
+### `src/platform/`
 
-### views/
 Owns:
-- reusable inline/detail/form view primitives
 
-### services/
+- module registry
+- platform-level dashboards
+- approvals
+- activity
+- data-pack summaries
+- cross-module shell helpers
+
+### `src/modules/`
+
 Owns:
-- data fetching
-- mutations
+
+- solution-module manifests
+- module-specific pages
+- module-specific summary logic
+
+### `src/services/`
+
+Owns:
+
+- data reads and writes
 - DTO shaping
-- Supabase/backend access
+- Supabase access
+- server-only query assembly
 
-### providers/
-Own:
-- top-level context composition
+### `src/hooks/`
 
-### hooks/
-Own:
-- thin reusable hooks
-- organization/session/query/UI hooks
-
-### store/
 Owns:
-- local UI/app-shell state
-- never final security or entitlement truth
 
----
+- thin reusable state helpers
+- persistent UI preferences
+- composable client hooks
 
-## 7. Security and Access Rule
+## Security Rule
 
 The frontend is not the security boundary.
 
-The frontend must consume resolved runtime truth from:
-- auth/session layer
-- organization context services
-- feature-system runtime APIs
+It may hide, disable, or group UI, but real enforcement must still come from:
 
-The frontend must not:
-- invent entitlement rules
-- hardcode role logic throughout components
-- treat hidden navigation as true access control
+- auth/session resolution
+- organization context
+- module enablement
+- entitlement checks
+- RLS
 
----
+## Data Rule
 
-## 8. Source-of-Truth Rule for Final UI
+Final UI should prefer normalized shared entities and runtime tables over ad hoc JSON blobs.
 
-Final UI must read normalized canonical data where applicable.
+Examples:
 
-Use:
-- companies
-- company_domains
-- contacts
-- contact_emails
-- contact_phones
-- evidence
-- psych_profiles
-- lmc_fits
-- dossiers
+- companies and contacts pages should read shared entity shapes
+- approvals should read `module_action_requests`
+- module summaries should read shared runtime state when available
 
-Do not build final UI around transitional `research_results` JSON blobs.
+## Developer Rule
 
----
+When building new frontend functionality:
 
-## 9. Final Mental Model
-
-- shell = stable workspace frame
-- modules = navigation and page areas
-- features = actions and capabilities
-- views = reusable inline/detail/form patterns
-- services = data access
-- feature-system = runtime capability truth
+- add or update a module manifest first if navigation changes
+- keep shared primitives in `src/components/ui`
+- keep cross-module logic in `src/platform`
+- keep module-specific UI in `src/modules` or the route area that owns it
+- do not create a second manual navigation or entitlement system

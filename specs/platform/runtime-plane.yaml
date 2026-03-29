@@ -1,0 +1,29 @@
+schema_version: "1.0"
+last_updated: "2026-03-29"
+owner: "Platform Architect"
+status: "approved"
+
+runtime_vocabulary:
+  case:
+    table: module_cases
+  case_entity:
+    table: module_case_entities
+  run:
+    table: module_runs
+  run_step:
+    table: module_run_steps
+  artifact:
+    table: module_artifacts
+  action_request:
+    table: module_action_requests
+  action_execution:
+    table: module_action_executions
+
+approval_defaults:
+  internal_analysis: autonomous_allowed
+  external_side_effects: approval_required_by_default
+
+references:
+  docs:
+    - docs/platform-runtime/runtime-plane.md
+    - docs/workflows/workflows-foundation.md

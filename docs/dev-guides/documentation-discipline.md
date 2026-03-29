@@ -1,78 +1,67 @@
 # Documentation Discipline
 
-Owner: Platform Architect
-Last Updated: 2026-03-18
-Version: 1.0
-Status: Approved
+## Core Rule
 
----
+The docs must describe the **current implemented platform first**.
 
-## 1. Purpose
+Do not leave the repo in a state where:
 
-Define how the repository documentation stays current and trustworthy.
+- the code says one thing
+- the docs say another
+- developers are expected to infer which one is real
 
----
+## What Must Be Updated Together
 
-## 2. Core Rule
+Update docs and specs whenever you change:
 
-GitHub is the source of truth for platform documentation.
-Conversations are not the source of truth.
-Random notes are not the source of truth.
-Uncommitted local files are not the source of truth.
-
----
-
-## 3. What Must Be Documented
-
-Update docs when changing:
-- auth flow
-- onboarding flow
-- invitation logic
-- role rules
-- module list
-- feature keys
-- service contracts
-- workflow structure
-- database schema assumptions
+- the module catalog
+- navigation groups or route roots
+- runtime-plane tables or meanings
+- dataset/data-pack catalog behavior
 - source-of-truth rules
-- folder boundaries
-- implementation order
+- service boundaries
+- Supabase contract workflow
+- approval-gated action behavior
 
----
+## Required Sync Pattern
 
-## 4. Required Documentation Behavior
+For architecture changes:
 
-- docs live in the repo
-- docs must be updated in the same change when architecture changes
-- docs must reflect real implementation, not aspiration only
-- new developers and AI agents must be able to read docs and understand the system
+1. update implementation
+2. update prose docs in `docs/`
+3. update structured specs in `specs/`
+4. update implementation-repo pointers if needed
 
----
+For database changes:
 
-## 5. Folder Rule
+1. write the migration
+2. apply it to the linked remote
+3. dump `supabase/schema.sql`
+4. regenerate `src/types/database.types.ts`
+5. run validation
 
-The following folders must stay aligned:
+## Current Platform First Rule
 
-- docs/auth/
-- docs/authorization/
-- docs/database/
-- docs/feature-system/
-- docs/services/
-- docs/frontend/
-- docs/workflows/
-- docs/dev-guides/
+When the product is in transition:
 
----
+- document the live bridge state clearly
+- label legacy paths as compatibility surfaces
+- do not present old architecture as if it is still the primary design
 
-## 6. Review Rule
+That rule is especially important for:
 
-Reviewers must ask:
-- is the implementation still aligned with the documented architecture?
-- did the PR update docs where required?
-- is a repo reader still able to understand the system after this change?
+- `crm_opportunities`
+- `mandates`
+- `research`
+- `results`
 
----
+Those remain important, but they are now part of the `Origination Match` bridge story, not the official top-level product map.
 
-## 7. Final Rule
+## Reviewer Checklist
 
-The moment docs and implementation diverge, the team starts accumulating invisible debt.
+Reviewers should ask:
+
+1. does the docs update match the implementation that merged?
+2. do the specs still match the prose docs?
+3. is the current module model obvious to a new engineer?
+4. did the author explain any legacy bridge behavior explicitly?

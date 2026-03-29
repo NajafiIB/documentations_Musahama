@@ -1,0 +1,71 @@
+site_name: Musahama Developer Docs
+site_description: Canonical developer documentation for the Musahama platform.
+site_url: https://najafiib.github.io/documentations_Musahama/
+repo_url: https://github.com/NajafiIB/documentations_Musahama
+repo_name: NajafiIB/documentations_Musahama
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - content.code.copy
+    - search.suggest
+    - search.highlight
+markdown_extensions:
+  - admonition
+  - attr_list
+  - tables
+  - toc:
+      permalink: true
+nav:
+  - Home: index.md
+  - Start Here: dev-guides/start-here.md
+  - Architecture:
+      - Overview: architecture/overview.md
+      - Module Architecture: architecture/module-architecture.md
+  - Auth:
+      - Foundation: auth/auth-foundation.md
+      - Authentication Flow: auth/authentication-flow.md
+      - Invitation System: auth/invitation-system.md
+      - Onboarding: auth/onboarding.md
+      - Route Rules: auth/routes.md
+  - Authorization:
+      - Foundation: authorization/authorization-foundation.md
+      - Module Access Rules: authorization/module-access-rules.md
+      - Route Guarding: authorization/route-guarding.md
+      - Role Model: authorization/role-model.md
+      - Access Matrix: authorization/access-matrix.md
+  - Feature System:
+      - Foundation: feature-system/feature-system-foundation.md
+      - Module Catalog: feature-system/module-catalog.md
+  - Platform Runtime:
+      - Runtime Plane: platform-runtime/runtime-plane.md
+  - Data Packs:
+      - Data Pack Model: data-packs/data-pack-model.md
+  - Database:
+      - Foundation: database/database-foundation.md
+      - Source of Truth Rules: database/source-of-truth-rules.md
+      - Table Reference: database/table-reference.md
+      - Schema Overview: database/schema-overview.md
+  - Frontend:
+      - Foundation: frontend/frontend-foundation.md
+      - Workspace Shell: frontend/workspace-shell.md
+      - Navigation Rendering: frontend/navigation-rendering.md
+  - Services:
+      - Foundation: services/services-foundation.md
+      - Service Directory Map: services/service-directory-map.md
+  - Workflows:
+      - Foundation: workflows/workflows-foundation.md
+      - Origination Match: workflows/origination-match-workflow.md
+      - Legacy CRM Opportunities: workflows/crm-opportunities-workflow.md
+      - Legacy Mandates: workflows/mandates-workflow.md
+      - Legacy Research: workflows/research-workflow.md
+      - Legacy Results: workflows/results-workflow.md
+      - Canonical Promotion: workflows/canonical-promotion.md
+  - Developer Guides:
+      - Developer Onboarding: dev-guides/developer-onboarding.md
+      - Documentation Discipline: dev-guides/documentation-discipline.md
+      - How to Add a Module: dev-guides/how-to-add-a-module.md
+      - How to Add a Data Pack: dev-guides/how-to-add-a-data-pack.md
+      - How to Add an Approval-Gated Action: dev-guides/how-to-add-an-approval-gated-action.md

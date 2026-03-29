@@ -1,5 +1,5 @@
-schema_version: "1.0"
-last_updated: "2026-03-19"
+schema_version: "2.0"
+last_updated: "2026-03-29"
 owner: "Platform Architect"
 status: "approved"
 
@@ -12,35 +12,54 @@ route_groups:
       - path: /invite/[token]
       - path: /auth/callback
   protected_workspace:
-    routes:
+    canonical_routes:
       - path: /dashboard
         module_key: dashboard
-      - path: /crm-opportunities
-        module_key: crm_opportunities
-      - path: /mandates
-        module_key: mandates
-      - path: /research
-        module_key: research
-      - path: /results
-        module_key: results
+      - path: /approvals
+        module_key: approvals
+      - path: /activity
+        module_key: activity
+      - path: /origination-match
+        module_key: origination_match
+      - path: /partner-match
+        module_key: partner_match
+      - path: /negotiator
+        module_key: negotiator
+      - path: /compliance-guardian
+        module_key: compliance_guardian
+      - path: /funding-orchestrator
+        module_key: funding_orchestrator
       - path: /companies
         module_key: companies
       - path: /contacts
         module_key: contacts
       - path: /integrations
         module_key: integrations
+      - path: /data-packs
+        module_key: data_packs
       - path: /billing
         module_key: billing
       - path: /settings
         module_key: settings
+    compatibility_routes:
+      - path: /mandates
+        module_key: origination_match
+        compatibility_for: mandates
+      - path: /research
+        module_key: origination_match
+        compatibility_for: research
+      - path: /results
+        module_key: origination_match
+        compatibility_for: results
 
 rules:
   - protected routes require session resolution
   - protected routes require current organization resolution
+  - compatibility routes must still resolve to the correct active module in navigation
   - sidebar visibility is not sufficient for security
 
 references:
   docs:
-    - docs/frontend/app-router-structure.md
+    - docs/frontend/navigation-rendering.md
     - docs/authorization/route-guarding.md
     - docs/auth/routes.md
