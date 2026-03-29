@@ -1,102 +1,42 @@
 # Database Implementation Rules
 
-Owner: Platform Architect
-Last Updated: 2026-03-18
-Version: 1.0
-Status: Approved
+## Purpose
 
----
+These are the practical implementation rules for touching the Musahama database from app code.
 
-## 1. Purpose
+## Core Rules
 
-Give developers strict rules for working with the database.
+1. Pages should not scatter direct Supabase queries
+2. Use centralized Supabase clients
+3. Treat `supabase/migrations` as the schema change log
+4. Keep `supabase/schema.sql` and `src/types/database.types.ts` synced after remote apply
+5. Prefer shared entities and runtime tables over ad hoc transitional payload reads
 
----
-
-## 2. Service Boundary Rule
-
-Pages must not scatter direct Supabase queries.
-
-Use:
-- services/ for reads and writes
-- feature-system/ for capability access/runtime truth
-- server-side reads for sensitive data, org bootstrap, and runtime resolution
-
----
-
-## 3. Supabase Client Rule
-
-Use centralized clients only:
-- services/supabase/client.ts
-- services/supabase/server.ts
-- services/supabase/middleware.ts
-
-Do not initialize random clients throughout page components.
-
----
-
-## 4. Mutation Rule
-
-Every write helper must automatically apply required ownership/audit fields where appropriate:
-- organization_id
-- created_by_user_id
-- updated_by_user_id
-
-This logic must not depend on forms remembering to pass everything correctly.
-
----
-
-## 5. Sensitive Data Rule
-
-These must stay server-only or sanitized:
-- organization_integrations.secret_ref
-- provider auth config
-- secret-like values in global_config
-- billing/provider internals
-
----
-
-## 6. Transitional Data Rule
-
-Do not build final UI around transitional JSON analysis fields in `research_results`.
-
-Use normalized analysis tables instead.
-
----
-
-## 7. Naming Rule
+## Current Naming Rule
 
 Keep these distinct:
+
 - module keys: snake_case
 - routes: kebab-case
-- features: dot-separated capability names
-- database table names: existing canonical table names
+- tables: existing canonical table names
 
-Example:
-- module = results
-- route = /results
-- workflow table = research_results
+Examples:
 
-They do not need to match exactly.
+- module key: `origination_match`
+- route: `/origination-match`
+- runtime table: `module_cases`
+- bridge table: `research_results`
 
----
+## Current Change Rule
 
-## 8. Change Rule
+Any schema change should update:
 
-Any schema change must update:
-- migration SQL
-- docs/database/*
-- related docs/auth or docs/authorization if affected
-- service contracts if affected
+- the migration
+- the linked remote database
+- `supabase/schema.sql`
+- `src/types/database.types.ts`
+- relevant docs and specs
 
-No schema change is complete without documentation update.
+See:
 
----
-
-## 9. Final Rule
-
-If a developer asks where logic belongs:
-- data fetch/mutation -> services/
-- capability decision -> feature-system/
-- security enforcement -> RLS + services
-- final canonical data display -> canonical entity/analysis tables
+- `database/CONTRACT.md`

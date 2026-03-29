@@ -1,36 +1,34 @@
-schema_version: "1.0"
-last_updated: "2026-03-19"
+schema_version: "2.0"
+last_updated: "2026-03-29"
 owner: "Platform Architect"
 status: "approved"
 
 domains:
   tenancy:
     final_source_tables: [profiles, organizations, organization_members, organization_invitations]
-  module_runtime:
-    final_source_tables: [modules, organization_modules]
-  feature_runtime:
-    final_source_tables: [features, feature_dependencies, feature_provider_requirements, organization_feature_entitlements, plan_features]
-  billing_runtime:
-    final_source_tables: [plans, plan_modules, organization_subscriptions, organization_credit_ledger]
+  control_plane:
+    final_source_tables: [plans, plan_modules, organization_subscriptions, modules, organization_modules, organization_credit_ledger]
   integrations_runtime:
-    final_source_tables: [integration_providers, organization_integrations]
-  workflow_state:
-    final_source_tables: [crm_opportunities, mandates, mandate_files, research, strategies, research_results, research_constraints]
-  companies:
-    final_source_tables: [companies, company_domains]
-  contacts:
-    final_source_tables: [contacts, contact_emails, contact_phones]
+    final_source_tables: [integration_providers, organization_integrations, organization_module_integrations]
+  shared_entities:
+    final_source_tables: [companies, contacts, contact_emails, contact_phones]
   analysis:
     final_source_tables: [evidence, psych_profiles, lmc_fits, dossiers]
+  origination_bridge_workflow:
+    final_source_tables: [crm_opportunities, mandates, research, strategies, research_results, research_result_contacts, research_result_feedback, research_run_logs]
+  platform_runtime:
+    final_source_tables: [module_cases, module_case_entities, module_runs, module_run_steps, module_artifacts, module_action_requests, module_action_executions, module_evidence_links]
+  data_pack_plane:
+    final_source_tables: [capabilities, module_capabilities, datasets, dataset_releases, module_dataset_requirements, organization_dataset_entitlements, organization_module_datasets]
 
-transitional_fields:
-  table: research_results
-  fields: [company_profile, psych_profile, lmc_fit, dossier, evidence]
-  policy:
-    status: transitional_only
+bridge_fields:
+  - table: research
+    fields: [module_case_id]
+  - table: research_run_logs
+    fields: [module_run_id]
 
 references:
   docs:
     - docs/database/source-of-truth-rules.md
-    - docs/workflows/canonical-promotion.md
-    - docs/services/query-patterns.md
+    - docs/platform-runtime/runtime-plane.md
+    - docs/data-packs/data-pack-model.md

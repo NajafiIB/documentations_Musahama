@@ -1,59 +1,60 @@
 # Developer Onboarding
 
-Owner: Platform Architect  
-Last Updated: 2026-03-19  
-Version: 1.0  
-Status: Approved
+## First-Day Objective
 
-## Purpose
-This is the first required read for any human developer, Codex task, or AI Studio implementation flow working on Musahama.
+Understand the current platform architecture before touching implementation.
 
-## What the platform is
-Musahama is an organization-first, module-driven, feature-gated research and discovery platform.
+Musahama is now:
 
-Core workflow:
-- CRM Opportunity
-- Mandate
-- Research
-- Strategy
-- Results
-- Canonical Promotion
-- Export / Sync / Follow-up
+- a unified workspace shell
+- a shared platform kernel
+- shared entity graphs for companies and contacts
+- reusable capabilities
+- solution modules
+- paid data packs
+- approval-gated external execution
 
-## Six-layer model
-- Tenancy: organizations, organization_members, profiles
-- Platform: plans, modules, subscriptions, integrations, credits
-- Feature: features, dependencies, provider requirements, entitlements
-- Workflow: crm_opportunities, mandates, research, strategies, research_results
-- Canonical Entity: companies, company_domains, contacts, contact_emails, contact_phones
-- Analysis: evidence, psych_profiles, lmc_fits, dossiers
+It is not primarily a set of standalone `crm_opportunities`, `mandates`, `research`, and `results` top-level apps anymore.
 
-## Critical vocabulary
-- modules = top-level navigation
-- features = capabilities
-- providers = dependencies
-- entitlements = runtime truth
-- workflow tables = orchestration state
-- canonical entity and analysis tables = final source of truth for final UI
+## Required Read Order
 
-## Before changing anything, read
-1. docs/auth/
-2. docs/authorization/
-3. docs/database/
-4. docs/feature-system/
-5. docs/services/
-6. docs/frontend/
-7. docs/workflows/
-8. docs/dev-guides/
+1. `docs/architecture/overview.md`
+2. `docs/authorization/authorization-foundation.md`
+3. `docs/feature-system/module-catalog.md`
+4. `docs/platform-runtime/runtime-plane.md`
+5. `docs/database/source-of-truth-rules.md`
+6. `docs/frontend/workspace-shell.md`
+7. `docs/services/services-foundation.md`
+8. `docs/dev-guides/documentation-discipline.md`
 
-## Common mistakes
-Do not:
-- invent new top-level modules casually
-- hardcode sidebar tabs
-- scatter Supabase queries through page files
-- treat providers as product structure
-- build final pages from legacy result blobs
-- duplicate permission logic across layers
+## First Implementation Checks
 
-## Final rule
-Before making a change, decide the owning layer, the source-of-truth table(s), and the workflow impact first.
+Before starting work:
+
+1. confirm which module or platform area owns the change
+2. confirm whether the change affects shared entities, runtime tables, or data packs
+3. confirm whether the navigation model or module registry must change
+4. confirm whether docs/specs must be updated in the same change
+
+## Supabase Contract Discipline
+
+If you change the database:
+
+1. add a migration
+2. apply it to the linked remote
+3. sync `supabase/schema.sql`
+4. regenerate `src/types/database.types.ts`
+5. re-run validation
+
+See:
+
+- `database/CONTRACT.md`
+
+## Rule of Thumb
+
+If you are unsure where something belongs:
+
+- platform-wide shell/runtime concern -> `src/platform/`
+- data read/write concern -> `src/services/`
+- solution-specific UI or manifest -> `src/modules/`
+- shared data catalog concern -> `src/platform/data-packs/` plus DB catalog tables

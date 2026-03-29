@@ -1,70 +1,138 @@
-schema_version: "1.0"
-last_updated: "2026-03-19"
+schema_version: "2.0"
+last_updated: "2026-03-29"
 owner: "Platform Architect"
 status: "approved"
 
 canonical_modules:
   - key: dashboard
     route: /dashboard
-    category: workspace
-  - key: crm_opportunities
-    route: /crm-opportunities
-    category: workflow
-  - key: mandates
-    route: /mandates
-    category: workflow
-  - key: research
-    route: /research
-    category: workflow
-  - key: results
-    route: /results
-    category: workflow
+    kind: utility
+    nav_group: platform
+    show_in_navigation: true
+    default_enabled: true
+    legacy_aliases: []
+  - key: approvals
+    route: /approvals
+    kind: utility
+    nav_group: platform
+    show_in_navigation: true
+    default_enabled: true
+    legacy_aliases: []
+  - key: activity
+    route: /activity
+    kind: utility
+    nav_group: platform
+    show_in_navigation: true
+    default_enabled: true
+    legacy_aliases: []
+  - key: origination_match
+    route: /origination-match
+    kind: solution
+    nav_group: solutions
+    show_in_navigation: true
+    default_enabled: true
+    legacy_aliases: [/mandates, /research, /results]
+  - key: partner_match
+    route: /partner-match
+    kind: solution
+    nav_group: solutions
+    show_in_navigation: true
+    default_enabled: false
+    legacy_aliases: []
+  - key: negotiator
+    route: /negotiator
+    kind: solution
+    nav_group: solutions
+    show_in_navigation: true
+    default_enabled: false
+    legacy_aliases: []
+  - key: compliance_guardian
+    route: /compliance-guardian
+    kind: solution
+    nav_group: solutions
+    show_in_navigation: true
+    default_enabled: false
+    legacy_aliases: []
+  - key: funding_orchestrator
+    route: /funding-orchestrator
+    kind: solution
+    nav_group: solutions
+    show_in_navigation: true
+    default_enabled: false
+    legacy_aliases: []
   - key: companies
     route: /companies
-    category: canonical_archive
+    kind: utility
+    nav_group: shared_data
+    show_in_navigation: true
+    default_enabled: true
+    legacy_aliases: []
   - key: contacts
     route: /contacts
-    category: canonical_archive
+    kind: utility
+    nav_group: shared_data
+    show_in_navigation: true
+    default_enabled: true
+    legacy_aliases: []
   - key: integrations
     route: /integrations
-    category: platform
+    kind: utility
+    nav_group: shared_data
+    show_in_navigation: true
+    default_enabled: true
+    legacy_aliases: []
+  - key: data_packs
+    route: /data-packs
+    kind: utility
+    nav_group: shared_data
+    show_in_navigation: true
+    default_enabled: true
+    legacy_aliases: []
   - key: billing
     route: /billing
-    category: platform
+    kind: utility
+    nav_group: admin
+    show_in_navigation: true
+    default_enabled: true
+    legacy_aliases: []
   - key: settings
     route: /settings
-    category: platform
+    kind: utility
+    nav_group: admin
+    show_in_navigation: true
+    default_enabled: true
+    legacy_aliases: []
+
+legacy_compatibility_modules:
+  - key: crm_opportunities
+    route: /crm-opportunities
+    kind: legacy
+    show_in_navigation: false
+    route_available: false
+  - key: mandates
+    route: /mandates
+    kind: legacy
+    show_in_navigation: false
+    route_available: true
+  - key: research
+    route: /research
+    kind: legacy
+    show_in_navigation: false
+    route_available: true
+  - key: results
+    route: /results
+    kind: legacy
+    show_in_navigation: false
+    route_available: true
 
 not_modules:
   - key: discovery
   - key: shortlist
   - key: dossiers
-  - key: crm_sync
-  - key: analytics
-
-module_visibility_rule:
-  required_conditions:
-    - authenticated_user
-    - current_organization_resolved
-    - active_membership
-    - organization_active
-    - module_exists_in_catalog
-    - module_enabled_for_organization
-    - role_allowed_for_module
-
-runtime_contract:
-  module_state_reason_values:
-    - ok
-    - not_authenticated
-    - no_active_org
-    - not_member
-    - inactive_membership
-    - missing_role
-    - missing_module
-    - module_disabled
+  - key: one_pagers
+  - key: dataset_releases
 
 references:
   docs:
-    - docs/authorization/module-access-rules.md
     - docs/feature-system/module-catalog.md
     - docs/frontend/navigation-rendering.md

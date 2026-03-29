@@ -1,7 +1,7 @@
 # CR-2026-003
 
 Title: Route availability gating to eliminate workspace 404 navigation  
-Status: draft  
+Status: in_review  
 Priority: P1  
 Type: bug  
 Owner: Platform Architect  
@@ -10,8 +10,9 @@ Last Updated: 2026-03-22
 
 Related GitHub Issue: TBD (project table item)  
 Related Implementation Guide: implementation-guides/IMP-2026-003-route-availability-404-hardening.md  
-Related Tasks: tasks/TASK-2026-003-01-route-availability-gating.md; tasks/TASK-2026-003-02-complete-routeAvailable-enforcement.md  
-Related Review: reviews/REV-2026-03-22-404-navigation-intake.md; reviews/REV-2026-03-22-route-availability-result-review.md  
+Related Tasks: tasks/TASK-2026-003-01-route-availability-gating.md; tasks/TASK-2026-003-02-complete-routeAvailable-enforcement.md; tasks/TASK-2026-003-03-remove-mock-workspace-datasets.md  
+Related Review: reviews/REV-2026-03-22-404-navigation-intake.md; reviews/REV-2026-03-22-route-availability-result-review.md; reviews/REV-2026-03-22-task-003-02-compliance-check.md; reviews/REV-2026-03-22-live-code-gap-audit.md; reviews/REV-2026-03-23-live-verification-check.md; reviews/REV-2026-03-23-closure-evidence-recheck.md  
+Related Review: reviews/REV-2026-03-22-404-navigation-intake.md; reviews/REV-2026-03-22-route-availability-result-review.md; reviews/REV-2026-03-22-task-003-02-compliance-check.md; reviews/REV-2026-03-22-live-code-gap-audit.md  
 Target Repo: NajafiIB/Implementation_Musahama
 
 ## Summary
@@ -44,10 +45,11 @@ Current behavior can expose links/routes without implemented pages, causing 404 
 3. Direct navigation to unavailable module routes is safely redirected.
 4. Implemented module routes remain unaffected.
 5. Evidence includes PR URL, full SHA(s), diff mapping, and lint/typecheck/build outputs.
+6. Mock/demo workspace datasets are removed from user-facing pages.
 
 ## Risks
 - Over-filtering modules could hide legitimately available pages.
 - Divergence risk if route registry is not co-owned with module catalog updates.
 
 ## Final Decision
-- pending implementation
+- in_review (pending full TASK-2026-003-02 compliance)

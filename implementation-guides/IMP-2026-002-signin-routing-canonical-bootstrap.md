@@ -1,12 +1,17 @@
 # IMP-2026-002
 
 Title: Implement canonical post-login routing and remove mock-dashboard fallback  
+Status: in_review  
 Status: draft  
 Parent Change Request: CR-2026-002  
 Owner: Platform Architect  
 Prepared For: AI Studio  
 Target Repo: NajafiIB/Implementation_Musahama  
 Target Branch: feature/signin-routing-canonical-bootstrap  
+Last Updated: 2026-03-23
+
+Related Review: reviews/REV-2026-03-21-issue-11-signin-routing-intake.md; reviews/REV-2026-03-23-forgot-password-flow-audit.md; reviews/REV-2026-03-23-forgot-password-closure-recheck.md; reviews/REV-2026-03-23-signup-existing-user-message-audit.md  
+Related Tasks: tasks/TASK-2026-002-01-fix-post-login-routing.md; tasks/TASK-2026-002-02-harden-forgot-reset-password-flow.md; tasks/TASK-2026-002-03-signup-existing-user-message.md  
 Last Updated: 2026-03-21
 
 Related Review: reviews/REV-2026-03-21-issue-11-signin-routing-intake.md  
@@ -64,6 +69,8 @@ Issue #11 indicates authenticated users can be forwarded to mock dashboard behav
 - login with valid session but missing org/membership -> `/onboarding`
 - login with active org context -> `/dashboard`
 - no mock-dashboard route/state is reachable from login success path
+- reset-password recovery link flow has explicit success/error handling
+- signup existing-user outcome avoids misleading confirmation-email success copy
 
 ## Required Output From Coding Agent
 1. changed files

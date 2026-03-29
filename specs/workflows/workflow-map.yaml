@@ -1,65 +1,69 @@
-schema_version: "1.0"
-last_updated: "2026-03-19"
+schema_version: "2.0"
+last_updated: "2026-03-29"
 owner: "Platform Architect"
 status: "approved"
 
-workflow_identity:
-  name: Musahama Core Workflow
-  organization_scoped: true
-  primary_path:
-    - crm_opportunity
-    - mandate
-    - research
-    - strategy
-    - results
-    - canonical_promotion
-    - downstream_actions
+workflow_sets:
+  - key: platform_runtime
+    name: Shared Platform Runtime
+    organization_scoped: true
+    primary_path:
+      - module_case
+      - module_run
+      - module_run_step
+      - module_artifact
+      - module_action_request
+      - module_action_execution
+  - key: origination_match
+    name: Origination Match Bridge Workflow
+    organization_scoped: true
+    primary_path:
+      - crm_opportunity_optional
+      - mandate
+      - research
+      - strategy
+      - results
+      - canonical_promotion
 
 stages:
-  - key: crm_opportunity
+  - key: module_case
+    workflow_set: platform_runtime
+    primary_tables: [module_cases, module_case_entities]
+  - key: module_run
+    workflow_set: platform_runtime
+    primary_tables: [module_runs, module_run_steps]
+  - key: module_artifact
+    workflow_set: platform_runtime
+    primary_tables: [module_artifacts]
+  - key: module_action_request
+    workflow_set: platform_runtime
+    primary_tables: [module_action_requests]
+  - key: module_action_execution
+    workflow_set: platform_runtime
+    primary_tables: [module_action_executions]
+  - key: crm_opportunity_optional
+    workflow_set: origination_match
     module_key: crm_opportunities
     primary_tables: [crm_opportunities]
   - key: mandate
-    module_key: mandates
-    primary_tables: [mandates, mandate_files, research_constraints]
+    workflow_set: origination_match
+    module_key: origination_match
+    primary_tables: [mandates]
   - key: research
-    module_key: research
-    primary_tables: [research, strategies, research_results, research_constraints]
-  - key: strategy
-    module_key: research
-    primary_tables: [strategies]
+    workflow_set: origination_match
+    module_key: origination_match
+    primary_tables: [research, strategies, research_run_logs]
   - key: results
-    module_key: results
-    primary_tables: [research_results]
-    secondary_read_tables: [companies, contacts, evidence, psych_profiles, lmc_fits, dossiers]
+    workflow_set: origination_match
+    module_key: origination_match
+    primary_tables: [research_results, research_result_contacts, research_result_feedback]
   - key: canonical_promotion
-    module_key: results
-    primary_tables: [research_results, companies, contacts, evidence, psych_profiles, lmc_fits, dossiers]
-  - key: downstream_actions
-    module_key: results
-
-transitions:
-  - from: crm_opportunity
-    to: mandate
-    action_key: convert_to_mandate
-  - from: mandate
-    to: research
-    action_key: start_research
-  - from: research
-    to: strategy
-    action_key: generate_or_author_strategies
-  - from: research
-    to: results
-    action_key: produce_candidate_results
-  - from: results
-    to: canonical_promotion
-    action_key: promote_to_canonical
-  - from: results
-    to: downstream_actions
-    action_key: shortlist_export_sync
+    workflow_set: origination_match
+    module_key: origination_match
+    primary_tables: [companies, contacts, evidence, psych_profiles, lmc_fits, dossiers, module_artifacts]
 
 references:
   docs:
     - docs/workflows/workflows-foundation.md
-    - docs/workflows/results-workflow.md
+    - docs/workflows/origination-match-workflow.md
     - docs/workflows/canonical-promotion.md

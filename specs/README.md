@@ -13,7 +13,8 @@ Use both:
 - `specs/features/feature-catalog.yaml`
 - `specs/workflows/workflow-map.yaml`
 - `specs/database/source-of-truth.yaml`
-- `specs/providers/provider-capabilities.yaml`
+- `specs/platform/runtime-plane.yaml`
+- `specs/data-packs/data-pack-catalog.yaml`
 
 ## Rules
 1. if `docs/` and `specs/` disagree, fix the mismatch immediately

@@ -1,152 +1,55 @@
 # Module Access Rules
 
-Owner: Platform Architect
-Last Updated: 2026-03-18
-Version: 1.0
-Status: Approved
+## Purpose
 
----
+This page defines how access to workspace areas is resolved in the current platform model.
 
-## 1. Purpose
+## Current Module Groups
 
-Define how module visibility is resolved.
+### Platform
 
-Modules control:
-- sidebar items
-- routes
-- page-level access
+- `dashboard`
+- `approvals`
+- `activity`
 
-Modules are not features.
+### Solutions
 
----
+- `origination_match`
+- `partner_match`
+- `negotiator`
+- `compliance_guardian`
+- `funding_orchestrator`
 
-## 2. Canonical Module Keys
+### Shared Data
 
-- dashboard
-- crm_opportunities
-- mandates
-- research
-- results
-- companies
-- contacts
-- integrations
-- billing
-- settings
+- `companies`
+- `contacts`
+- `integrations`
+- `data_packs`
 
-These are the only official top-level modules.
+### Admin
 
----
+- `billing`
+- `settings`
 
-## 3. Module Visibility Rule
+### Legacy compatibility
 
-A module is visible only if all of the following are true:
+- `crm_opportunities`
+- `mandates`
+- `research`
+- `results`
 
-1. user is authenticated
-2. user has active membership in current organization
-3. organization is active
-4. module exists in catalog
-5. module is enabled for the organization
-6. role is allowed for the module
+## Resolution Rule
 
----
+A module can be used only when all of these are true:
 
-## 4. Baseline Module Rules
+- the user is authenticated
+- an active organization is resolved
+- the user is an active member of that organization
+- the module exists in the catalog
+- the module is enabled for the organization
+- the user's role is sufficient for the action being attempted
 
-### dashboard
-Visible to all active organization members.
+## Legacy Rule
 
-### crm_opportunities
-Visible to workflow roles.
-
-### mandates
-Visible to workflow roles.
-
-### research
-Visible to workflow roles.
-
-### results
-Visible to workflow roles.
-
-### companies
-Visible to workflow roles.
-
-### contacts
-Visible to workflow roles.
-
-### integrations
-Visible only to platform operator roles.
-
-### billing
-Visible only to platform operator roles.
-
-### settings
-Subsection-based access.
-Do not treat settings as one flat permission.
-
----
-
-## 5. Settings Subsection Rules
-
-### Personal profile settings
-Visible to all signed-in active members.
-
-### Organization settings
-Visible to:
-- owner
-- admin
-- developer
-- billing_admin where appropriate
-
-### Member management
-Visible to:
-- owner
-- admin
-- developer
-- manager only if explicitly allowed in limited mode
-
-### Billing/settings subsections
-Visible to:
-- owner
-- billing_admin
-- developer
-
-### Integration/provider settings
-Visible to:
-- owner
-- billing_admin
-- developer
-
----
-
-## 6. What Must Not Happen
-
-Do not:
-- hardcode sidebar tabs
-- make navigation decisions directly inside page files
-- infer access from route names alone
-- treat hidden modules as secure access control
-- mix module visibility and feature availability
-
----
-
-## 7. Required Runtime Output
-
-The module resolver should return something like:
-
-```ts
-type ModuleStateReason =
-  | "ok"
-  | "not_authenticated"
-  | "no_active_org"
-  | "not_member"
-  | "inactive_membership"
-  | "missing_role"
-  | "missing_module"
-  | "module_disabled"
-
-type ModuleState = {
-  key: string
-  visible: boolean
-  enabled: boolean
-  reason: ModuleStateReason
-}
+Compatibility routes remain accessible where still enabled, but they should be treated as legacy surfaces under the broader `Origination Match` area rather than as the official long-term module structure.

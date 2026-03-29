@@ -1,192 +1,84 @@
 # Service Directory Map
 
-Owner: Platform Architect
-Last Updated: 2026-03-18
-Version: 1.0
-Status: Approved
+## Purpose
 
----
+This page defines the current recommended shape of the application service layer.
 
-## 1. Purpose
+It reflects the platform transition from one workflow-heavy product into:
 
-Define the official structure of the `services/` folder.
+- shared platform services
+- shared entity services
+- retained origination workflow services
 
-The goal is:
-- one service area per major domain
-- predictable file placement
-- no random service sprawl
-- AI-friendly implementation
-
----
-
-## 2. Canonical Folder Structure
+## Recommended Structure
 
 ```text
 src/
+  platform/
+    approvals/
+    dashboard/
+    data-packs/
+    modules/
+
   services/
-    supabase/
-      client.ts
-      server.ts
-      middleware.ts
-
-    organizations/
-      resolve-current-organization.ts
-      get-active-memberships.ts
-      list-organizations.ts
-      get-organization-settings.ts
-      update-organization-settings.ts
-      invite-member.ts
-      accept-invitation.ts
-
-    crm-opportunities/
-      list-opportunities.ts
-      get-opportunity-detail.ts
-      create-opportunity.ts
-      update-opportunity.ts
-
-    mandates/
-      list-mandates.ts
-      get-mandate-detail.ts
-      create-mandate.ts
-      update-mandate.ts
-      list-mandate-files.ts
-      attach-mandate-file.ts
-
-    research/
-      list-research.ts
-      get-research-detail.ts
-      create-research.ts
-      update-research.ts
-      list-strategies.ts
-      create-research-constraint.ts
-
-    results/
-      list-results.ts
-      get-result-detail.ts
-      shortlist-result.ts
-      export-result-dossier.ts
-      export-result-csv.ts
-
-    companies/
-      list-companies.ts
-      get-company-detail.ts
-      upsert-company.ts
-      list-company-domains.ts
-
-    contacts/
-      list-contacts.ts
-      get-contact-detail.ts
-      upsert-contact.ts
-      list-contact-emails.ts
-      list-contact-phones.ts
-
-    integrations/
-      list-integrations.ts
-      get-integration-detail.ts
-      connect-integration.ts
-      disconnect-integration.ts
-      get-provider-status.ts
-
+    auth/
     billing/
-      get-billing-summary.ts
-      get-credit-ledger.ts
-      get-current-plan.ts
-      create-checkout-session.ts
-3. Canonical Minimum Folders
+    companies/
+    contacts/
+    integrations/
+    notifications/
+    organizations/
+    research/
+    results/
+    supabase/
+```
 
-These folders are required in the reconciled structure:
+## Folder Responsibility
 
-supabase
+### `src/platform/`
 
-organizations
+Use for cross-module platform concerns such as:
 
-crm-opportunities
+- module registry
+- platform dashboards
+- approvals
+- data-pack summaries
+- cross-module runtime views
 
-mandates
+### `src/services/`
 
-research
+Use for domain-level data access and mutations such as:
 
-results
+- auth/session helpers
+- companies and contacts
+- organization membership
+- integrations
+- billing
+- retained origination workflow reads and writes
 
-companies
-
-contacts
-
-integrations
-
-billing
-
-4. Optional Support Folders
-
-These may exist if needed, but must stay disciplined:
-
-auth
-
-files
-
-analytics
-
-shared
-
-Use optional folders only when the concern does not belong cleanly to one domain module.
-
-5. Folder Responsibility Rule
-
-Each domain folder should own:
-
-list loaders
-
-detail loaders
-
-create/update/delete helpers
-
-domain DTO shaping
-
-domain-specific server reads
-
-mutation helpers
-
-Do not put cross-domain architecture rules here.
-Those belong in:
-
-docs
-
-feature-system
-
-shared typed contracts
-
-server APIs if truly needed
-
-6. Naming Rule
+## Naming Rule
 
 Use:
 
-kebab-case filenames
+- kebab-case files
+- verb-first names for loaders and mutations
+- one clear responsibility per file
 
-verb-first or intent-first file names
+Examples:
 
-singular purpose per file
+- `list-companies.ts`
+- `get-workspace-bootstrap.ts`
+- `list-approval-requests.ts`
+- `get-data-packs-overview.ts`
 
-Correct:
+Avoid:
 
-get-result-detail.ts
+- `helpers.ts`
+- `misc.ts`
+- `doEverything.ts`
 
-list-companies.ts
+## Current Transition Rule
 
-connect-integration.ts
+The origination flow still has operational services under the legacy workflow domain folders.
 
-Incorrect:
-
-results.ts
-
-companyStuff.ts
-
-doEverything.ts
-
-7. Final Rule
-
-A service folder is organized by domain boundary, not by SQL table count.
-One domain may read multiple tables if that is the correct business read model.
-
-
----
+That is acceptable during the bridge, but new cross-module runtime logic should prefer the shared platform/runtime model instead of inventing another workflow-specific service tree.

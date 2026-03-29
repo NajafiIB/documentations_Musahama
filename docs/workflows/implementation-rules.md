@@ -1,8 +1,8 @@
 # Workflow Implementation Rules
 
 Owner: Platform Architect
-Last Updated: 2026-03-18
-Version: 1.0
+Last Updated: 2026-03-28
+Version: 1.1
 Status: Approved
 
 ---
@@ -23,12 +23,13 @@ Give developers and AI coding agents strict rules for implementing workflow beha
 6. use feature-system for workflow capability access
 7. use normalized canonical/analysis tables for final detail views
 8. keep all workflow actions organization-scoped
+9. keep external CRM opportunity linking as a mandate-level workflow action, not a top-level module
 
 ---
 
 ## 3. What Developers Must Do
 
-- implement CRM opportunity -> mandate transition explicitly
+- implement external CRM opportunity linking/import into mandate explicitly
 - implement mandate -> research transition explicitly
 - implement research -> results handoff explicitly
 - implement result -> canonical promotion through services
@@ -44,6 +45,8 @@ Do not:
 - turn strategies into a top-level module
 - turn shortlist into a top-level module
 - turn dossiers into a top-level module
+- create a dedicated top-level CRM opportunities module or page
+- persist external CRM opportunities as canonical internal workflow records
 - build final company/contact pages from raw result blobs
 - hide workflow meaning inside one giant prompt or opaque JSON field
 - place workflow orchestration logic directly inside page components

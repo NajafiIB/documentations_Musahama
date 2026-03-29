@@ -1,7 +1,7 @@
 # TASK-2026-003-02
 
 Title: Complete explicit routeAvailable enforcement for sidebar and direct module route hits  
-Status: queued  
+Status: blocked  
 Parent Change Request: CR-2026-003  
 Parent Implementation Guide: IMP-2026-003  
 Owner: Platform Architect  
@@ -17,6 +17,10 @@ Finish 404 hardening by introducing explicit `routeAvailable` metadata in module
 
 ## Read First
 - `reviews/REV-2026-03-22-route-availability-result-review.md`
+- `reviews/REV-2026-03-22-task-003-02-compliance-check.md`
+- `reviews/REV-2026-03-22-live-code-gap-audit.md`
+- `reviews/REV-2026-03-23-live-verification-check.md`
+- `reviews/REV-2026-03-23-closure-evidence-recheck.md`
 - `tasks/TASK-2026-003-01-route-availability-gating.md`
 - `implementation-guides/IMP-2026-003-route-availability-404-hardening.md`
 
@@ -48,3 +52,7 @@ Task is complete only when:
 4. command outputs
 5. blockers
 6. risks
+
+
+## Blocker
+Current implementation evidence still misses routeAvailable enforcement in sidebar and middleware direct-hit guard behavior, and lacks auditable PR/compare URL links.

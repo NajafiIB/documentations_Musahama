@@ -77,7 +77,6 @@ Use these terms precisely.
 Top-level navigation and route areas:
 
 - dashboard
-- crm_opportunities
 - mandates
 - research
 - results
@@ -95,7 +94,8 @@ Capabilities inside modules, for example:
 - results.export.dossier
 - results.shortlist
 - contacts.enrich_person
-- crm.sync.import
+- mandates.link_crm_entity
+- mandates.import_crm_fields
 
 ## Providers
 External dependencies only, for example:
@@ -151,8 +151,8 @@ Use these as final source of truth for final analysis UI:
 
 Use these for workflow orchestration and process state:
 
-- `crm_opportunities`
 - `mandates`
+- `mandate_crm_links`
 - `mandate_files`
 - `research`
 - `strategies`

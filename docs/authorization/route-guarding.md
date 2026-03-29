@@ -1,121 +1,49 @@
-
----
-
-## `docs/authorization/route-guarding.md`
-
-```md
 # Route Guarding
 
-Owner: Platform Architect
-Last Updated: 2026-03-18
-Version: 1.0
-Status: Approved
+## Current Protected Workspace Routes
 
----
+Primary workspace routes:
 
-## 1. Purpose
+- `/dashboard`
+- `/approvals`
+- `/activity`
+- `/origination-match`
+- `/partner-match`
+- `/negotiator`
+- `/compliance-guardian`
+- `/funding-orchestrator`
+- `/companies`
+- `/contacts`
+- `/integrations`
+- `/data-packs`
+- `/billing`
+- `/settings`
 
-Define how route access must be guarded.
+Compatibility routes that still exist:
 
-Routes must not rely on static navigation visibility.
-Every protected route must validate access again.
+- `/mandates`
+- `/research`
+- `/results`
 
----
+## Guarding Rule
 
-## 2. Coarse Route Guarding
+A route is protected when it requires:
 
-### Public routes
-- /login
-- /register
-- /forgot-password
-- /invite/[token]
+- session resolution
+- current organization resolution
+- active membership
+- module availability where applicable
 
-### Protected routes
-- /dashboard
-- /crm-opportunities
-- /mandates
-- /research
-- /results
-- /companies
-- /contacts
-- /integrations
-- /billing
-- /settings
+## Active-Navigation Rule
 
----
+Compatibility routes should still resolve to the correct active module in the shell.
 
-## 3. Route Guard Sequence
+Most importantly:
 
-For every protected route:
+- `/mandates`
+- `/research`
+- `/results`
 
-1. verify session
-2. resolve current organization
-3. resolve active membership
-4. resolve current role
-5. resolve enabled module state
-6. allow or deny route
-7. resolve feature states inside the page
+should activate:
 
----
-
-## 4. Correct Rule
-
-### Middleware
-May do:
-- coarse auth/session protection
-- public vs protected route segregation
-
-### Server-side layout/page gate
-Must do:
-- organization resolution
-- role resolution
-- module visibility check
-
-### Page internals
-Must do:
-- feature-level checks through runtime hooks/resolvers
-
----
-
-## 5. Examples
-
-### /integrations
-Requires platform operator visibility.
-
-### /billing
-Requires platform operator visibility.
-
-### /crm-opportunities
-Requires workflow role + enabled module.
-
-### /results
-Requires workflow role + enabled module.
-
-### /settings
-Requires subsection-specific access.
-
----
-
-## 6. Failure Behavior
-
-### no session
-Redirect to /login
-
-### no active organization
-Redirect to /onboarding or org selector
-
-### no membership
-Block workspace access
-
-### module disabled
-Redirect to allowed landing page or access denied page
-
-### role not allowed
-Show access denied
-
----
-
-## 7. Hard Rule
-
-Do not rely on hidden sidebar items as authorization.
-Routes must be guarded independently.
+- `Origination Match`
