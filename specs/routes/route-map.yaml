@@ -1,16 +1,32 @@
-schema_version: "2.0"
-last_updated: "2026-03-29"
+schema_version: "2.1"
+last_updated: "2026-03-31"
 owner: "Platform Architect"
 status: "approved"
 
 route_groups:
-  public:
+  bootstrap:
+    routes:
+      - path: /
+        behavior: redirect_to_dashboard_bootstrap
+  public_auth:
     routes:
       - path: /login
+      - path: /signup
       - path: /register
+        redirects_to: /signup
       - path: /forgot-password
+      - path: /reset-password
       - path: /invite/[token]
       - path: /auth/callback
+  public_information:
+    routes:
+      - path: /privacy
+      - path: /terms
+      - path: /support
+  protected_transitional:
+    routes:
+      - path: /onboarding
+      - path: /select-organization
   protected_workspace:
     canonical_routes:
       - path: /dashboard
@@ -21,6 +37,20 @@ route_groups:
         module_key: activity
       - path: /origination-match
         module_key: origination_match
+      - path: /origination-match/mandates
+        module_key: origination_match
+      - path: /origination-match/research
+        module_key: origination_match
+      - path: /origination-match/results
+        module_key: origination_match
+      - path: /supplier-development-program
+        module_key: supplier_development_program
+      - path: /supplier-development-program/cases
+        module_key: supplier_development_program
+      - path: /supplier-development-program/cases/[caseId]
+        module_key: supplier_development_program
+      - path: /supplier-development-program/catalog
+        module_key: supplier_development_program
       - path: /partner-match
         module_key: partner_match
       - path: /negotiator
@@ -31,31 +61,85 @@ route_groups:
         module_key: funding_orchestrator
       - path: /companies
         module_key: companies
+      - path: /companies/[id]
+        module_key: companies
       - path: /contacts
         module_key: contacts
-      - path: /integrations
+      - path: /contacts/[id]
+        module_key: contacts
+      - path: /settings/integrations
         module_key: integrations
-      - path: /data-packs
+      - path: /settings/integrations/[providerKey]
+        module_key: integrations
+      - path: /settings/data-sources
         module_key: data_packs
-      - path: /billing
+      - path: /settings/plan-billing
         module_key: billing
       - path: /settings
         module_key: settings
+      - path: /settings/workspace
+        module_key: settings
+      - path: /settings/solutions
+        module_key: settings
+      - path: /settings/usage
+        module_key: settings
+      - path: /settings/account
+        module_key: settings
+      - path: /settings/view-standard
+        module_key: settings
+        internal_only: true
+      - path: /settings/delivery-orchestrator
+        module_key: settings
+        internal_only: true
     compatibility_routes:
       - path: /mandates
         module_key: origination_match
-        compatibility_for: mandates
+        compatibility_for: origination_match_mandates
+      - path: /mandates/[id]
+        module_key: origination_match
+        compatibility_for: origination_match_mandate_detail
+      - path: /mandates/[id]/strategies/[strategyId]
+        module_key: origination_match
+        compatibility_for: origination_match_strategy_detail
       - path: /research
         module_key: origination_match
-        compatibility_for: research
+        compatibility_for: origination_match_research
+      - path: /research/[id]
+        module_key: origination_match
+        compatibility_for: origination_match_research_detail
+      - path: /research/search
+        module_key: origination_match
+        compatibility_for: origination_match_research_search
       - path: /results
         module_key: origination_match
-        compatibility_for: results
+        compatibility_for: origination_match_results
+      - path: /results/[id]
+        module_key: origination_match
+        compatibility_for: origination_match_result_detail
+      - path: /integrations
+        module_key: integrations
+        compatibility_for: settings_integrations
+        redirects_to: /settings/integrations
+      - path: /integrations/[providerKey]
+        module_key: integrations
+        compatibility_for: settings_integrations_provider
+        redirects_to: /settings/integrations/[providerKey]
+      - path: /data-packs
+        module_key: data_packs
+        compatibility_for: settings_data_sources
+        redirects_to: /settings/data-sources
+      - path: /billing
+        module_key: billing
+        compatibility_for: settings_plan_billing
+        redirects_to: /settings/plan-billing
 
 rules:
-  - protected routes require session resolution
-  - protected routes require current organization resolution
+  - bootstrap route redirects into the protected workspace contract
+  - protected transitional and workspace routes require session resolution
+  - protected workspace routes require current organization resolution
   - compatibility routes must still resolve to the correct active module in navigation
+  - canonical settings subroutes own integrations, data packs, and billing
+  - /register is a compatibility entrypoint that redirects to /signup
   - sidebar visibility is not sufficient for security
 
 references:

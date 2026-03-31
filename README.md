@@ -30,6 +30,7 @@ The live platform is organized into these top-level areas:
 - `approvals`
 - `activity`
 - `origination_match`
+- `supplier_development_program`
 - `partner_match`
 - `negotiator`
 - `compliance_guardian`
@@ -40,6 +41,14 @@ The live platform is organized into these top-level areas:
 - `data_packs`
 - `billing`
 - `settings`
+
+Canonical route ownership now matches the platform registry:
+
+- `supplier_development_program` -> `/supplier-development-program`
+- `integrations` -> `/settings/integrations` with legacy alias `/integrations`
+- `data_packs` -> `/settings/data-sources` with legacy alias `/data-packs`
+- `billing` -> `/settings/plan-billing` with legacy alias `/billing`
+- `settings` owns `/settings`, `/settings/solutions`, `/settings/usage`, and the internal operator routes under `/settings/*`
 
 Legacy workflow routes still exist for compatibility:
 

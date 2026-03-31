@@ -1,5 +1,5 @@
-schema_version: "2.0"
-last_updated: "2026-03-29"
+schema_version: "2.1"
+last_updated: "2026-03-31"
 owner: "Platform Architect"
 status: "approved"
 
@@ -32,6 +32,13 @@ canonical_modules:
     show_in_navigation: true
     default_enabled: true
     legacy_aliases: [/mandates, /research, /results]
+  - key: supplier_development_program
+    route: /supplier-development-program
+    kind: solution
+    nav_group: solutions
+    show_in_navigation: true
+    default_enabled: true
+    legacy_aliases: []
   - key: partner_match
     route: /partner-match
     kind: solution
@@ -75,26 +82,26 @@ canonical_modules:
     default_enabled: true
     legacy_aliases: []
   - key: integrations
-    route: /integrations
+    route: /settings/integrations
     kind: utility
     nav_group: shared_data
     show_in_navigation: true
     default_enabled: true
-    legacy_aliases: []
+    legacy_aliases: [/integrations]
   - key: data_packs
-    route: /data-packs
+    route: /settings/data-sources
     kind: utility
     nav_group: shared_data
     show_in_navigation: true
     default_enabled: true
-    legacy_aliases: []
+    legacy_aliases: [/data-packs]
   - key: billing
-    route: /billing
+    route: /settings/plan-billing
     kind: utility
     nav_group: admin
     show_in_navigation: true
     default_enabled: true
-    legacy_aliases: []
+    legacy_aliases: [/billing]
   - key: settings
     route: /settings
     kind: utility
@@ -124,6 +131,43 @@ legacy_compatibility_modules:
     kind: legacy
     show_in_navigation: false
     route_available: true
+
+module_local_navigation:
+  - module_key: origination_match
+    items:
+      - path: /origination-match/mandates
+        legacy_aliases: [/mandates]
+      - path: /origination-match/research
+        legacy_aliases: [/research]
+      - path: /origination-match/results
+        legacy_aliases: [/results]
+      - path: /origination-match
+        exact: true
+  - module_key: supplier_development_program
+    items:
+      - path: /supplier-development-program/cases
+      - path: /supplier-development-program/catalog
+      - path: /supplier-development-program
+        exact: true
+  - module_key: settings
+    items:
+      - path: /settings
+      - path: /settings/workspace
+      - path: /settings/solutions
+      - path: /settings/integrations
+        legacy_aliases: [/integrations]
+      - path: /settings/data-sources
+        legacy_aliases: [/data-packs]
+      - path: /settings/usage
+      - path: /settings/plan-billing
+        legacy_aliases: [/billing]
+      - path: /settings/account
+
+internal_reference_routes:
+  - path: /settings/view-standard
+    owner_module: settings
+  - path: /settings/delivery-orchestrator
+    owner_module: settings
 
 not_modules:
   - key: discovery

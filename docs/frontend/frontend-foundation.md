@@ -24,6 +24,7 @@ The official top-level areas are:
 - `approvals`
 - `activity`
 - `origination_match`
+- `supplier_development_program`
 - `partner_match`
 - `negotiator`
 - `compliance_guardian`
@@ -34,6 +35,17 @@ The official top-level areas are:
 - `data_packs`
 - `billing`
 - `settings`
+
+Canonical route ownership for the settings-backed utilities is:
+
+- `integrations` -> `/settings/integrations`
+- `data_packs` -> `/settings/data-sources`
+- `billing` -> `/settings/plan-billing`
+
+Internal platform-only operator pages also exist under:
+
+- `/settings/view-standard`
+- `/settings/delivery-orchestrator`
 
 Legacy visible routes still exist for compatibility:
 

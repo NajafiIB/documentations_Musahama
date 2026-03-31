@@ -21,6 +21,7 @@ It must match the implementation registry in:
 ### Solutions
 
 - `origination_match` -> `/origination-match`
+- `supplier_development_program` -> `/supplier-development-program`
 - `partner_match` -> `/partner-match`
 - `negotiator` -> `/negotiator`
 - `compliance_guardian` -> `/compliance-guardian`
@@ -30,12 +31,12 @@ It must match the implementation registry in:
 
 - `companies` -> `/companies`
 - `contacts` -> `/contacts`
-- `integrations` -> `/integrations`
-- `data_packs` -> `/data-packs`
+- `integrations` -> `/settings/integrations` with legacy alias `/integrations`
+- `data_packs` -> `/settings/data-sources` with legacy alias `/data-packs`
 
 ### Admin
 
-- `billing` -> `/billing`
+- `billing` -> `/settings/plan-billing` with legacy alias `/billing`
 - `settings` -> `/settings`
 
 ## Hidden Legacy Compatibility Modules
@@ -59,6 +60,37 @@ These remain in the catalog for compatibility and gating, but not primary naviga
 
 That means the user is still considered inside the `Origination Match` solution area when browsing those routes.
 
+## Local Navigation Structure
+
+`Origination Match` owns these canonical subroutes:
+
+- `/origination-match/mandates`
+- `/origination-match/research`
+- `/origination-match/results`
+- `/origination-match` as the report home
+
+`Supplier Development Program` owns these canonical subroutes:
+
+- `/supplier-development-program/cases`
+- `/supplier-development-program/catalog`
+- `/supplier-development-program` as the report home
+
+`Settings` owns these canonical subroutes:
+
+- `/settings`
+- `/settings/workspace`
+- `/settings/solutions`
+- `/settings/integrations`
+- `/settings/data-sources`
+- `/settings/usage`
+- `/settings/plan-billing`
+- `/settings/account`
+
+Internal operator tools also exist under settings:
+
+- `/settings/view-standard`
+- `/settings/delivery-orchestrator`
+
 ## Default Enablement
 
 Currently default-enabled for organizations:
@@ -67,6 +99,7 @@ Currently default-enabled for organizations:
 - `approvals`
 - `activity`
 - `origination_match`
+- `supplier_development_program`
 - `companies`
 - `contacts`
 - `integrations`

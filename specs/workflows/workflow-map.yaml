@@ -1,5 +1,5 @@
-schema_version: "2.0"
-last_updated: "2026-03-29"
+schema_version: "2.1"
+last_updated: "2026-03-31"
 owner: "Platform Architect"
 status: "approved"
 
@@ -24,6 +24,17 @@ workflow_sets:
       - strategy
       - results
       - canonical_promotion
+  - key: supplier_development_program
+    name: Supplier Development Program Workflow
+    organization_scoped: true
+    primary_path:
+      - sdp_program_profile
+      - sdp_case
+      - sdp_cost_ingestion
+      - sdp_classification
+      - sdp_category_prioritization
+      - sdp_supplier_prioritization
+      - sdp_report
 
 stages:
   - key: module_case
@@ -61,9 +72,38 @@ stages:
     workflow_set: origination_match
     module_key: origination_match
     primary_tables: [companies, contacts, evidence, psych_profiles, lmc_fits, dossiers, module_artifacts]
+  - key: sdp_program_profile
+    workflow_set: supplier_development_program
+    module_key: supplier_development_program
+    primary_tables: [sdp_program_profiles]
+  - key: sdp_case
+    workflow_set: supplier_development_program
+    module_key: supplier_development_program
+    primary_tables: [sdp_cases, module_cases]
+  - key: sdp_cost_ingestion
+    workflow_set: supplier_development_program
+    module_key: supplier_development_program
+    primary_tables: [sdp_upload_batches, sdp_raw_cost_lines]
+  - key: sdp_classification
+    workflow_set: supplier_development_program
+    module_key: supplier_development_program
+    primary_tables: [sdp_classification_suggestions, sdp_approved_spend_facts]
+  - key: sdp_category_prioritization
+    workflow_set: supplier_development_program
+    module_key: supplier_development_program
+    primary_tables: [sdp_spend_categories, sdp_category_assessments, sdp_category_priority_results]
+  - key: sdp_supplier_prioritization
+    workflow_set: supplier_development_program
+    module_key: supplier_development_program
+    primary_tables: [sdp_supplier_master, sdp_supplier_assessments, sdp_supplier_shortlist_results, sdp_supplier_priority_results]
+  - key: sdp_report
+    workflow_set: supplier_development_program
+    module_key: supplier_development_program
+    primary_tables: [module_artifacts, module_action_requests, module_runs]
 
 references:
   docs:
     - docs/workflows/workflows-foundation.md
     - docs/workflows/origination-match-workflow.md
+    - docs/workflows/supplier-development-program-workflow.md
     - docs/workflows/canonical-promotion.md

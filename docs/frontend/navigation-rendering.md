@@ -52,6 +52,12 @@ Current hidden legacy modules:
 
 They remain in the catalog for compatibility and gating, not for primary navigation.
 
+Canonical settings-backed utility routes should also preserve their active module state through aliases:
+
+- `/integrations` -> `Integrations`
+- `/data-packs` -> `Data Packs`
+- `/billing` -> `Billing`
+
 ## Developer Rule
 
 If a new module is added:

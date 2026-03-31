@@ -57,6 +57,7 @@ Capabilities are execution primitives reused by multiple modules, such as:
 Solution modules package capabilities, data packs, and UX around a business problem:
 
 - `origination_match`
+- `supplier_development_program`
 - `partner_match`
 - `negotiator`
 - `compliance_guardian`
@@ -85,6 +86,19 @@ The workspace shell groups modules into:
 - `Admin`
 
 This grouped navigation is the official product structure.
+
+Current grouped ownership is:
+
+- `Platform`: `dashboard`, `approvals`, `activity`
+- `Solutions`: `origination_match`, `supplier_development_program`, `partner_match`, `negotiator`, `compliance_guardian`, `funding_orchestrator`
+- `Shared Data`: `companies`, `contacts`, `integrations`, `data_packs`
+- `Admin`: `billing`, `settings`
+
+Settings-backed utility routes are canonical for:
+
+- `integrations` -> `/settings/integrations`
+- `data_packs` -> `/settings/data-sources`
+- `billing` -> `/settings/plan-billing`
 
 ## Bridge From the Legacy Workflow Product
 

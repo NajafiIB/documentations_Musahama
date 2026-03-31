@@ -31,9 +31,22 @@ Read in this order:
 The live platform is organized into four navigation groups:
 
 - `Platform`: `dashboard`, `approvals`, `activity`
-- `Solutions`: `origination_match`, `partner_match`, `negotiator`, `compliance_guardian`, `funding_orchestrator`
+- `Solutions`: `origination_match`, `supplier_development_program`, `partner_match`, `negotiator`, `compliance_guardian`, `funding_orchestrator`
 - `Shared Data`: `companies`, `contacts`, `integrations`, `data_packs`
 - `Admin`: `billing`, `settings`
+
+Canonical routes for the settings-backed utility areas are:
+
+- `integrations` -> `/settings/integrations`
+- `data_packs` -> `/settings/data-sources`
+- `billing` -> `/settings/plan-billing`
+
+`Settings` also owns:
+
+- `/settings/solutions`
+- `/settings/usage`
+- `/settings/account`
+- internal operator pages under `/settings/view-standard` and `/settings/delivery-orchestrator`
 
 Legacy routes still exist for the bridge from the original workflow product:
 

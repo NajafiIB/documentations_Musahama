@@ -52,6 +52,7 @@ The canonical module catalog now includes:
 - `approvals`
 - `activity`
 - `origination_match`
+- `supplier_development_program`
 - `partner_match`
 - `negotiator`
 - `compliance_guardian`
@@ -62,6 +63,12 @@ The canonical module catalog now includes:
 - `data_packs`
 - `billing`
 - `settings`
+
+Canonical utility route ownership is:
+
+- `integrations` -> `/settings/integrations`
+- `data_packs` -> `/settings/data-sources`
+- `billing` -> `/settings/plan-billing`
 
 Legacy compatibility surfaces remain hidden from primary navigation:
 

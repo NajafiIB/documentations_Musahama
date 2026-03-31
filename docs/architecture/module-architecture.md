@@ -11,6 +11,7 @@ Every module in Musahama is described by a manifest-like contract with these fie
 - `navGroup`
 - `showInNavigation`
 - `defaultEnabled`
+- `localNavigation`
 - `shortDescription`
 - `requiredCapabilities`
 - `requiredDatasets`
@@ -40,11 +41,18 @@ Always-on or shared workspace surfaces:
 - `billing`
 - `settings`
 
+Canonical utility routes now include:
+
+- `integrations` -> `/settings/integrations`
+- `data_packs` -> `/settings/data-sources`
+- `billing` -> `/settings/plan-billing`
+
 ### Solution modules
 
 Business workflows packaged as products:
 
 - `origination_match`
+- `supplier_development_program`
 - `partner_match`
 - `negotiator`
 - `compliance_guardian`
@@ -68,6 +76,7 @@ Current default enablement matches the implementation:
   - `approvals`
   - `activity`
   - `origination_match`
+  - `supplier_development_program`
   - `companies`
   - `contacts`
   - `integrations`
@@ -113,3 +122,13 @@ The active bridge is:
 - active navigation still highlights `Origination Match` when a user is on those routes
 
 Developers should treat those legacy routes as compatibility surfaces, not as the future architecture.
+
+## Local Navigation Model
+
+Modules with structured local navigation currently are:
+
+- `origination_match`
+- `supplier_development_program`
+- `settings`
+
+The platform should document those subroutes explicitly because they are part of the live route structure, not ad hoc tabs hidden inside page code.

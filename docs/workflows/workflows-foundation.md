@@ -2,9 +2,10 @@
 
 ## Current Workflow Model
 
-Musahama now has two workflow layers:
+Musahama now has three active workflow layers:
 
 - the shared platform runtime model
+- the live `Supplier Development Program` solution workflow
 - retained legacy origination workflow surfaces
 
 That means the product should not be documented as one single top-level workflow chain anymore.
@@ -20,6 +21,17 @@ Across modules, the platform increasingly standardizes on:
 5. execute approved actions
 
 This applies conceptually to current and future modules.
+
+## Current Shared-Runtime Solution Workflow
+
+`Supplier Development Program` is the first non-origination solution that already uses the shared runtime plane plus a dedicated domain workflow:
+
+1. create or open an SDP case
+2. ingest spend data and validate batches
+3. classify cost lines
+4. prioritize categories
+5. prioritize suppliers
+6. generate a report and approval-gated exports
 
 ## Current Origination Bridge
 

@@ -249,9 +249,12 @@ If any fails → deny access
 Auth pages:
 
 - /login
-- /register
+- /signup
+- /register -> redirect to /signup
 - /forgot-password
+- /reset-password
 - /invite/[token]
+- /auth/callback
 
 Workspace access must be blocked until:
 
