@@ -22,7 +22,7 @@ Make deployment fully automatic on `main` pushes with clear pre-deploy checks an
 3. `change-requests/CR-2026-004-main-branch-auto-deploy-pipeline.md`
 
 ## Target Design
-- Workflow file: `.github/workflows/deploy-main.yml`
+- Workflow file in the implementation repository: `deploy-main.yml`
 - Trigger: `on: push` for branch `main`
 - Jobs:
   1) `verify` (lint/typecheck/build)
@@ -40,7 +40,7 @@ Make deployment fully automatic on `main` pushes with clear pre-deploy checks an
 - unrelated feature/business logic
 
 ## Implementation Plan
-1. Add `deploy-main.yml` with verify and deploy jobs.
+1. Add the implementation-repo `deploy-main.yml` workflow with verify and deploy jobs.
 2. Configure environment/secrets/identity references.
 3. Add concurrency guard to avoid overlapping deploys.
 4. Add failure-fast behavior and artifact/log upload.

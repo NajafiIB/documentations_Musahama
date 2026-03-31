@@ -8,7 +8,7 @@ Use these documents together:
 - docs/workflows/research-workflow.md
 - docs/workflows/results-workflow.md
 - docs/workflows/canonical-promotion.md
-- docs/workflows/state-models.md
+- docs/workflows/state-model.md
 - docs/workflows/implementation-rules.md
 
 Related documents:

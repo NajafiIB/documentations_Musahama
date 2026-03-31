@@ -1,0 +1,79 @@
+{
+  "id": "CASE-2026-002",
+  "title": "Signin routing canonical bootstrap",
+  "summary": "Track the canonical delivery state for the signin and password-recovery hardening work across request, guide, task, review, implementation evidence, and QA closure.",
+  "sourceIssue": {
+    "sourceRepo": "Implementation_Musahama",
+    "sourceIssueNumber": 2,
+    "sourceIssueUrl": "https://github.com/NajafiIB/Implementation_Musahama/issues/2",
+    "title": "Signin routing canonical bootstrap",
+    "labels": [
+      "bug",
+      "qa-regression"
+    ],
+    "reportedBy": "human",
+    "createdAt": "2026-03-23T00:00:00.000Z"
+  },
+  "changeRequestId": "CR-2026-002",
+  "implementationGuideId": "IMP-2026-002",
+  "taskIds": [
+    "TASK-2026-002-02"
+  ],
+  "reviewIds": [
+    "REV-2026-03-23-forgot-password-closure-recheck"
+  ],
+  "state": "qa_failed",
+  "activeTaskId": "TASK-2026-002-02",
+  "implementationRef": {
+    "repo": "Implementation_Musahama",
+    "branch": "main",
+    "commit": "2012888",
+    "pullRequestUrl": null,
+    "committedAt": "2026-03-23T00:00:00.000Z"
+  },
+  "qaStatus": "failed",
+  "closureEvidence": {
+    "docsValidated": true,
+    "docsPublishedAt": "2026-03-23T00:00:00.000Z",
+    "docsPublishRef": "main",
+    "implementationMerged": true,
+    "implementationCommit": "2012888",
+    "qaPassed": false,
+    "qaRunId": null,
+    "closedAt": null
+  },
+  "artifacts": {
+    "changeRequestPath": "change-requests/CR-2026-002-signin-routing-canonical-bootstrap.md",
+    "implementationGuidePath": "implementation-guides/IMP-2026-002-signin-routing-canonical-bootstrap.md",
+    "taskPaths": [
+      "tasks/TASK-2026-002-02-harden-forgot-reset-password-flow.md"
+    ],
+    "reviewPaths": [
+      "reviews/REV-2026-03-23-forgot-password-closure-recheck.md"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "TASK-2026-002-02",
+      "caseId": "CASE-2026-002",
+      "title": "Harden forgot/reset password flow and middleware public-route handling",
+      "sequence": 2,
+      "state": "active",
+      "dependsOn": [],
+      "implementationScope": [
+        "auth",
+        "frontend"
+      ],
+      "qaScope": [
+        "reset password flow",
+        "middleware public route",
+        "recovery callback routing"
+      ],
+      "owner": "implementation-agent",
+      "sourceTaskPath": "tasks/TASK-2026-002-02-harden-forgot-reset-password-flow.md"
+    }
+  ],
+  "queueOrder": 2,
+  "nextOwner": "implementation-agent",
+  "updatedAt": "2026-03-31T00:00:00.000Z"
+}

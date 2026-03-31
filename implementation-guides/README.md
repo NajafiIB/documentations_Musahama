@@ -19,3 +19,4 @@ Use `IMP-YYYY-NNN.md`.
 2. every guide must define allowed and forbidden files
 3. every guide must define acceptance criteria
 4. every guide must define what the coding agent should return
+5. every guide should be linked from a canonical case manifest in `cases/`

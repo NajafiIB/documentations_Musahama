@@ -19,3 +19,4 @@ Use `RV-YYYY-NNN.md`.
 2. a review must call out architecture violations clearly
 3. a review must state pass, rework-required, or failed
 4. a review should reference actual changed files and behavior
+5. the parent case manifest should record the review id and review path

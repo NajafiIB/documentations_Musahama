@@ -1,43 +1,42 @@
-Owner: Platform Architect
-Last Updated: 2026-03-18
-Version: 1.0
-Status: Approved
+# Services Implementation Rules
 
----
+Owner: Platform Architect
+Last Updated: 2026-03-31
+Version: 1.1
+Status: Approved
 
 ## 1. Purpose
 
 Give developers and AI coding agents strict rules for implementing the service layer.
 
----
-
 ## 2. Required Rules
 
-1. One domain service folder per major module or tenant/platform concern
+1. One domain service folder per major module or tenant or platform concern
 2. Use centralized Supabase clients only
 3. Keep sensitive service logic server-side
-4. Apply organization/audit fields automatically in mutations
+4. Apply organization and audit fields automatically in mutations
 5. Return typed DTOs instead of raw unbounded rows
 6. Keep normalized source-of-truth reads in final UI service paths
 7. Keep page files thin
 8. Keep capability truth out of pages and out of ad hoc service conditionals
 
----
-
 ## 3. What Developers Must Do
 
-- create list/detail service functions per domain
+- create list and detail service functions per domain
 - create mutation helpers per business action
-- keep organization resolution in services/providers/hooks
+- keep organization resolution in services, providers, or hooks
 - shape stable DTOs
 - use server-side services for secure joins and sensitive reads
 - update docs when service contracts change
 
----
-
 ## 4. What Developers Must Not Do
 
 Do not:
+
+- issue ad hoc database queries from page files
+- expose sensitive joins to the client without review
+- mix authorization truth into random service branches
+- return raw rows when the caller needs a stable DTO contract
 - scatter `.from(...).select(...)` calls across page files
 - initialize random Supabase clients
 - return secrets to the client

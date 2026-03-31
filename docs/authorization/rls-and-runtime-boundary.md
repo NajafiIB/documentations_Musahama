@@ -1,17 +1,10 @@
 
----
-
-## `docs/authorization/rls-and-runtime-boundary.md`
-
-```md
 # RLS and Runtime Boundary
 
 Owner: Platform Architect
-Last Updated: 2026-03-18
-Version: 1.0
+Last Updated: 2026-03-31
+Version: 1.1
 Status: Approved
-
----
 
 ## 1. Purpose
 
@@ -19,25 +12,28 @@ Clarify the difference between RLS, runtime authorization, and UI access behavio
 
 This boundary must stay clean.
 
----
-
 ## 2. RLS Responsibilities
 
 RLS is responsible for:
+
 - organization isolation
 - row-level data access
 - final database enforcement
 
 RLS is the final source of truth for data protection.
 
----
-
 ## 3. Runtime Responsibilities
 
 Runtime authorization is responsible for:
+
 - module visibility
 - route access decisions
 - feature availability
+- capability explanation and reason codes
+
+## 4. UI Responsibilities
+
+The UI may reflect access state, but it must not replace runtime authorization or database enforcement.
 - provider/dependency checks
 - explanation of unavailable states
 

@@ -1,18 +1,13 @@
-md
 # Supabase Client Boundary
 
 Owner: Platform Architect
-Last Updated: 2026-03-18
-Version: 1.0
+Last Updated: 2026-03-31
+Version: 1.1
 Status: Approved
-
----
 
 ## 1. Purpose
 
-Define the mandatory Supabase client boundary for the frontend/backend architecture.
-
----
+Define the mandatory Supabase client boundary for the frontend and backend architecture.
 
 ## 2. Centralized Client Rule
 
@@ -26,17 +21,23 @@ services/
     client.ts
     server.ts
     middleware.ts
+```
 
 No ad hoc client initialization is allowed across pages, components, random hooks, or utility files.
 
-3. Client Types
-client.ts
+## 3. Client Types
+
+### `client.ts`
 
 Browser-safe Supabase client for authenticated UI interactions.
 
-Use for:
+### `server.ts`
 
-client-side user session reads
+Server-only client for secure reads, secure writes, and data shaping.
+
+### `middleware.ts`
+
+Session refresh and auth-path boundary handling for routing.
 
 user-triggered browser-safe reads
 

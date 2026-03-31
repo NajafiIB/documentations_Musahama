@@ -35,7 +35,7 @@ DevOps / delivery automation.
 - Do not bypass required checks for production deployment.
 
 ## Acceptance Criteria
-1. `.github/workflows/deploy-main.yml` exists and runs on `push` to `main`.
+1. The main deploy workflow exists in the implementation repository and runs on `push` to `main`.
 2. CI stages (lint/typecheck/build) run before deploy.
 3. Deployment stage runs only after CI success.
 4. Required secrets/identity are documented.

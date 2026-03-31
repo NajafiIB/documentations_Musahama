@@ -1,17 +1,10 @@
 
----
-
-## `docs/authorization/feature-entitlements.md`
-
-```md
 # Feature Entitlements
 
 Owner: Platform Architect
-Last Updated: 2026-03-18
-Version: 1.0
+Last Updated: 2026-03-31
+Version: 1.1
 Status: Approved
-
----
 
 ## 1. Purpose
 
@@ -19,8 +12,6 @@ Define how feature-level capability access works.
 
 Features are not modules.
 Features are the granular capability layer inside modules.
-
----
 
 ## 2. Feature Rule
 
@@ -31,12 +22,16 @@ A feature is available only if:
 - feature entitlement enabled
 - dependencies satisfied
 - provider requirement satisfied
-- credits/quota sufficient
-- provider/system status healthy
+- credits or quota are sufficient
+- provider and system status are healthy
 
 The UI must not guess this logic.
 
----
+## 3. Related References
+
+- docs/feature-system/feature-system-foundation.md
+- docs/feature-system/entitlement-resolution.md
+- docs/authorization/module-access-rules.md
 
 ## 3. Feature Categories
 

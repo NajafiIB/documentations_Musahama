@@ -1,17 +1,10 @@
 
----
-
-## `docs/feature-system/permissions-and-rules.md`
-
-```md
 # Permissions and Rules
 
 Owner: Platform Architect
-Last Updated: 2026-03-18
-Version: 1.0
+Last Updated: 2026-03-31
+Version: 1.1
 Status: Approved
-
----
 
 ## 1. Purpose
 
@@ -19,8 +12,6 @@ Define how the feature-system interprets roles for module and feature access.
 
 This document does not replace the master authorization docs.
 It adapts them into feature-system runtime rules.
-
----
 
 ## 2. Official Roles
 
@@ -32,12 +23,32 @@ It adapts them into feature-system runtime rules.
 - billing_admin
 - developer
 
----
-
 ## 3. Role Groups
 
 ### Platform operator roles
+
 - owner
+- billing_admin
+- developer
+
+### Workflow roles
+
+- owner
+- admin
+- manager
+- analyst
+- member
+- developer
+
+## 4. Runtime Rule
+
+Role interpretation for module and feature access should come from the feature-system layer, not from scattered UI checks.
+
+Related references:
+
+- docs/authorization/role-model.md
+- docs/authorization/module-access-rules.md
+- docs/feature-system/references.md
 - billing_admin
 - developer
 

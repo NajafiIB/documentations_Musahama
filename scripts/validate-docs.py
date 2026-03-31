@@ -22,6 +22,8 @@ REQUIRED_PROCESS_FILES = [
     "reviews/RV-template.md",
     "tasks/README.md",
     "tasks/TASK-template.md",
+    "cases/README.md",
+    "cases/CASE-template.yaml",
     "scripts/README.md",
 ]
 

@@ -32,6 +32,7 @@ A change is done only when all are true:
 - loading/empty/error states exist
 - tests were updated where needed
 - docs were updated where needed
+- canonical case state and evidence were updated where needed
 - no structural debt was introduced in the wrong layer
 
 ---

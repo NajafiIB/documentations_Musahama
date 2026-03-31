@@ -1,43 +1,40 @@
-```md
 # Pull Request Review Rules
 
 Owner: Platform Architect
-Last Updated: 2026-03-18
-Version: 1.0
+Last Updated: 2026-03-31
+Version: 1.1
 Status: Approved
-
----
 
 ## 1. Purpose
 
 Define how pull requests should be reviewed for architectural correctness.
-
----
 
 ## 2. Core Rule
 
 A PR is not reviewed only for whether it works.
 It must also be reviewed for whether it belongs in the right layer.
 
----
-
 ## 3. Required Review Questions
 
 Every PR should be checked against these questions:
 
 ### Architecture
+
 - Does the change respect folder ownership boundaries?
 - Did it keep capability truth in `feature-system/`?
 - Did it keep data access in `services/`?
 - Did it keep pages thin?
 
 ### Data
+
 - Is the read model using canonical source-of-truth tables where appropriate?
 - Are mutations organization-scoped?
 - Are audit fields applied correctly?
 
 ### Access
+
 - Does it respect the role model?
+- Does it preserve route, feature, and module gating boundaries?
 - Does it preserve module-driven navigation?
 - Are restricted actions runtime-gated rather than UI-guessed?
 

@@ -57,10 +57,12 @@ jobs:
 
           spec_exit=0
           docs_exit=0
+          cases_exit=0
           changeset_exit=0
 
           python scripts/validate-specs.py > validation/specs.log 2>&1 || spec_exit=$?
           python scripts/validate-docs.py > validation/docs.log 2>&1 || docs_exit=$?
+          python scripts/validate-cases.py > validation/cases.log 2>&1 || cases_exit=$?
 
           if [ -n "${{ steps.diff.outputs.base_sha }}" ] && [ -n "${{ steps.diff.outputs.head_sha }}" ]; then
             python scripts/validate-changeset.py \
@@ -74,6 +76,7 @@ jobs:
 
           echo "spec_exit=$spec_exit" >> "$GITHUB_OUTPUT"
           echo "docs_exit=$docs_exit" >> "$GITHUB_OUTPUT"
+          echo "cases_exit=$cases_exit" >> "$GITHUB_OUTPUT"
           echo "changeset_exit=$changeset_exit" >> "$GITHUB_OUTPUT"
 
       - name: Render validation report
@@ -81,9 +84,11 @@ jobs:
           python scripts/render-validation-report.py \
             --spec-exit "${{ steps.validate.outputs.spec_exit }}" \
             --docs-exit "${{ steps.validate.outputs.docs_exit }}" \
+            --cases-exit "${{ steps.validate.outputs.cases_exit }}" \
             --changeset-exit "${{ steps.validate.outputs.changeset_exit }}" \
             --spec-log validation/specs.log \
             --docs-log validation/docs.log \
+            --cases-log validation/cases.log \
             --changeset-log validation/changeset.log \
             --out-md validation/report.md \
             --out-json validation/report.json
@@ -147,6 +152,7 @@ jobs:
         run: |
           if [ "${{ steps.validate.outputs.spec_exit }}" != "0" ] || \
              [ "${{ steps.validate.outputs.docs_exit }}" != "0" ] || \
+             [ "${{ steps.validate.outputs.cases_exit }}" != "0" ] || \
              [ "${{ steps.validate.outputs.changeset_exit }}" != "0" ]; then
             echo "One or more validation checks failed."
             exit 1

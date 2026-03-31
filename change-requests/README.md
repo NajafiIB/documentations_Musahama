@@ -24,3 +24,5 @@ Use `CR-YYYY-NNN.md`.
 
 ## Final rule
 A change request defines the target before coding starts.
+
+Every non-trivial change request should then be attached to a machine-readable case manifest in `cases/`.

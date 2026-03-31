@@ -12,6 +12,7 @@ Use these scripts to catch:
 ## Scripts
 - `validate-specs.py`
 - `validate-docs.py`
+- `validate-cases.py`
 - `validate-changeset.py`
 - `policy-guard.py`
 

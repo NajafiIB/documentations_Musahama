@@ -1,0 +1,71 @@
+{
+  "id": "CASE-YYYY-NNN",
+  "title": "Short clear case title",
+  "summary": "One paragraph describing the requested outcome.",
+  "sourceIssue": {
+    "sourceRepo": "Implementation_Musahama",
+    "sourceIssueNumber": 1,
+    "sourceIssueUrl": "https://github.com/org/repo/issues/1",
+    "title": "Original issue title",
+    "labels": [
+      "feature"
+    ],
+    "reportedBy": "human",
+    "createdAt": "2026-03-31T00:00:00.000Z"
+  },
+  "changeRequestId": "CR-YYYY-NNN",
+  "implementationGuideId": "IMP-YYYY-NNN",
+  "taskIds": [
+    "TASK-YYYY-NNN-01"
+  ],
+  "reviewIds": [],
+  "state": "planned",
+  "activeTaskId": null,
+  "implementationRef": {
+    "repo": "Implementation_Musahama",
+    "branch": null,
+    "commit": null,
+    "pullRequestUrl": null,
+    "committedAt": null
+  },
+  "qaStatus": "not-run",
+  "closureEvidence": {
+    "docsValidated": false,
+    "docsPublishedAt": null,
+    "docsPublishRef": null,
+    "implementationMerged": false,
+    "implementationCommit": null,
+    "qaPassed": false,
+    "qaRunId": null,
+    "closedAt": null
+  },
+  "artifacts": {
+    "changeRequestPath": "change-requests/CR-YYYY-NNN-scope-title.md",
+    "implementationGuidePath": "implementation-guides/IMP-YYYY-NNN-scope-title.md",
+    "taskPaths": [
+      "tasks/TASK-YYYY-NNN-01-scope-title.md"
+    ],
+    "reviewPaths": []
+  },
+  "tasks": [
+    {
+      "id": "TASK-YYYY-NNN-01",
+      "caseId": "CASE-YYYY-NNN",
+      "title": "One atomic implementation step",
+      "sequence": 1,
+      "state": "todo",
+      "dependsOn": [],
+      "implementationScope": [
+        "implementation repo change"
+      ],
+      "qaScope": [
+        "static validation"
+      ],
+      "owner": "implementation-agent",
+      "sourceTaskPath": "tasks/TASK-YYYY-NNN-01-scope-title.md"
+    }
+  ],
+  "queueOrder": 999,
+  "nextOwner": "intake-docs-agent",
+  "updatedAt": "2026-03-31T00:00:00.000Z"
+}

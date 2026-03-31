@@ -14,6 +14,14 @@ It documents the **current implemented platform**:
 - service boundaries
 - developer workflow and documentation rules
 
+It also contains the canonical delivery artifacts used to move work from issue intake through implementation, QA, and closure:
+
+- `change-requests/`
+- `implementation-guides/`
+- `tasks/`
+- `reviews/`
+- `cases/`
+
 ## Current Official Top-Level Areas
 
 The live platform is organized into these top-level areas:
@@ -76,6 +84,7 @@ The order of truth is:
 1. current implementation
 2. synced docs and specs
 3. change requests and implementation guides
-4. conversations
+4. tasks, reviews, and case manifests
+5. conversations
 
 If the implementation and docs disagree, update one of them explicitly. Do not leave the mismatch unresolved.
