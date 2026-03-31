@@ -2,6 +2,7 @@
   { "name": "change-request", "color": "D93F0B", "description": "Structured bug or change request" },
   { "name": "feature-request", "color": "1D76DB", "description": "Requested feature or new capability" },
   { "name": "architecture-review", "color": "5319E7", "description": "Architecture review needed" },
+  { "name": "qa-regression", "color": "B60205", "description": "Regression discovered by QA verification" },
 
   { "name": "type/bug", "color": "B60205", "description": "Broken behavior or defect" },
   { "name": "type/refactor", "color": "C2E0C6", "description": "Structural refactor without product change" },

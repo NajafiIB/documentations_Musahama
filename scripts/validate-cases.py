@@ -30,7 +30,7 @@ CASE_STATES = {
 
 TASK_STATES = {"todo", "active", "done", "rework", "blocked", "cancelled"}
 QA_STATUSES = {"not-run", "pending", "passed", "failed"}
-ACTIVE_CASE_STATES = {"in_implementation", "ready_for_qa"}
+ACTIVE_CASE_STATES = {"in_implementation", "ready_for_qa", "qa_failed"}
 
 errors: list[str] = []
 
@@ -71,7 +71,7 @@ def load_yaml(path: Path) -> dict | None:
 
 
 def validate_task(case_id: str, task: dict, declared_task_ids: list[str], path: str) -> None:
-    for key in ["id", "caseId", "title", "sequence", "state", "implementationScope", "qaScope"]:
+    for key in ["id", "caseId", "title", "sequence", "state", "implementationScope", "qaScope", "qaPlan"]:
         if key not in task:
             fail(f"{path}: task is missing required field '{key}'")
 
@@ -99,6 +99,18 @@ def validate_task(case_id: str, task: dict, declared_task_ids: list[str], path: 
     qa_scope = task.get("qaScope")
     if not isinstance(qa_scope, list) or not qa_scope:
         fail(f"{path}: task qaScope must be a non-empty list")
+
+    qa_plan = task.get("qaPlan")
+    if not isinstance(qa_plan, dict):
+        fail(f"{path}: task qaPlan must be a mapping")
+    else:
+        static_checks = qa_plan.get("staticChecks")
+        if not isinstance(static_checks, list) or not static_checks:
+            fail(f"{path}: task qaPlan.staticChecks must be a non-empty list")
+
+        browser_suites = qa_plan.get("browserSuites")
+        if not isinstance(browser_suites, list):
+            fail(f"{path}: task qaPlan.browserSuites must be a list")
 
     depends_on = task.get("dependsOn", [])
     if not isinstance(depends_on, list):
@@ -184,6 +196,12 @@ def validate_case(path: Path) -> None:
         parse_iso(source_issue.get("createdAt"), "createdAt", relative_path)
 
     parse_iso(data.get("updatedAt"), "updatedAt", relative_path)
+
+    closure_evidence = data.get("closureEvidence", {})
+    if isinstance(closure_evidence, dict):
+        implementation_recorded_at = closure_evidence.get("implementationRecordedAt")
+        if implementation_recorded_at is not None:
+            parse_iso(implementation_recorded_at, "implementationRecordedAt", relative_path)
 
     artifacts = data.get("artifacts")
     if not isinstance(artifacts, dict):

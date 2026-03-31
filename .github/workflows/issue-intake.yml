@@ -2,39 +2,108 @@ name: Issue intake
 
 on:
   issues:
-    types: [opened]
+    types: [opened, edited, reopened, labeled, unlabeled]
 
 jobs:
   intake:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     permissions:
+      contents: write
       issues: write
     steps:
-      - name: Add default intake labels
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_REPO: ${{ github.repository }}
-          NUMBER: ${{ github.event.issue.number }}
+      - name: Checkout docs repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install validation dependency
         run: |
-          gh issue edit "$NUMBER" \
-            --add-label "status/pending-review,review/needs-architecture-check"
+          python -m pip install --upgrade pip
+          python -m pip install pyyaml
 
-      - name: Add intake comment
+      - name: Normalize issue into canonical case
+        id: normalize
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_REPO: ${{ github.repository }}
-          NUMBER: ${{ github.event.issue.number }}
-          BODY: |
-            Intake complete.
-
-            This issue is now in `status/pending-review`.
-
-            Before implementation, verify:
-            - the owning layer
-            - the correct source-of-truth tables
-            - whether the fix belongs in auth, authorization, database, feature-system, services, frontend, or workflow
-            - whether docs must be updated
-
-            Do not patch this in the wrong layer just because it is faster.
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
         run: |
-          gh issue comment "$NUMBER" --body "$BODY"
+          python3 scripts/normalize-issue-intake.py
+
+      - name: Validate docs workspace
+        run: |
+          python3 scripts/validate-docs.py
+          python3 scripts/validate-cases.py
+          python3 scripts/validate-specs.py
+          python3 scripts/policy-guard.py
+
+      - name: Commit intake artifacts
+        id: commit
+        run: |
+          if [ -z "$(git status --short)" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "[skip ci] chore(intake): normalize issue #${{ github.event.issue.number }} into ${{ steps.normalize.outputs.case_id || 'case' }}"
+          git push origin main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Upsert intake issue comment
+        uses: actions/github-script@v7
+        env:
+          CASE_ID: ${{ steps.normalize.outputs.case_id }}
+          CASE_PATH: ${{ steps.normalize.outputs.case_path }}
+          CHANGE_REQUEST_PATH: ${{ steps.normalize.outputs.change_request_path }}
+          IMPLEMENTATION_GUIDE_PATH: ${{ steps.normalize.outputs.implementation_guide_path }}
+          TASK_PATH: ${{ steps.normalize.outputs.task_path }}
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const issue_number = context.issue.number;
+            const marker = "<!-- musahama-intake -->";
+            const makeUrl = (relativePath) =>
+              `https://github.com/${owner}/${repo}/blob/main/${relativePath}`;
+
+            const body = [
+              marker,
+              "Canonical intake complete.",
+              "",
+              `- Case: [${process.env.CASE_ID}](${makeUrl(process.env.CASE_PATH)})`,
+              `- Change request: [open](${makeUrl(process.env.CHANGE_REQUEST_PATH)})`,
+              `- Implementation guide: [open](${makeUrl(process.env.IMPLEMENTATION_GUIDE_PATH)})`,
+              `- First task: [open](${makeUrl(process.env.TASK_PATH)})`,
+            ].join("\n");
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner,
+              repo,
+              issue_number,
+              per_page: 100,
+            });
+
+            const existing = comments.find((comment) => comment.body?.includes(marker));
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number,
+                body,
+              });
+            }

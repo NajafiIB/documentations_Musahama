@@ -38,6 +38,8 @@
     "docsPublishRef": "main",
     "implementationMerged": true,
     "implementationCommit": "2012888",
+    "implementationBranch": "main",
+    "implementationRecordedAt": "2026-03-23T00:00:00.000Z",
     "qaPassed": false,
     "qaRunId": null,
     "closedAt": null
@@ -69,6 +71,17 @@
         "middleware public route",
         "recovery callback routing"
       ],
+      "qaPlan": {
+        "staticChecks": [
+          "check:delivery-orchestrator",
+          "tsc",
+          "lint",
+          "build"
+        ],
+        "browserSuites": [
+          "workspace-smoke"
+        ]
+      },
       "owner": "implementation-agent",
       "sourceTaskPath": "tasks/TASK-2026-002-02-harden-forgot-reset-password-flow.md"
     }

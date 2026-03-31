@@ -35,6 +35,8 @@
     "docsPublishRef": null,
     "implementationMerged": false,
     "implementationCommit": null,
+    "implementationBranch": null,
+    "implementationRecordedAt": null,
     "qaPassed": false,
     "qaRunId": null,
     "closedAt": null
@@ -61,6 +63,15 @@
       "qaScope": [
         "static validation"
       ],
+      "qaPlan": {
+        "staticChecks": [
+          "check:delivery-orchestrator",
+          "tsc",
+          "lint",
+          "build"
+        ],
+        "browserSuites": []
+      },
       "owner": "implementation-agent",
       "sourceTaskPath": "tasks/TASK-YYYY-NNN-01-scope-title.md"
     }
