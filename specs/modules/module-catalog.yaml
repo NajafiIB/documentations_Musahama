@@ -174,8 +174,9 @@ module_local_navigation:
       - path: /settings/credit-admin
 
 internal_reference_routes:
-  - path: /settings/view-standard
-    owner_module: settings
+  - path: /platform-admin/view-standard
+    owner_module: platform_admin
+    god_only: true
   - path: /settings/delivery-orchestrator
     owner_module: settings
 

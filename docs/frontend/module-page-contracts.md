@@ -130,9 +130,9 @@ Define the baseline page contract for each primary workspace area plus the retai
   - /settings/plan-billing
   - /settings/account
 - internal operator routes:
-  - /settings/view-standard
+  - /platform-admin/view-standard
   - /settings/delivery-orchestrator
-- purpose: workspace administration, account settings, and internal operator tooling
+- purpose: workspace administration, account settings, and internal operator tooling; View Standard is GOD-only platform-admin reference tooling
 
 ## CRM Opportunities
 - route: /crm-opportunities

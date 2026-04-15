@@ -42,10 +42,13 @@ Primary workspace routes:
 - `/settings/usage`
 - `/settings/account`
 - `/settings/credit-admin`
-- `/settings/view-standard`
 - `/settings/delivery-orchestrator`
 - `/onboarding`
 - `/select-organization`
+
+GOD-only platform-admin routes:
+
+- `/platform-admin/view-standard`
 
 Compatibility routes that still exist:
 

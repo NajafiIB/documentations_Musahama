@@ -96,9 +96,9 @@ That means the user is still considered inside the `Origination Match` solution 
 - `/settings/plan-billing`
 - `/settings/account`
 
-Internal operator tools also exist under settings:
+Internal operator tools also exist under platform/settings routes:
 
-- `/settings/view-standard`
+- `/platform-admin/view-standard` (GOD-only)
 - `/settings/delivery-orchestrator`
 
 ## Default Enablement

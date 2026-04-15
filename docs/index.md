@@ -47,7 +47,8 @@ Canonical routes for the settings-backed utility areas are:
 - `/settings/automations`
 - `/settings/usage`
 - `/settings/account`
-- internal operator pages under `/settings/view-standard` and `/settings/delivery-orchestrator`
+- GOD-only design standards under `/platform-admin/view-standard`
+- internal operator pages under `/settings/delivery-orchestrator`
 
 Legacy routes still exist for the bridge from the original workflow product:
 

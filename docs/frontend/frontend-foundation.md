@@ -44,7 +44,7 @@ Canonical route ownership for the settings-backed utilities is:
 
 Internal platform-only operator pages also exist under:
 
-- `/settings/view-standard`
+- `/platform-admin/view-standard` (GOD-only)
 - `/settings/delivery-orchestrator`
 
 Legacy visible routes still exist for compatibility:

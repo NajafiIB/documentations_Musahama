@@ -27,6 +27,11 @@ route_groups:
     routes:
       - path: /onboarding
       - path: /select-organization
+  protected_platform_admin:
+    routes:
+      - path: /platform-admin/view-standard
+        internal_only: true
+        god_only: true
   protected_workspace:
     canonical_routes:
       - path: /dashboard
@@ -107,9 +112,6 @@ route_groups:
         module_key: settings
       - path: /settings/credit-admin
         module_key: settings
-      - path: /settings/view-standard
-        module_key: settings
-        internal_only: true
       - path: /settings/delivery-orchestrator
         module_key: settings
         internal_only: true
