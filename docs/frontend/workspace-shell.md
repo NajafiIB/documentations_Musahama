@@ -17,6 +17,14 @@ The shell contains:
 
 The shell should not change shape from module to module.
 
+The current sidebar uses a three-zone layout:
+
+- fixed top zone for workspace context and Dashboard
+- scrollable middle zone for solution or settings context
+- bottom anchored zone for Companies, Contacts, and Settings
+
+Only the middle zone should scroll. The bottom zone must not be pushed off-screen by expanded menus.
+
 ## Navigation Groups
 
 The sidebar is grouped into:
@@ -27,6 +35,8 @@ The sidebar is grouped into:
 - `Admin`
 
 That grouping comes from the module registry and should not be duplicated with ad hoc page-level lists.
+
+For visual states, use global theme tokens. Do not hardcode sidebar colors, fonts, sizes, hover colors, active colors, indicator dots, or scrollbar colors.
 
 ## Current-Area Clarity
 

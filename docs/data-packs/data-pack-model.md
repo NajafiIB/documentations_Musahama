@@ -69,9 +69,8 @@ Current seeded expectations:
 - `origination_match`
   - `company_intelligence`
   - `contact_intelligence`
-- `partner_match`
-  - `company_intelligence`
-  - `contact_intelligence`
+- `musahama_strategy_management`
+  - `local_content_reference`
   - `market_signals`
 - `negotiator`
   - `contact_intelligence`

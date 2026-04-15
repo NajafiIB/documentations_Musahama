@@ -53,7 +53,7 @@ Business workflows packaged as products:
 
 - `origination_match`
 - `supplier_development_program`
-- `partner_match`
+- `musahama_strategy_management`
 - `negotiator`
 - `compliance_guardian`
 - `funding_orchestrator`
@@ -84,7 +84,7 @@ Current default enablement matches the implementation:
   - `billing`
   - `settings`
 - present but disabled by default until sold or enabled:
-  - `partner_match`
+  - `musahama_strategy_management`
   - `negotiator`
   - `compliance_guardian`
   - `funding_orchestrator`

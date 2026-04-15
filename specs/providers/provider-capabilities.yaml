@@ -1,5 +1,5 @@
-schema_version: "1.0"
-last_updated: "2026-03-18"
+schema_version: "1.1"
+last_updated: "2026-04-15"
 owner: "Platform Architect"
 status: "approved"
 
@@ -31,6 +31,16 @@ capability_keys:
   - key: person_enrichment
     used_by_features: [contacts.enrich_person]
 
+  - key: firmographic_enrichment
+    used_by_features:
+      - companies.enrich.fast
+      - sdp.supplier.enrich.fast
+
+  - key: linkedin_company_profile
+    used_by_features:
+      - companies.enrich.deep
+      - sdp.supplier.enrich.deep
+
   - key: crm_import
     used_by_features: [crm.sync.import]
 
@@ -45,10 +55,29 @@ providers:
       - fit_analysis
       - dossier_generation
 
+  - provider_key: gemini
+    category: ai
+    capabilities:
+      - strategy_generation
+      - fit_analysis
+      - dossier_generation
+      - firmographic_enrichment
+
+  - provider_key: vertex_ai
+    category: ai
+    capabilities:
+      - firmographic_enrichment
+
   - provider_key: lusha
     category: enrichment
     capabilities:
       - person_enrichment
+      - firmographic_enrichment
+
+  - provider_key: unipile
+    category: enrichment
+    capabilities:
+      - linkedin_company_profile
 
   - provider_key: crm_connector
     category: crm
@@ -68,6 +97,18 @@ feature_to_capability_map:
 
   contacts.enrich_person:
     required_capabilities: [person_enrichment]
+
+  companies.enrich.fast:
+    required_capabilities: [firmographic_enrichment]
+
+  companies.enrich.deep:
+    required_capabilities: [firmographic_enrichment, linkedin_company_profile]
+
+  sdp.supplier.enrich.fast:
+    required_capabilities: [firmographic_enrichment]
+
+  sdp.supplier.enrich.deep:
+    required_capabilities: [firmographic_enrichment, linkedin_company_profile]
 
   crm.sync.import:
     required_capabilities: [crm_import]

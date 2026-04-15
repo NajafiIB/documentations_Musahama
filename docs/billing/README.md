@@ -7,8 +7,9 @@ Its purpose is to stop billing behavior from being implemented as scattered UI-o
 ## This folder covers
 
 - pricing and plans
-- credits as the current spendable balance model
-- transaction recording and status
+- organization credit wallets and ledger-backed balance
+- credit purchases and purchase status
+- operation-specific credit costs
 - payment-flow integrity rules
 - billing architecture boundaries
 
@@ -18,7 +19,8 @@ Its purpose is to stop billing behavior from being implemented as scattered UI-o
 - pricing and plan selection belong to the billing surface
 - Stripe is a provider, not a top-level product concept
 - client checkout state is never the source of truth
-- verified canonical database state is the source of truth
+- verified canonical wallet, ledger, purchase, and subscription records are the source of truth
+- new Free plan workspaces start with 100 credits
 
 ## Documents
 

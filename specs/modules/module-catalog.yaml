@@ -1,5 +1,5 @@
-schema_version: "2.1"
-last_updated: "2026-03-31"
+schema_version: "2.2"
+last_updated: "2026-04-15"
 owner: "Platform Architect"
 status: "approved"
 
@@ -39,8 +39,8 @@ canonical_modules:
     show_in_navigation: true
     default_enabled: true
     legacy_aliases: []
-  - key: partner_match
-    route: /partner-match
+  - key: musahama_strategy_management
+    route: /musahama-strategy-management
     kind: solution
     nav_group: solutions
     show_in_navigation: true
@@ -147,8 +147,16 @@ module_local_navigation:
     items:
       - path: /supplier-development-program/cases
       - path: /supplier-development-program/catalog
+      - path: /supplier-development-program/settings
+      - path: /supplier-development-program/owner
       - path: /supplier-development-program
         exact: true
+  - module_key: musahama_strategy_management
+    items:
+      - path: /musahama-strategy-management
+        exact: true
+      - path: /musahama-strategy-management/owner
+      - path: /musahama-strategy-management/plan/[planId]
   - module_key: settings
     items:
       - path: /settings
@@ -156,12 +164,14 @@ module_local_navigation:
       - path: /settings/solutions
       - path: /settings/integrations
         legacy_aliases: [/integrations]
+      - path: /settings/automations
       - path: /settings/data-sources
         legacy_aliases: [/data-packs]
       - path: /settings/usage
       - path: /settings/plan-billing
         legacy_aliases: [/billing]
       - path: /settings/account
+      - path: /settings/credit-admin
 
 internal_reference_routes:
   - path: /settings/view-standard

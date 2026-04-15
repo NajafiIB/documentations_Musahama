@@ -53,7 +53,7 @@ The canonical module catalog now includes:
 - `activity`
 - `origination_match`
 - `supplier_development_program`
-- `partner_match`
+- `musahama_strategy_management`
 - `negotiator`
 - `compliance_guardian`
 - `funding_orchestrator`

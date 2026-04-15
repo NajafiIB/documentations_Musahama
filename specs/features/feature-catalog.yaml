@@ -1,5 +1,5 @@
-schema_version: "1.0"
-last_updated: "2026-03-19"
+schema_version: "1.1"
+last_updated: "2026-04-15"
 owner: "Platform Architect"
 status: "approved"
 
@@ -40,8 +40,29 @@ features:
   - key: contacts.enrich_person
     module_key: contacts
     category: provider_backed
+  - key: companies.import_bulk
+    module_key: companies
+    category: core
+  - key: contacts.import_bulk
+    module_key: contacts
+    category: core
+  - key: companies.enrich.fast
+    module_key: companies
+    category: provider_backed
+  - key: companies.enrich.deep
+    module_key: companies
+    category: provider_backed
+  - key: sdp.supplier.enrich.fast
+    module_key: supplier_development_program
+    category: provider_backed
+  - key: sdp.supplier.enrich.deep
+    module_key: supplier_development_program
+    category: provider_backed
   - key: crm.sync.import
     module_key: crm_opportunities
+    category: provider_backed
+  - key: msm.generate_strategy
+    module_key: musahama_strategy_management
     category: provider_backed
   - key: crm.sync.export
     module_key: crm_opportunities

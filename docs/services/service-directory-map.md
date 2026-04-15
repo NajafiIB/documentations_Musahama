@@ -21,16 +21,24 @@ src/
     modules/
 
   services/
+    activity/
     auth/
+    automations/
     billing/
     companies/
     contacts/
+    credits/
+    enrichment/
     integrations/
+    msm/
     notifications/
     organizations/
+    platform-admin/
     research/
     results/
+    sdp/
     supabase/
+    support/
 ```
 
 ## Folder Responsibility
@@ -50,10 +58,18 @@ Use for cross-module platform concerns such as:
 Use for domain-level data access and mutations such as:
 
 - auth/session helpers
+- recent work and activity surfaces
+- workspace automation runtime
 - companies and contacts
+- enrichment jobs and enrichment audit records
 - organization membership
 - integrations
 - billing
+- credit wallet, ledger, quotes, and operation costs
+- platform admin controls and support preview
+- Supplier Development Program
+- Musahama Strategy Management
+- support bug-report intake
 - retained origination workflow reads and writes
 
 ## Naming Rule

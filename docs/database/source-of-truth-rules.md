@@ -16,6 +16,8 @@ The current platform distinguishes between:
 Use these as final long-lived read models where appropriate:
 
 - `companies`
+- `industries`
+- `company_industries`
 - `contacts`
 - `contact_emails`
 - `contact_phones`
@@ -34,6 +36,42 @@ Use the shared runtime plane for cross-module execution state:
 - `module_artifacts`
 - `module_action_requests`
 - `module_action_executions`
+- `workspace_recent_surfaces`
+- `enrichment_jobs`
+- `enrichment_runs`
+
+## Billing Source Rule
+
+Current credit balance is organization-scoped and ledger-backed.
+
+Do not use user profile fields as canonical billing balance.
+
+Use:
+
+- organization credit wallet records
+- `organization_credit_ledger`
+- billing purchase records
+- operation cost model rules
+
+for billing state and runtime credit charging.
+
+## Enrichment Source Rule
+
+Enrichment outputs are proposed normalized data plus an audit trail.
+
+The final durable source remains the target entity table after blank-only patches are applied:
+
+- `companies`
+- `company_industries`
+- `sdp_supplier_profiles`
+
+Use `enrichment_runs` and `enrichment_jobs` for operational audit, debugging, credits, and future automation visibility.
+
+## SDP Source Rule
+
+SDP report calculations use approved facts for the relevant case/reporting scope.
+
+The report must not calculate from only the first uploaded batch or first category when more approved facts exist.
 
 ## Origination Bridge Rule
 

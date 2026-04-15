@@ -1,5 +1,5 @@
-schema_version: "2.1"
-last_updated: "2026-03-31"
+schema_version: "2.2"
+last_updated: "2026-04-15"
 owner: "Platform Architect"
 status: "approved"
 
@@ -47,12 +47,28 @@ route_groups:
         module_key: supplier_development_program
       - path: /supplier-development-program/cases
         module_key: supplier_development_program
+      - path: /supplier-development-program/cases/new
+        module_key: supplier_development_program
       - path: /supplier-development-program/cases/[caseId]
+        module_key: supplier_development_program
+      - path: /supplier-development-program/cases/[caseId]/preview
         module_key: supplier_development_program
       - path: /supplier-development-program/catalog
         module_key: supplier_development_program
-      - path: /partner-match
-        module_key: partner_match
+      - path: /supplier-development-program/settings
+        module_key: supplier_development_program
+      - path: /supplier-development-program/owner
+        module_key: supplier_development_program
+      - path: /supplier-development-program/owner/participants/[organizationId]
+        module_key: supplier_development_program
+      - path: /musahama-strategy-management
+        module_key: musahama_strategy_management
+      - path: /musahama-strategy-management/owner
+        module_key: musahama_strategy_management
+      - path: /musahama-strategy-management/launch
+        module_key: musahama_strategy_management
+      - path: /musahama-strategy-management/plan/[planId]
+        module_key: musahama_strategy_management
       - path: /negotiator
         module_key: negotiator
       - path: /compliance-guardian
@@ -71,6 +87,10 @@ route_groups:
         module_key: integrations
       - path: /settings/integrations/[providerKey]
         module_key: integrations
+      - path: /settings/automations
+        module_key: settings
+      - path: /settings/automations/[automationId]
+        module_key: settings
       - path: /settings/data-sources
         module_key: data_packs
       - path: /settings/plan-billing
@@ -84,6 +104,8 @@ route_groups:
       - path: /settings/usage
         module_key: settings
       - path: /settings/account
+        module_key: settings
+      - path: /settings/credit-admin
         module_key: settings
       - path: /settings/view-standard
         module_key: settings

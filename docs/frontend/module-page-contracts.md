@@ -42,13 +42,21 @@ Define the baseline page contract for each primary workspace area plus the retai
 - routes:
   - /supplier-development-program
   - /supplier-development-program/cases
+  - /supplier-development-program/cases/new
   - /supplier-development-program/cases/[caseId]
+  - /supplier-development-program/cases/[caseId]/preview
   - /supplier-development-program/catalog
+  - /supplier-development-program/settings
+  - /supplier-development-program/owner
 - purpose: manage spend-led supplier prioritization, case operations, and reporting
 
-## Partner Match
-- route: /partner-match
-- purpose: partner-oriented solution shell
+## Musahama Strategy Management
+- routes:
+  - /musahama-strategy-management
+  - /musahama-strategy-management/owner
+  - /musahama-strategy-management/launch
+  - /musahama-strategy-management/plan/[planId]
+- purpose: strategy follow-up, KPI tracking, and owner monitoring from finalized SDP reports
 
 ## Negotiator
 - route: /negotiator

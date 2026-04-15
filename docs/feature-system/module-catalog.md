@@ -22,7 +22,7 @@ It must match the implementation registry in:
 
 - `origination_match` -> `/origination-match`
 - `supplier_development_program` -> `/supplier-development-program`
-- `partner_match` -> `/partner-match`
+- `musahama_strategy_management` -> `/musahama-strategy-management`
 - `negotiator` -> `/negotiator`
 - `compliance_guardian` -> `/compliance-guardian`
 - `funding_orchestrator` -> `/funding-orchestrator`
@@ -73,7 +73,16 @@ That means the user is still considered inside the `Origination Match` solution 
 
 - `/supplier-development-program/cases`
 - `/supplier-development-program/catalog`
+- `/supplier-development-program/settings`
+- `/supplier-development-program/owner`
 - `/supplier-development-program` as the report home
+
+`Musahama Strategy Management` owns these canonical subroutes:
+
+- `/musahama-strategy-management`
+- `/musahama-strategy-management/owner`
+- `/musahama-strategy-management/launch`
+- `/musahama-strategy-management/plan/[planId]`
 
 `Settings` owns these canonical subroutes:
 
@@ -81,6 +90,7 @@ That means the user is still considered inside the `Origination Match` solution 
 - `/settings/workspace`
 - `/settings/solutions`
 - `/settings/integrations`
+- `/settings/automations`
 - `/settings/data-sources`
 - `/settings/usage`
 - `/settings/plan-billing`
@@ -109,7 +119,7 @@ Currently default-enabled for organizations:
 
 Currently not default-enabled:
 
-- `partner_match`
+- `musahama_strategy_management`
 - `negotiator`
 - `compliance_guardian`
 - `funding_orchestrator`

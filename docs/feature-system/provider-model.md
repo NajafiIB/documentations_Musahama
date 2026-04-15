@@ -22,6 +22,8 @@ They are not product sections.
 
 Providers enable certain capabilities, for example:
 - person enrichment
+- firmographic enrichment
+- LinkedIn company profile lookup
 - AI generation
 - CRM sync
 - external company search
@@ -35,12 +37,19 @@ A provider is only one possible implementation for a capability.
 
 ### provider examples
 - OpenAI
+- Gemini
+- Vertex AI
 - Lusha
+- Unipile
 - CRM connector
 - search provider
 
 ### capability examples
 - contacts.enrich_person
+- companies.enrich.fast
+- companies.enrich.deep
+- sdp.supplier.enrich.fast
+- sdp.supplier.enrich.deep
 - research.generate_strategies
 - crm.sync.import
 - companies.search_external_source
@@ -76,6 +85,22 @@ Possible providers:
 - another enrichment provider with capability person_enrichment
 
 The feature remains the same even if the provider changes.
+
+Feature:
+- companies.enrich.fast
+
+Possible providers:
+- Gemini with capability firmographic_enrichment
+- Vertex AI with capability firmographic_enrichment
+
+Feature:
+- companies.enrich.deep
+
+Required providers:
+- Lusha for company firmographics
+- Unipile for LinkedIn company profile fields
+
+Deep enrichment is provider-backed verification. Fast enrichment is grounded AI classification and website discovery.
 
 ---
 

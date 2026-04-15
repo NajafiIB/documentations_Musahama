@@ -13,9 +13,16 @@ Primary workspace routes:
 - `/origination-match/results`
 - `/supplier-development-program`
 - `/supplier-development-program/cases`
+- `/supplier-development-program/cases/new`
 - `/supplier-development-program/cases/[caseId]`
+- `/supplier-development-program/cases/[caseId]/preview`
 - `/supplier-development-program/catalog`
-- `/partner-match`
+- `/supplier-development-program/settings`
+- `/supplier-development-program/owner`
+- `/musahama-strategy-management`
+- `/musahama-strategy-management/owner`
+- `/musahama-strategy-management/launch`
+- `/musahama-strategy-management/plan/[planId]`
 - `/negotiator`
 - `/compliance-guardian`
 - `/funding-orchestrator`
@@ -25,6 +32,8 @@ Primary workspace routes:
 - `/contacts/[id]`
 - `/settings/integrations`
 - `/settings/integrations/[providerKey]`
+- `/settings/automations`
+- `/settings/automations/[automationId]`
 - `/settings/data-sources`
 - `/settings/plan-billing`
 - `/settings`
@@ -32,6 +41,7 @@ Primary workspace routes:
 - `/settings/solutions`
 - `/settings/usage`
 - `/settings/account`
+- `/settings/credit-admin`
 - `/settings/view-standard`
 - `/settings/delivery-orchestrator`
 - `/onboarding`

@@ -25,7 +25,7 @@ This document covers:
 - billing-layer ownership
 - source-of-truth rules for balance and purchase history
 
-This document does **not** define a future full subscription/invoicing platform beyond what is currently documented.
+This document describes the current implemented credits, subscriptions, Stripe checkout, and operation-cost model. It replaces older assumptions that used `profiles.credits` and `transactions` as the billing source of truth.
 
 ---
 
@@ -51,10 +51,16 @@ In the current documented model, a plan/package may represent one of these:
 Do not leave plan meaning ambiguous in implementation.
 
 ## Credits
-The current spendable balance model used by the application.
+The spendable balance model used by runtime actions.
 
-## Transactions
-The canonical purchase and billing event record for the current implementation.
+## Credit wallet
+The organization-scoped current balance.
+
+## Credit ledger
+The auditable transaction trail for grants, purchases, reservations, releases, and charges.
+
+## Operation cost
+The configured credit price for a specific runtime action.
 
 ## Provider
 The external payment system.
@@ -67,18 +73,18 @@ Provider is a dependency. It is not the product/module structure.
 
 ---
 
-# 3. Current documented implementation state
+# 3. Current implemented state
 
-The current documented application state assumes:
+The current implemented application state assumes:
 
-- users can open a pricing surface from billing-related navigation or an add-credits entry point
-- pricing options may be rendered using a Stripe pricing table or equivalent provider UI
-- the current credit balance is tracked canonically in `profiles.credits`
-- purchase records are tracked canonically in `transactions`
-- provider payment references may be stored in `transactions.stripe_payment_id`
-- transaction lifecycle state may be stored in `transactions.status`
-
-If the implementation later moves to a different billing schema, this document must be updated in the same change cycle.
+- users open billing through `/settings/plan-billing`
+- users can buy credit packs through Stripe Checkout
+- users can manage subscription plans and module access through Plan & Billing
+- the current credit balance is organization-scoped, not profile-scoped
+- purchases are tracked through billing purchase records and ledger entries
+- runtime usage is charged through operation cost keys and wallet reservations
+- credit admin users can inspect wallets, reservations, ledger entries, and pricing rules
+- new Free plan workspaces start with 100 credits
 
 ---
 
@@ -86,11 +92,18 @@ If the implementation later moves to a different billing schema, this document m
 
 ## Final source of truth for current balance
 
-- `profiles.credits`
+- organization credit wallet and ledger records
 
 ## Final source of truth for purchase / billing history
 
-- `transactions`
+- billing purchase records
+- Stripe webhook verified events
+- credit ledger records
+
+## Final source of truth for operation pricing
+
+- credit operation catalog configuration in services
+- persisted credit cost model rules where available for admin/runtime review
 
 ## Not source of truth
 
@@ -102,6 +115,7 @@ These must **not** be treated as canonical truth:
 - success-screen rendering alone
 - local component state
 - sidebar button state
+- stale user profile credit fields
 
 A payment provider can report an event.
 The product must still resolve canonical truth from the application data model.
@@ -118,15 +132,15 @@ The canonical flow is:
 4. the payment provider checkout flow begins
 5. the provider returns a result or triggers a verification path
 6. the application verifies the payment outcome in the correct service boundary
-7. the application writes or updates the transaction record
-8. credits are updated only after verified success
+7. the application writes or updates purchase records
+8. the credit wallet is updated through ledger-backed service logic only after verified success
 9. the UI reloads from canonical database state
 
 Do not skip the verification step.
 
 ---
 
-# 6. Minimum transaction status model
+# 6. Minimum purchase status model
 
 The minimum expected status vocabulary is:
 
@@ -168,6 +182,9 @@ The billing surface should expose, at minimum:
 - available plans/packages
 - recent transactions
 - transaction status labels
+- active subscription state
+- module entitlement or add-on state
+- credit wallet and usage information
 
 The user should be able to answer these questions without ambiguity:
 
@@ -185,7 +202,7 @@ These are non-negotiable.
 
 1. publishable provider keys may render checkout UI, but they do not authorize credit changes
 2. credits must never be increased from client-side success rendering alone
-3. a verified application-side transaction update must exist before canonical balance changes
+3. a verified application-side purchase or ledger update must exist before canonical balance changes
 4. users may only read billing data allowed by the application's authorization and RLS model
 5. transaction status and balance reads must come from canonical tables, not provider client state
 
@@ -204,8 +221,9 @@ Own:
 
 - creating billing intents or checkout setup
 - verifying provider outcomes
-- writing transaction records
-- updating canonical credit balance
+- writing purchase records
+- reserving, releasing, and charging operation credits
+- updating canonical credit wallet state through ledger-backed flows
 - shaping billing DTOs for UI
 
 ## `frontend/`
@@ -213,14 +231,16 @@ Owns:
 
 - rendering the pricing surface
 - rendering the current balance
-- rendering transaction history and status
+- rendering purchase history, ledger history, and status
 - routing users into and out of the billing flow
 
 ## `database/`
 Owns:
 
-- `profiles`
-- `transactions`
+- organization credit wallet and ledger tables
+- billing customers and purchase tables
+- subscription and billing preference tables
+- operation cost monitoring tables
 - constraints and RLS expectations for billing data
 
 ## RLS / secure backend logic
@@ -239,10 +259,11 @@ Do not:
 - treat Stripe as the product architecture
 - treat an embedded pricing table as business logic
 - increment credits directly in page/component code after a UI callback
-- read the current balance from the latest checkout response instead of canonical tables
+- read the current balance from the latest checkout response instead of canonical wallet/ledger tables
 - duplicate pricing identifiers and offer meaning in multiple unrelated layers without control
 - hide billing actions in the UI and pretend that is security
 - leave plan/package meaning undocumented while implementation continues
+- reintroduce `profiles.credits` as a balance source
 
 ---
 
@@ -253,8 +274,8 @@ A pricing/plans change is done only when:
 - the visible offer set is correct
 - the payment flow still resolves through the correct service boundary
 - transaction status logic is still correct
-- canonical balance still resolves from `profiles.credits`
-- canonical history still resolves from `transactions`
+- canonical balance still resolves from the organization credit wallet and ledger
+- canonical history still resolves from billing purchase records and credit ledger records
 - documentation in `docs/billing/` is updated if the behavior, data model, or flow changed
 
 A pricing page that looks correct but is not backed by canonical transaction and balance rules is not done.

@@ -31,7 +31,7 @@ Read in this order:
 The live platform is organized into four navigation groups:
 
 - `Platform`: `dashboard`, `approvals`, `activity`
-- `Solutions`: `origination_match`, `supplier_development_program`, `partner_match`, `negotiator`, `compliance_guardian`, `funding_orchestrator`
+- `Solutions`: `origination_match`, `supplier_development_program`, `musahama_strategy_management`, `negotiator`, `compliance_guardian`, `funding_orchestrator`
 - `Shared Data`: `companies`, `contacts`, `integrations`, `data_packs`
 - `Admin`: `billing`, `settings`
 
@@ -44,6 +44,7 @@ Canonical routes for the settings-backed utility areas are:
 `Settings` also owns:
 
 - `/settings/solutions`
+- `/settings/automations`
 - `/settings/usage`
 - `/settings/account`
 - internal operator pages under `/settings/view-standard` and `/settings/delivery-orchestrator`
@@ -56,6 +57,16 @@ Legacy routes still exist for the bridge from the original workflow product:
 - `/results`
 
 Those routes are compatibility surfaces, not the official top-level module model anymore.
+
+Recent implementation additions that docs must keep current include:
+
+- organization credit wallets and operation credit costs
+- company and supplier enrichment jobs
+- user avatar personalization
+- dynamic dashboard resume work
+- bulk company/contact import
+- SDP supplier defaults and strategy handoff
+- platform admin and support preview operations
 
 ## Repo Model
 

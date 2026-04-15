@@ -58,7 +58,7 @@ Solution modules package capabilities, data packs, and UX around a business prob
 
 - `origination_match`
 - `supplier_development_program`
-- `partner_match`
+- `musahama_strategy_management`
 - `negotiator`
 - `compliance_guardian`
 - `funding_orchestrator`
@@ -90,7 +90,7 @@ This grouped navigation is the official product structure.
 Current grouped ownership is:
 
 - `Platform`: `dashboard`, `approvals`, `activity`
-- `Solutions`: `origination_match`, `supplier_development_program`, `partner_match`, `negotiator`, `compliance_guardian`, `funding_orchestrator`
+- `Solutions`: `origination_match`, `supplier_development_program`, `musahama_strategy_management`, `negotiator`, `compliance_guardian`, `funding_orchestrator`
 - `Shared Data`: `companies`, `contacts`, `integrations`, `data_packs`
 - `Admin`: `billing`, `settings`
 

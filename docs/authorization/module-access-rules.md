@@ -15,7 +15,8 @@ This page defines how access to workspace areas is resolved in the current platf
 ### Solutions
 
 - `origination_match`
-- `partner_match`
+- `supplier_development_program`
+- `musahama_strategy_management`
 - `negotiator`
 - `compliance_guardian`
 - `funding_orchestrator`

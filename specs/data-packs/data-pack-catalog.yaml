@@ -1,24 +1,24 @@
-schema_version: "1.0"
-last_updated: "2026-03-29"
+schema_version: "1.1"
+last_updated: "2026-04-15"
 owner: "Platform Architect"
 status: "approved"
 
 datasets:
   - key: company_intelligence
     tier: standard
-    modules: [origination_match, partner_match]
+    modules: [origination_match]
   - key: contact_intelligence
     tier: standard
-    modules: [origination_match, partner_match, negotiator]
+    modules: [origination_match, negotiator]
   - key: market_signals
     tier: premium
-    modules: [partner_match]
+    modules: [musahama_strategy_management]
   - key: procurement_intelligence
     tier: premium
     modules: [compliance_guardian]
   - key: local_content_reference
     tier: premium
-    modules: [compliance_guardian]
+    modules: [supplier_development_program, musahama_strategy_management, compliance_guardian]
   - key: funding_programs
     tier: premium
     modules: [funding_orchestrator]
