@@ -1,0 +1,85 @@
+{
+  "id": "CASE-2026-011",
+  "title": "The signin process is not working correcty",
+  "summary": "[CR] The signin process is not working correcty",
+  "sourceIssue": {
+    "sourceRepo": "documentations_Musahama",
+    "sourceIssueNumber": 11,
+    "sourceIssueUrl": "https://github.com/NajafiIB/documentations_Musahama/issues/11",
+    "title": "[CR] The signin process is not working correcty",
+    "labels": [
+      "bug"
+    ],
+    "reportedBy": "NajafiIB",
+    "createdAt": "2026-03-21T11:11:16Z"
+  },
+  "changeRequestId": "CR-2026-011",
+  "implementationGuideId": "IMP-2026-011",
+  "taskIds": [
+    "TASK-2026-011-01"
+  ],
+  "reviewIds": [],
+  "state": "planned",
+  "activeTaskId": null,
+  "implementationRef": {
+    "repo": "Implementation_Musahama",
+    "branch": null,
+    "commit": null,
+    "pullRequestUrl": null,
+    "committedAt": null
+  },
+  "qaStatus": "not-run",
+  "closureEvidence": {
+    "docsValidated": true,
+    "docsPublishedAt": "2026-06-17T18:49:03Z",
+    "docsPublishRef": "main",
+    "implementationMerged": false,
+    "implementationCommit": null,
+    "implementationBranch": null,
+    "implementationRecordedAt": null,
+    "qaPassed": false,
+    "qaRunId": null,
+    "closedAt": null
+  },
+  "artifacts": {
+    "changeRequestPath": "change-requests/CR-2026-011-the-signin-process-is-not-working-correcty.md",
+    "implementationGuidePath": "implementation-guides/IMP-2026-011-the-signin-process-is-not-working-correcty.md",
+    "taskPaths": [
+      "tasks/TASK-2026-011-01-the-signin-process-is-not-working-correcty.md"
+    ],
+    "reviewPaths": []
+  },
+  "tasks": [
+    {
+      "id": "TASK-2026-011-01",
+      "caseId": "CASE-2026-011",
+      "title": "The signin process is not working correcty",
+      "sequence": 1,
+      "state": "todo",
+      "dependsOn": [],
+      "implementationScope": [
+        "implementation repo change"
+      ],
+      "qaScope": [
+        "static checks",
+        "targeted smoke"
+      ],
+      "qaPlan": {
+        "staticChecks": [
+          "check:delivery-orchestrator",
+          "tsc",
+          "lint",
+          "build"
+        ],
+        "browserSuites": [
+          "workspace-smoke"
+        ]
+      },
+      "owner": "intake-docs-agent",
+      "sourceTaskPath": "tasks/TASK-2026-011-01-the-signin-process-is-not-working-correcty.md"
+    }
+  ],
+  "queueOrder": 1000,
+  "nextOwner": "intake-docs-agent",
+  "updatedAt": "2026-06-17T18:49:03Z"
+}
